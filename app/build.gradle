@@ -1,0 +1,103 @@
+/*
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
+
+apply from: "../common/constants.gradle"
+apply from: "../common/utils.gradle"
+apply from: "../common/dependencies.gradle"
+
+android {
+    compileSdkVersion rootProject.compileSdk
+
+    defaultConfig {
+        applicationId "com.arthurivanets.sample"
+        minSdkVersion rootProject.minSdk
+        targetSdkVersion rootProject.targetSdk
+        versionCode rootProject.releaseVersionCode
+        versionName rootProject.releaseVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+
+        // Fields
+        stringField(defaultConfig, "API_PUBLIC_KEY", "${marvelApiPublicKey}")
+        stringField(defaultConfig, "API_PRIVATE_KEY", "${marvelApiPrivateKey}")
+    }
+
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation kotlinDependencies
+    implementation androidCoreDependencies
+
+    implementation multiDexDependencies
+
+    implementation coreUiDependencies
+    implementation navigationDependencies
+
+    kapt lifecycleAnnotationProcessingDependencies
+    implementation lifecycleDependencies
+
+    implementation okHttpDependencies
+
+    kapt daggerAnnotationProcessingDependencies
+    implementation daggerDependencies
+
+    kapt glideAnnotationProcessingDependencies
+    implementation glideDependencies
+
+    implementation rxJavaDependencies
+    implementation rxBusDependencies
+    implementation commonsDependencies
+
+    implementation adapsterDependencies
+
+    implementation project(":data")
+    implementation project(":domain")
+    implementation project(":imageloading")
+    implementation project(":imageloading-glide")
+    implementation project(":mvvm")
+    implementation project(":mvvm-navigation")
+    implementation project(":mvvm-navigation-dagger")
+
+    testImplementation unitTestingDependencies
+    androidTestImplementation instrumentationTestingDependencies
+}

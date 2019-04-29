@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_dashboard_activity"
+    app:startDestination="@id/dashboardFragment">
+    
+    <!-- Dashboard Fragment -->
+    
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.arthurivanets.sample.ui.dashboard.DashboardFragment"
+        android:label="DashboardFragment">
+    
+        <action
+            android:id="@+id/comicsInfoFragmentAction"
+            app:destination="@id/comicsInfoFragment"/>
+    
+        <action
+            android:id="@+id/eventInfoFragmentAction"
+            app:destination="@id/eventInfoFragment"/>
+    
+        <action
+            android:id="@+id/characterInfoFragmentAction"
+            app:destination="@id/characterInfoFragment"/>
+        
+    </fragment>
+    
+    <!-- Comics Info Fragment -->
+    
+    <fragment
+        android:id="@+id/comicsInfoFragment"
+        android:name="com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment"
+        android:label="ComicsInfoFragment">
+    
+        <action
+            android:id="@+id/characterInfoFragmentAction"
+            app:destination="@id/characterInfoFragment"/>
+        
+    </fragment>
+    
+    <!-- Event Info Fragment -->
+    
+    <fragment
+        android:id="@+id/eventInfoFragment"
+        android:name="com.arthurivanets.sample.ui.events.info.EventInfoFragment"
+        android:label="EventInfoFragment">
+    
+        <action
+            android:id="@+id/comicsInfoFragmentAction"
+            app:destination="@id/comicsInfoFragment"/>
+    
+        <action
+            android:id="@+id/characterInfoFragmentAction"
+            app:destination="@id/characterInfoFragment"/>
+        
+    </fragment>
+    
+    <!-- Character Info Fragment -->
+    
+    <fragment
+        android:id="@+id/characterInfoFragment"
+        android:name="com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment"
+        android:label="CharacterInfoFragment">
+    
+        <action
+            android:id="@+id/comicsInfoFragmentAction"
+            app:destination="@id/comicsInfoFragment"/>
+        
+    </fragment>
+
+</navigation>

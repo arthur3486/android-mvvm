@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@id/navigation_item_comics"
+        android:icon="@drawable/ic_book_open_outline"
+        android:title="@string/navigation_item_title_comics"/>
+
+    <item
+        android:id="@id/navigation_item_events"
+        android:icon="@drawable/ic_calendar_text_outline"
+        android:title="@string/navigation_item_title_events"/>
+
+    <item
+        android:id="@id/navigation_item_characters"
+        android:icon="@drawable/ic_shield_account_outline"
+        android:title="@string/navigation_item_title_characters"/>
+
+</menu>

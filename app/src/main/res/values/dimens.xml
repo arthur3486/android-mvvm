@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <dimen name="toolbar_title_text_size">20sp</dimen>
+    <dimen name="horizontal_drop_shadow_size">3dp</dimen>
+    
+    <dimen name="recycler_view_vertical_padding">6dp</dimen>
+    <dimen name="recycler_view_horizontal_padding">6dp</dimen>
+    
+    <!-- Bottom Bar -->
+    <dimen name="bottom_bar_item_text_size">14sp</dimen>
+    
+    <!-- Progress Bar -->
+    <dimen name="circular_progress_bar_size">42dp</dimen>
+    <dimen name="horizontal_progress_bar_margin_top">-7dp</dimen>
+    <dimen name="horizontal_progress_bar_margin_bottom">-6dp</dimen>
+    
+    <!-- Empty View -->
+    <dimen name="empty_view_text_size">20sp</dimen>
+    <dimen name="empty_view_vertical_padding">10dp</dimen>
+    <dimen name="empty_view_horizontal_padding">15dp</dimen>
+    
+    <!-- Card -->
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_title_height">36dp</dimen>
+    <dimen name="card_title_horizontal_padding">10dp</dimen>
+    <dimen name="card_title_text_size">14sp</dimen>
+    
+    <dimen name="card_event_internal_horizontal_padding">20dp</dimen>
+    <dimen name="card_event_internal_vertical_padding">15dp</dimen>
+    <dimen name="card_event_item_vertical_spacing">5dp</dimen>
+    <dimen name="card_event_title_text_size">20sp</dimen>
+    <dimen name="card_event_description_text_size">16sp</dimen>
+    
+    <!-- -->
+    <dimen name="item_small_width">160dp</dimen>
+    
+    <!-- -->
+    <dimen name="collapsing_toolbar_title_horizontal_margin">48dp</dimen>
+    
+    <!-- Info Sections -->
+    <dimen name="info_sections_container_padding_top">10dp</dimen>
+    <dimen name="info_sections_container_padding_bottom">20dp</dimen>
+    <dimen name="info_section_title_text_size">22sp</dimen>
+    <dimen name="info_section_horizontal_padding">15dp</dimen>
+    <dimen name="info_section_item_vertical_spacing">10dp</dimen>
+    <dimen name="info_section_content_text_size">18sp</dimen>
+    <dimen name="info_section_recycler_view_horizontal_padding">5dp</dimen>
+    
+</resources>

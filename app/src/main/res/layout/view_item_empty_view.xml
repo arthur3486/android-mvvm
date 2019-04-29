@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    style="@style/EmptyView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/emptyViewTv"
+    android:text="@string/image_not_found"/>

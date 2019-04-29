@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <!-- Data-binding-related -->
+    
+    <data>
+        
+        <variable
+            name="viewModel"
+            type="com.arthurivanets.sample.ui.comics.info.ComicsInfoViewModel"/>
+    
+    </data>
+    
+    <!-- The Actual Content Layout -->
+    
+    <LinearLayout
+        style="@style/Info.SectionsContainer">
+        
+        <TextView
+            style="@style/Info.SectionTitle"
+            android:id="@+id/titleLabelTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@string/section_title_title"/>
+        
+        <TextView
+            style="@style/Info.SectionContent"
+            android:id="@+id/titleTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@{viewModel.comics.title}"/>
+        
+        <TextView
+            style="@style/Info.SectionTitle"
+            android:id="@+id/descriptionLabelTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@string/section_title_description"
+            app:visible="@{viewModel.comics.hasDescription}"/>
+        
+        <TextView
+            style="@style/Info.SectionContent"
+            android:id="@+id/descriptionTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@{viewModel.comics.description}"
+            app:visible="@{viewModel.comics.hasDescription}"/>
+        
+        <TextView
+            style="@style/Info.SectionTitle"
+            android:id="@+id/isbnLabelTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@string/section_title_isbn"
+            app:visible="@{viewModel.comics.hasIsbn}"/>
+        
+        <TextView
+            style="@style/Info.SectionContent"
+            android:id="@+id/isbnTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@{viewModel.comics.isbn}"
+            app:visible="@{viewModel.comics.hasIsbn}"/>
+        
+        <TextView
+            style="@style/Info.SectionTitle"
+            android:id="@+id/charactersLabelTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@string/section_title_characters"/>
+        
+        <androidx.recyclerview.widget.RecyclerView
+            style="@style/Info.RecyclerView"
+            android:id="@+id/charactersRecyclerView"/>
+    
+    </LinearLayout>
+
+</layout>

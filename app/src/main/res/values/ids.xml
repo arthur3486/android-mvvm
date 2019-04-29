@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- General -->
+    <item type="id" name="progress_bar"/>
+    <item type="id" name="overlay"/>
+    
+    <!-- Navigation-Related -->
+    <item type="id" name="navigation_item_comics"/>
+    <item type="id" name="navigation_item_events"/>
+    <item type="id" name="navigation_item_characters"/>
+    
+    <!-- Toolbar Related -->
+    <item type="id" name="toolbar"/>
+    <item type="id" name="toolbar_title"/>
+    <item type="id" name="toolbar_drop_shadow"/>
+    
+</resources>

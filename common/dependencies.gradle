@@ -1,0 +1,165 @@
+apply from: "../common/constants.gradle"
+
+ext {
+    // Kotlin
+    kotlinDependencies = dependencies([
+        kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    ])
+
+    // Android Core
+    androidCoreDependencies = dependencies([
+        appCompat: "androidx.appcompat:appcompat:${rootProject.supportVersion}",
+        coreKtx: "androidx.core:core-ktx:${rootProject.coreVersion}"
+    ])
+
+    // MultiDex
+    multiDexDependencies = dependencies([
+        multiDex: "androidx.multidex:multidex:${rootProject.multiDexVersion}",
+        multiDexInstrumentation: "androidx.multidex:multidex-instrumentation:${rootProject.multiDexInstrumentationVersion}"
+    ])
+
+    // Core UI
+    coreUiDependencies = dependencies([
+        recyclerView: "androidx.recyclerview:recyclerview:${rootProject.recyclerViewVersion}",
+        fragment: "androidx.fragment:fragment:${rootProject.fragmentVersion}",
+        materialComponents: "com.google.android.material:material:${rootProject.materialDesignVersion}"
+    ])
+
+    // Constraint Layout
+    constraintLayoutDependencies = dependencies([
+        constraintLayout: "androidx.constraintlayout:constraintlayout:${rootProject.constraintLayoutVersion}",
+        constraintLayoutSolver: "androidx.constraintlayout:constraintlayout-solver:${rootProject.constraintLayoutVersion}"
+    ])
+
+    // Navigation
+    navigationDependencies = dependencies([
+        navigationFragmentKtx: "android.arch.navigation:navigation-fragment-ktx:${rootProject.navigationVersion}",
+        navigationUiKtx: "android.arch.navigation:navigation-ui-ktx:${rootProject.navigationVersion}"
+    ])
+
+    // Dagger Annotation Processing
+    daggerAnnotationProcessingDependencies = dependencies([
+        daggerCompiler: "com.google.dagger:dagger-compiler:${rootProject.daggerVersion}",
+        daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${rootProject.daggerVersion}"
+    ])
+
+    // Dagger
+    daggerDependencies = dependencies([
+        dagger: "com.google.dagger:dagger:${rootProject.daggerVersion}",
+        daggerAndroid: "com.google.dagger:dagger-android:${rootProject.daggerVersion}",
+        daggerAndroidSupport: "com.google.dagger:dagger-android-support:${rootProject.daggerVersion}",
+        daggerAndroidX: "com.arthurivanets.dagger.androidx:dagger-androidx:${rootProject.daggerAndroidXVersion}"
+    ])
+
+    // Rx Java
+    rxJavaDependencies = dependencies([
+        rxJava: "io.reactivex.rxjava2:rxjava:${rootProject.rxJavaVersion}",
+        rxAndroid: "io.reactivex.rxjava2:rxandroid:${rootProject.rxAndroidVersion}"
+    ])
+
+    // Rx Bus
+    rxBusDependencies = dependencies([
+        rxBus: "com.arthurivanets.rxbus:rxbus:${rootProject.rxBusVersion}",
+        rxBusAndroid: "com.arthurivanets.rxbus:rxbus-android:${rootProject.rxBusVersion}"
+    ])
+
+    // Jackson
+    jacksonDependencies = dependencies([
+        jackson: "com.fasterxml.jackson.core:jackson-core:${rootProject.jacksonVersion}",
+        jacksonAnnotations: "com.fasterxml.jackson.core:jackson-annotations:${rootProject.jacksonVersion}",
+        jacksonDataBinding: "com.fasterxml.jackson.core:jackson-databind:${rootProject.jacksonVersion}",
+        jacksonKotlin: "com.fasterxml.jackson.module:jackson-module-kotlin:${rootProject.jacksonVersion}"
+    ])
+
+    // Retrofit
+    retrofitDependencies = dependencies([
+        retrofit: "com.squareup.retrofit2:retrofit:${rootProject.retrofitVersion}",
+        retrofitRxJava: "com.squareup.retrofit2:adapter-rxjava2:${rootProject.retrofitVersion}",
+        retrofitJackson: "com.squareup.retrofit2:converter-jackson:${rootProject.retrofitVersion}"
+    ])
+
+    // OkHttp
+    okHttpDependencies = dependencies([
+        okHttp: "com.squareup.okhttp3:okhttp:${rootProject.okHttpVersion}",
+        okHttpInterceptor: "com.squareup.okhttp3:logging-interceptor:${rootProject.okHttpVersion}"
+    ])
+
+    // Room Annotation Processing
+    roomAnnotationProcessingDependencies = dependencies([
+        roomCompile: "androidx.room:room-compiler:${rootProject.roomVersion}"
+    ])
+
+    // Room
+    roomDependencies = dependencies([
+        roomCommon: "androidx.room:room-common:${rootProject.roomVersion}",
+        roomMigration: "androidx.room:room-migration:${rootProject.roomVersion}",
+        roomRuntime: "androidx.room:room-runtime:${rootProject.roomVersion}"
+    ])
+
+    // Lifecycle Annotation Processing
+    lifecycleAnnotationProcessingDependencies = dependencies([
+        lifecycleCompiler: "androidx.lifecycle:lifecycle-compiler:${rootProject.lifecycleVersion}"
+    ])
+
+    // Lifecycle
+    lifecycleDependencies = dependencies([
+        lifecycleRuntime: "androidx.lifecycle:lifecycle-runtime:${rootProject.lifecycleVersion}",
+        lifecycleViewModel: "androidx.lifecycle:lifecycle-viewmodel:${rootProject.lifecycleVersion}",
+        lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:${rootProject.lifecycleVersion}"
+    ])
+
+    // Adapster
+    adapsterDependencies = dependencies([
+        adapster: "com.arthurivanets.adapster:adapster:${rootProject.adapsterVersion}",
+        adapsterDatabinding: "com.arthurivanets.adapster:adapster-databinding:${rootProject.adapsterVersion}",
+        adapsterKtx: "com.arthurivanets.adapster:adapster-ktx:${rootProject.adapsterVersion}"
+    ])
+
+    // Bottom Sheets
+    bottomSheetsDependencies = dependencies([
+        bottomSheetsCore: "com.arthurivanets.bottomsheet:bottomsheet:${rootProject.bottomSheetsVersion}",
+        bottomSheetsSheets: "com.arthurivanets.bottomsheet:bottomsheet-sheets:${rootProject.bottomSheetsVersion}"
+    ])
+
+    // Common Widgets
+    commonWidgetsDependencies = dependencies([
+        commonWidgets: "com.arthurivanets.commonwidgets:commonwidgets:${rootProject.commonWidgetsVersion}"
+    ])
+
+    // Glide Annotation Processing
+    glideAnnotationProcessingDependencies = dependencies([
+        glideCompiler: "com.github.bumptech.glide:compiler:${rootProject.glideVersion}"
+    ])
+
+    // Glide
+    glideDependencies = dependencies([
+        glide: "com.github.bumptech.glide:glide:${rootProject.glideVersion}",
+        glideOkHttp: "com.github.bumptech.glide:okhttp3-integration:${rootProject.glideVersion}"
+    ])
+
+    // Commons
+    commonsDependencies = dependencies([
+        commonsKtx: "com.arthurivanets.commons:commons-ktx:${rootProject.commonsVersion}",
+        commonsNetwork: "com.arthurivanets.commons:commons-network:${rootProject.commonsVersion}",
+        commonsRxKtx: "com.arthurivanets.commons:commons-rx-ktx:${rootProject.commonsVersion}",
+        commonsData: "com.arthurivanets.commons:commons-data:${rootProject.commonsVersion}",
+        commonsDataRxKtx: "com.arthurivanets.commons:commons-data-rx-ktx:${rootProject.commonsVersion}",
+        commonsDataNetworkKtx: "com.arthurivanets.commons:commons-data-network-ktx:${rootProject.commonsVersion}"
+    ])
+
+    // Unit Testing
+    unitTestingDependencies = dependencies([
+        jUnit: "junit:junit:${rootProject.jUnitVersion}",
+    ])
+
+    // Instrumentation Testing
+    instrumentationTestingDependencies = dependencies([
+        runner: "androidx.test:runner:${rootProject.testRunnerVersion}",
+        espresso: "androidx.test.espresso:espresso-core:${rootProject.espressoVersion}"
+    ])
+}
+
+
+private def static dependencies(dependenciesMap) {
+    return dependenciesMap.values()
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <!-- Data-binding-related -->
+    
+    <data>
+        
+        <variable
+            name="viewModel"
+            type="com.arthurivanets.sample.ui.comics.info.ComicsInfoViewModel"/>
+    
+    </data>
+    
+    <!-- The Actual Layout -->
+    
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/content_container_background_color"
+        android:fitsSystemWindows="true">
+        
+        <!-- Top Bar -->
+        
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+    
+            <include
+                layout="@layout/view_comics_info_app_bar_content"
+                app:viewModel="@{viewModel}"/>
+            
+        </com.google.android.material.appbar.AppBarLayout>
+        
+        <!-- Main Content Container -->
+    
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        
+                <include
+                    layout="@layout/view_comics_info_content"
+                    app:viewModel="@{viewModel}"/>
+    
+            </androidx.core.widget.NestedScrollView>
+    
+            <include
+                layout="@layout/view_progress_bar_horizontal"/>
+            
+        </FrameLayout>
+    
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

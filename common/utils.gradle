@@ -1,0 +1,11 @@
+ext.booleanField = { config, name, value ->
+    config.buildConfigField("boolean", name, "${value}")
+}
+
+ext.stringField = { config, name, value ->
+    config.buildConfigField("String", name, "\"${value}\"")
+}
+
+ext.valueOrDefault = { value, defaultValue ->
+    return ((value != null) ? value : defaultValue)
+}

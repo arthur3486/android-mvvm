@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <!-- Data-binding-related -->
+    
+    <data>
+        
+        <variable
+            name="viewModel"
+            type="com.arthurivanets.sample.ui.events.list.EventsViewModel"/>
+    
+    </data>
+    
+    <!-- The Actual Layout -->
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/content_container_background_color">
+    
+        <!-- Progress Bar -->
+    
+        <include
+            layout="@layout/view_progress_bar_circular"/>
+    
+        <!-- Recycler View -->
+     
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/recycler_view_vertical_padding"
+            android:paddingBottom="@dimen/recycler_view_vertical_padding"
+            android:paddingLeft="@dimen/recycler_view_horizontal_padding"
+            android:paddingStart="@dimen/recycler_view_horizontal_padding"
+            android:paddingRight="@dimen/recycler_view_horizontal_padding"
+            android:paddingEnd="@dimen/recycler_view_horizontal_padding"
+            android:overScrollMode="never"
+            android:clipToPadding="false"/>
+    
+    </FrameLayout>
+
+</layout>

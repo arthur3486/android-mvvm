@@ -1,0 +1,178 @@
+<resources>
+
+    <!-- Base application theme. -->
+    
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/splash_background_drawable</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+    
+    <!-- Bottom Bar -->
+    
+    <style name="BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="android:textSize">@dimen/bottom_bar_item_text_size</item>
+        <item name="android:fontFamily">@string/font_family_medium</item>
+    </style>
+    
+    <!-- Toolbar Related -->
+    
+    <style name="Toolbar"/>
+    
+    <style name="Toolbar.Title">
+        <item name="android:fontFamily">@string/font_family_medium</item>
+        <item name="android:textSize">@dimen/toolbar_title_text_size</item>
+        <item name="android:textColor">@color/toolbar_title_color</item>
+    </style>
+    
+    <!-- Info -->
+    
+    <style name="Info"/>
+    
+    <style name="Info.Title" parent="AppTheme.SingleLineTextView">
+    
+    </style>
+    
+    <style name="Info.CollapsingToolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="expandedTitleMarginStart">@dimen/collapsing_toolbar_title_horizontal_margin</item>
+        <item name="expandedTitleMarginEnd">@dimen/collapsing_toolbar_title_horizontal_margin</item>
+        <item name="contentScrim">@color/colorPrimary</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+    
+    <style name="Info.ImageContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorAccent</item>
+        <item name="aspect_ratio">@integer/aspect_ratio_4_by_3</item>
+    </style>
+    
+    <style name="Info.SectionsContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/info_sections_container_padding_top</item>
+        <item name="android:paddingBottom">@dimen/info_sections_container_padding_bottom</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+    
+    <style name="Info.SectionTitle" parent="AppTheme.SingleLineTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/info_section_horizontal_padding</item>
+        <item name="android:paddingStart">@dimen/info_section_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/info_section_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/info_section_horizontal_padding</item>
+        <item name="android:fontFamily">@string/font_family_medium</item>
+        <item name="android:textColor">@color/info_section_title_text_color</item>
+        <item name="android:textSize">@dimen/info_section_title_text_size</item>
+    </style>
+    
+    <style name="Info.SectionContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/info_section_horizontal_padding</item>
+        <item name="android:paddingStart">@dimen/info_section_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/info_section_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/info_section_horizontal_padding</item>
+        <item name="android:textColor">@color/info_section_content_text_color</item>
+        <item name="android:textSize">@dimen/info_section_content_text_size</item>
+    </style>
+    
+    <style name="Info.RecyclerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/info_section_recycler_view_horizontal_padding</item>
+        <item name="android:paddingStart">@dimen/info_section_recycler_view_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/info_section_recycler_view_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/info_section_recycler_view_horizontal_padding</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+    
+    <!-- Card -->
+    
+    <style name="Card">
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardBackgroundColor">@color/card_item_background_color</item>
+    </style>
+    
+    <style name="Card.Title" parent="AppTheme.SingleLineTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/card_title_height</item>
+        <item name="android:paddingLeft">@dimen/card_title_horizontal_padding</item>
+        <item name="android:paddingStart">@dimen/card_title_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/card_title_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/card_title_horizontal_padding</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@string/font_family_medium</item>
+        <item name="android:textSize">@dimen/card_title_text_size</item>
+        <item name="android:textColor">@color/card_title_text_color</item>
+    </style>
+    
+    <style name="Card.Event"/>
+    
+    <style name="Card.Event.Title" parent="AppTheme.SingleLineTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/card_event_internal_horizontal_padding</item>
+        <item name="android:paddingStart">@dimen/card_event_internal_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/card_event_internal_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/card_event_internal_horizontal_padding</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowColor">@color/card_text_shadow_color</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@string/font_family_medium</item>
+        <item name="android:textSize">@dimen/card_event_title_text_size</item>
+        <item name="android:textColor">@color/card_primary_title_text_color</item>
+    </style>
+    
+    <style name="Card.Event.Description">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/card_event_internal_horizontal_padding</item>
+        <item name="android:paddingStart">@dimen/card_event_internal_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/card_event_internal_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/card_event_internal_horizontal_padding</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowColor">@color/card_text_shadow_color</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@string/font_family_medium</item>
+        <item name="android:textSize">@dimen/card_event_description_text_size</item>
+        <item name="android:textColor">@color/card_primary_description_text_color</item>
+    </style>
+    
+    <!-- -->
+    
+    <style name="EmptyView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/empty_view_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/empty_view_vertical_padding</item>
+        <item name="android:paddingLeft">@dimen/empty_view_horizontal_padding</item>
+        <item name="android:paddingStart">@dimen/empty_view_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/empty_view_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/empty_view_horizontal_padding</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/empty_view_text_color</item>
+        <item name="android:textSize">@dimen/empty_view_text_size</item>
+    </style>
+    
+    <!-- General -->
+    
+    <style name="AppTheme.SingleLineTextView">
+        <item name="android:maxLines">1</item>
+    </style>
+
+</resources>

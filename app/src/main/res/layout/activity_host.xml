@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Data-binding-related -->
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.arthurivanets.sample.ui.host.HostActivityViewModel"/>
+
+    </data>
+
+    <!-- The Actual Layout -->
+
+    <com.google.android.material.internal.ScrimInsetsFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="com.arthurivanets.mvvm.navigation.MvvmNavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/navigation_host_activity"/>
+
+    </com.google.android.material.internal.ScrimInsetsFrameLayout>
+
+</layout>

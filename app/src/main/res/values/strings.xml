@@ -1,0 +1,24 @@
+<resources>
+    
+    <string name="app_name">Marvel</string>
+    
+    <string name="navigation_item_title_comics">Comics</string>
+    <string name="navigation_item_title_events">Events</string>
+    <string name="navigation_item_title_characters">Characters</string>
+    
+    <string name="font_family_normal">sans-serif</string>
+    <string name="font_family_medium">sans-serif-medium</string>
+    <string name="font_family_thin">sans-serif-thin</string>
+    
+    <string name="toolbar_title_dashboard">Dashboard</string>
+    
+    <string name="image_not_found">IMAGE\nNOT\nFOUND</string>
+    
+    <string name="section_title_name">Name</string>
+    <string name="section_title_title">Title</string>
+    <string name="section_title_description">Description</string>
+    <string name="section_title_comics">Comics</string>
+    <string name="section_title_characters">Characters</string>
+    <string name="section_title_isbn">ISBN</string>
+    
+</resources>

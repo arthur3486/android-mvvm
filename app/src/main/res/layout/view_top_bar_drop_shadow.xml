@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/toolbar_drop_shadow"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/horizontal_drop_shadow_size"
+    android:layout_alignParentTop="true"
+    android:layout_gravity="top"
+    android:layout_marginTop="?actionBarSize"
+    android:background="@drawable/drop_shadow_horizontal"/>

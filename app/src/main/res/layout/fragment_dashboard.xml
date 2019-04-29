@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <!-- Data-binding-related -->
+    
+    <data>
+        
+        <variable
+            name="viewModel"
+            type="com.arthurivanets.sample.ui.dashboard.DashboardViewModel"/>
+    
+    </data>
+    
+    <!-- The Actual Layout -->
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/content_container_background_color">
+        
+        <!-- View Pager -->
+        
+        <com.arthurivanets.sample.ui.widget.AdvancedViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:layout_above="@id/bottomBar"/>
+        
+        <!-- Top Bar -->
+    
+        <include
+            layout="@layout/view_top_bar_drop_shadow"/>
+        
+        <include
+            android:id="@id/toolbar"
+            layout="@layout/view_toolbar"/>
+        
+        <!-- Bottom Navigation -->
+        
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:theme="@style/BottomNavigationView"
+            app:labelVisibilityMode="labeled"
+            app:itemBackground="@drawable/navigation_item_ripple_drawable"/>
+    
+    </RelativeLayout>
+
+</layout>

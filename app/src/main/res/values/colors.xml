@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="colorPrimary">#313235</color>
+    <color name="colorPrimaryDark">#0b0b0c</color>
+    <color name="colorAccent">#88b1f4</color>
+    
+    <color name="content_container_background_color">#202124</color>
+    <color name="card_item_background_color">#313235</color>
+    
+    <color name="horizontal_drop_shadow_end_color">#15000000</color>
+    <color name="horizontal_drop_shadow_inversed_start_color">#30000000</color>
+    
+    <color name="navigation_item_ripple_color">#a0a0a0</color>
+    <color name="navigation_item_ripple_mask_color">#25a0a0a0</color>
+    
+    <color name="navigation_item_color_released_state">#b1b5ba</color>
+    <color name="navigation_item_color_selected_state">#88b1f4</color>
+    
+    <color name="image_overlay_color">#30000000</color>
+    
+    <!-- Toolbar -->
+    <color name="toolbar_title_color">#ffffff</color>
+    
+    <!-- Card -->
+    <color name="card_title_text_color">#ffffff</color>
+    <color name="card_primary_title_text_color">#ffffff</color>
+    <color name="card_primary_description_text_color">#ffffff</color>
+    <color name="card_text_shadow_color">#9F000000</color>
+    
+    <color name="empty_view_text_color">#ffffff</color>
+    
+    <color name="info_section_title_text_color">#ffffff</color>
+    <color name="info_section_content_text_color">#ffffff</color>
+    
+</resources>

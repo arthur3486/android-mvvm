@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    style="@style/Card"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <com.arthurivanets.sample.ui.widget.AdvancedFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:aspect_ratio="@integer/aspect_ratio_16_by_9">
+        
+        <ImageView
+            android:id="@+id/imageIv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    
+        <include
+            layout="@layout/view_item_empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"/>
+        
+        <include
+            layout="@layout/view_info_image_overlay"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingBottom="@dimen/card_event_internal_vertical_padding"
+            android:orientation="vertical"
+            android:background="@drawable/drop_shadow_horizontal_inversed"
+            android:clipToPadding="false">
+            
+            <TextView
+                style="@style/Card.Event.Title"
+                android:id="@+id/titleTv"
+                android:layout_marginBottom="@dimen/card_event_item_vertical_spacing"/>
+            
+            <TextView
+                style="@style/Card.Event.Description"
+                android:id="@+id/descriptionTv"
+                android:layout_marginBottom="@dimen/card_event_item_vertical_spacing"/>
+        
+        </LinearLayout>
+    
+    </com.arthurivanets.sample.ui.widget.AdvancedFrameLayout>
+
+</com.google.android.material.card.MaterialCardView>

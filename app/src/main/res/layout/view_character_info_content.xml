@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <!-- Data-binding-related -->
+    
+    <data>
+        
+        <variable
+            name="viewModel"
+            type="com.arthurivanets.sample.ui.characters.info.CharacterInfoViewModel"/>
+    
+    </data>
+    
+    <!-- The Actual Content Layout -->
+    
+    <LinearLayout
+        style="@style/Info.SectionsContainer">
+        
+        <TextView
+            style="@style/Info.SectionTitle"
+            android:id="@+id/nameLabelTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@string/section_title_name"/>
+        
+        <TextView
+            style="@style/Info.SectionContent"
+            android:id="@+id/nameTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@{viewModel.character.name}"/>
+        
+        <TextView
+            style="@style/Info.SectionTitle"
+            android:id="@+id/descriptionLabelTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@string/section_title_description"
+            app:visible="@{viewModel.character.hasDescription}"/>
+        
+        <TextView
+            style="@style/Info.SectionContent"
+            android:id="@+id/descriptionTv"
+            android:layout_marginBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@{viewModel.character.description}"
+            app:visible="@{viewModel.character.hasDescription}"/>
+        
+        <TextView
+            style="@style/Info.SectionTitle"
+            android:id="@+id/comicsLabelTv"
+            android:paddingBottom="@dimen/info_section_item_vertical_spacing"
+            android:text="@string/section_title_comics"/>
+        
+        <androidx.recyclerview.widget.RecyclerView
+            style="@style/Info.RecyclerView"
+            android:id="@+id/comicsRecyclerView"/>
+    
+    </LinearLayout>
+
+</layout>

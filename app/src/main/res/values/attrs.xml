@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="AdvancedFrameLayout">
+        <attr name="corner_radius" format="dimension"/>
+        <attr name="top_left_corner_radius" format="dimension"/>
+        <attr name="top_right_corner_radius" format="dimension"/>
+        <attr name="bottom_left_corner_radius" format="dimension"/>
+        <attr name="bottom_right_corner_radius" format="dimension"/>
+        
+        <attr name="aspect_ratio" format="float"/>
+        
+        <attr name="scaling_type" format="enum">
+            <enum name="width_based" value="1"/>
+            <enum name="height_based" value="2"/>
+        </attr>
+    </declare-styleable>
+    
+</resources>
