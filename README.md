@@ -14,17 +14,35 @@
 
 * [Demo](#demo)
 * [Getting Started](#getting-started)
+* [Modules](#modules)
 * [Basic Implementation](#basic-implementation)
 * [Dagger Based Implementation](#dagger-based-implementation)
 * [Navigation Component Based Implementation](#navigation-component-based-implementation)
-* [Navigation Component + Dagger Based Implementation](#navigation-component-+-dagger-based-implementation)
+* [Navigation Component and Dagger Based Implementation](#navigation-component-and-dagger-based-implementation)
 * [Contribution](#contribution)
 * [Hall of Fame](#hall-of-fame)
 * [License](#license)
 
 ## Demo
 
+***Marvel Universe*** Application is an application built around MVVM and Clean Architecture concepts, as well as the data provided by the [Marvel API](https://developer.marvel.com/). The application allows you to browse through the Marvel comics, events and characters; each of the aforementioned entities is accompanied by a corresponding detailed overview screen, which gives you even more insight into the Marvel Universe.
 
+### Screenshots
+
+<div style="dispaly:flex">
+    <img src="https://github.com/arthur3486/android-mvvm/blob/master/screenshot_1.jpg" width="30%">
+    <img src="https://github.com/arthur3486/android-mvvm/blob/master/screenshot_2.jpg" width="30%">
+    <img src="https://github.com/arthur3486/android-mvvm/blob/master/screenshot_3.jpg" width="30%">
+</div>
+<div style="dispaly:flex">
+    <img src="https://github.com/arthur3486/android-mvvm/blob/master/screenshot_4.jpg" width="30%">
+    <img src="https://github.com/arthur3486/android-mvvm/blob/master/screenshot_5.jpg" width="30%">
+    <img src="https://github.com/arthur3486/android-mvvm/blob/master/screenshot_6.jpg" width="30%">
+</div>
+
+### Application Architecture
+
+![Application Architecture](https://github.com/arthur3486/android-mvvm/blob/master/app_architecture.png)
 
 ## Getting Started
 
@@ -64,35 +82,536 @@ android {
 //...
 ````
 
-**4. Replace your `com.android.support.appcompat.*` dependency with the new `androidx.appcompat.*` alternative.**
+**4. Enable the Data Binding in the module-level `build.gradle` file.**
 
 ````groovy
 //...
-dependencies {
+android {
     //...
-    implementation "androidx.appcompat:appcompat:1.0.1"
+    dataBinding {
+        enabled true
+    }
     //...
 }
 //...
 ````
 
-//TODO RxJava + Android Lifecycle Dependencies
+**5. Replace your `com.android.support.appcompat.*` dependency with the new `androidx.appcompat.*` alternative.**
+
+````groovy
+//...
+dependencies {
+    //...
+    implementation "androidx.appcompat:appcompat:1.0.2"
+    //...
+}
+//...
+````
+
+**6. Add the [Android Lifecycle (ViewModel)](https://developer.android.com/topic/libraries/architecture/viewmodel), [RxJava](https://github.com/ReactiveX/RxJava) and [RxBus](https://github.com/arthur3486/rxbus) dependencies to the module-level `build.gradle` file.**
+
+````groovy
+//...
+dependencies {
+    //...
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.7"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "com.arthurivanets.rxbus:rxbus:1.0.1"
+    implementation "com.arthurivanets.rxbus:rxbus-android:1.0.1"
+    //...
+}
+//...
+````
+
+### Android MVVM Dependencies
+
+The basic implementation must include the core module 
+> ***Latest version:*** [ ![Download](https://api.bintray.com/packages/arthurimsacc/maven/mvvm-core/images/download.svg) ](https://bintray.com/arthurimsacc/maven/mvvm-core/_latestVersion)
+
+`implementation "com.arthurivanets.mvvm:mvvm-core:X.Y.Z"`
+
+Which should be added to your module-level `build.gradle` file. 
+
+````groovy
+ext {
+    //...
+    androidMvvmLibraryVersion = "1.0.0"
+}
+
+dependencies {
+    //...
+    implementation "com.arthurivanets.mvvm:mvvm-core:$androidMvvmLibraryVersion"
+}
+````
+
+After that you can proceed with further implementation.
+> ***See: [Basic Implementation](#basic-implementation), [Dagger Based Implementation](#dagger-based-implementation), [Navigation Component Based Implementation](#navigation-component-based-implementation), [Navigation Component and Dagger Based Implementation](#navigation-component-and-dagger-based-implementation)***
+
+## Modules
+
+The library is comprised of several modules, namely:
+
+* [`mvvm-core`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm/src/main/java/com/arthurivanets/mvvm) - core implementation (Required)
+* [`mvvm-dagger`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm-dagger/src/main/java/com/arthurivanets/mvvm/dagger) - Dagger DI based implementation (Optional)
+* [`mvvm-navigation`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation) - Android Navigation Component based implementation (Optional)
+* [`mvvm-navigation-dagger`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger) - Android Navigation Component + Dagger DI based implementation (Optional)
+
+The [`mvvm-core`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm/src/main/java/com/arthurivanets/mvvm) module is a core module the other modules depend on. It provides all the means necessary to create the MVVM-based Fragments and Activities, as well the corresponding ViewModels. (***See: [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/MvvmFragment.kt), [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/MvvmActivity.kt), [`BaseViewModel`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/BaseViewModel.kt), [`AbstractViewModel`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/AbstractViewModel.kt), [`ViewModelEvent`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/events/ViewModelEvent.kt)***)
+
+The [`mvvm-dagger`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm-dagger/src/main/java/com/arthurivanets/mvvm/dagger) module is a module that provides the [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-dagger/src/main/java/com/arthurivanets/mvvm/dagger/MvvmActivity.kt) and [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-dagger/src/main/java/com/arthurivanets/mvvm/dagger/MvvmFragment.kt) implementations that automatically handle the injection of the [`Dagger DI`](https://github.com/google/dagger) dependencies.
+
+The [`mvvm-navigation`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation) module is a module that provides the [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation/MvvmActivity.kt) and [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation/MvvmFragment.kt) implementations with built-in support for the [`Android Navigation Component`](https://developer.android.com/guide/navigation) based navigation.
+
+[`mvvm-navigation-dagger`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger) module is a module that provides the [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger/MvvmActivity.kt) and [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger/MvvmFragment.kt) implementations that have both the built-in support for the [`Android Navigation Component`](https://developer.android.com/guide/navigation) based navigation and automatic handling of the injection of the [`Dagger DI`](https://github.com/google/dagger) dependencies.
 
 ## Basic Implementation
 
-//TODO
+The basic implementation consists of 4 simple steps, namely:
+1) Creation of the ViewModel
+2) Creation of the ViewModel-specific events
+3) Creation of the `layout.xml` for the Activity/Fragment
+4) Implementation of the Activity/Fragment
+
+<br>
+
+So, let's start with the creation of the ViewModel for our Activity and/or Fragment.
+
+<details><summary><b>SimpleViewModel.kt [contract] (click to expand)</b></summary>
+<p>
+    
+````kotlin
+interface SimpleViewModel : BaseViewModel {
+
+    val loadingStateHolder : ObservableField<Boolean>
+
+    // The rest of your observable fields and event propagation methods should be defined here
+
+}
+````
+
+</p></details>
+
+> The ViewModel contract should implement the [`BaseViewModel`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/BaseViewModel.kt) interface.
+
+<details><summary><b>SimpleViewModelImpl.kt [concrete implementation] (click to expand)</b></summary>
+<p>
+    
+````kotlin
+class SimpleViewModelImpl : AbstractViewModel(), SimpleViewModel {
+
+    val loadingStateHolder = ObservableField(false)
+
+    // Your concrete implementation...
+
+}
+````
+
+</p></details>
+
+> The concrete implementation of the ViewModel should extend the [`AbstractViewModel`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/AbstractViewModel.kt) class and implement the corresponding contract interface.
+
+<br>
+
+Then, create the ViewModel-specific events.
+
+<details><summary><b>SimpleViewModelEvents.kt (click to expand)</b></summary>
+<p>
+    
+````kotlin
+sealed class SimpleViewModelEvents<T>(payload : T? = null) : ViewModelEvent<T>(payload) {
+
+    class SimpleEvent : SimpleViewModelEvents<Unit>()
+
+    // The rest of your ViewModel Events go here...
+
+}
+````
+
+</p></details>
+
+> The implementation of the ViewModel-specific events should be based upon the [`VideModelEvent`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/events/ViewModelEvent.kt) class.
+
+<br>
+
+After that, let's create the `layout.xml` files for both our Activity and Fragment.
+
+<details><summary><b>activity_simple_mvvm.xml + fragment_simple_mvvm.xml (click to expand)</b></summary>
+<p>
+    
+````xml
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <!-- Data-binding-related -->
+    
+    <data>
+        
+        <variable
+            name="viewModel"
+            type="com.yourapplication.sample.SimpleViewModel"/>
+    
+    </data>
+    
+    <!-- The Content Layout -->
+    <!-- Your content layout goes here... -->
+
+</layout>
+````
+
+</p></details><br>
+
+Finally, let's implement the MVVM-based Activity and Fragment.
+
+<details><summary><b>SimpleMvvmActivity.kt (click to expand)</b></summary>
+<p>
+    
+````kotlin
+import com.arthurivanets.mvvm.MvvmActivity
+
+class SimpleMvvmActivity : MvvmActivity<ActivitySimpleMvvmBinding, SimpleViewModel>() {
+
+    private lateinit var localViewModel : SimpleViewModel
+
+    override fun injectDependencies() {
+        // Initialize your View Model here...
+        localViewModel = SimpleViewModelImpl()
+    }
+
+    // The rest of the Activity Initialization goes here...
+
+    override fun onRegisterObservables() {
+        // Register your ViewModel's observable fields here...
+        localViewModel.loadingStateHolder.register { /* Handle the field state change */ }
+    }
+    
+    override fun onViewModelEvent(event : ViewModelEvent<*>) {
+        super.onViewModelEvent(event)
+
+        // handle the events emitted by the ViewModel here...
+        when(event) {
+            is SimpleViewModelEvents.SimpleEvent -> { /* Do something... */ }
+        }
+    }
+
+    override fun getLayoutId() : Int {
+        return R.layout.activity_simple_mvvm
+    }
+
+    override fun getBindingVariable() : Int {
+        return BR.viewModel
+    }
+
+    override fun getViewModel() : SimpleViewModel {
+        return localViewModel
+    }
+
+}
+````
+
+</p></details>
+
+> The implementation of the MVVM Activity should be based upon the Core [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/MvvmActivity.kt) class.
+
+<details><summary><b>SimpleMvvmFragment.kt (click to expand)</b></summary>
+<p>
+    
+````kotlin
+import com.arthurivanets.mvvm.MvvmFragment
+
+class SimpleMvvmFragment : MvvmFragment<FragmentSimpleMvvmBinding, SimpleViewModel>() {
+
+    private lateinit var localViewModel : SimpleViewModel
+
+    override fun injectDependencies() {
+        // Initialize your View Model here...
+        localViewModel = SimpleViewModelImpl()
+    }
+
+    // The rest of the Fragment Initialization goes here...
+
+    override fun onRegisterObservables() {
+        // Register your ViewModel's observable fields here...
+        localViewModel.loadingStateHolder.register { /* Handle the field state change */ }
+    }
+    
+    override fun onViewModelEvent(event : ViewModelEvent<*>) {
+        super.onViewModelEvent(event)
+
+        // handle the events emitted by the ViewModel here...
+        when(event) {
+            is SimpleViewModelEvents.SimpleEvent -> { /* Do something... */ }
+        }
+    }
+
+    override fun getLayoutId() : Int {
+        return R.layout.fragment_simple_mvvm
+    }
+
+    override fun getBindingVariable() : Int {
+        return BR.viewModel
+    }
+
+    override fun getViewModel() : SimpleViewModel {
+        return localViewModel
+    }
+
+}
+````
+
+</p></details>
+
+> The implementation of the MVVM Fragment should be based upon the Core [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/MvvmFragment.kt) class.
+
+<br>
+
+The [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/MvvmActivity.kt), [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/MvvmFragment.kt) and [`AbstractViewModel`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/AbstractViewModel.kt) classes provide many convenience methods for dealing with the lifecycle of the ObservableField subscriptions and Rx disposbles, so it's definitely a good idea to look through the implementations in order to familiarize yourself with the available APIs.
+
+> ***See: [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/MvvmActivity.kt), [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/MvvmFragment.kt), [`BaseViewModel`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/BaseViewModel.kt), [`AbstractViewModel`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/AbstractViewModel.kt), [`ViewModelEvent`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/events/ViewModelEvent.kt), [`GeneralViewModelEvents`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm/src/main/java/com/arthurivanets/mvvm/events/GeneralViewModelEvents.kt)***
 
 ## Dagger Based Implementation
 
-//TODO
+The Dagger-based implementation process is almost identical to the one of the [Basic Implementation](basic-implementation), the only thing that's different here is the fact that you need to use the [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger/MvvmActivity.kt) and [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger/MvvmFragment.kt) provided by the [`mvvm-dagger`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger) module instead of the ones coming from the [`mvvm-core`](https://github.com/arthur3486/android-mvvm/tree/master/mvvm/src/main/java/com/arthurivanets/mvvm) module.
+
+<details><summary><b>SimpleMvvmActivity.kt (click to expand)</b></summary>
+<p>
+    
+````kotlin
+import com.arthurivanets.mvvm.dagger.MvvmActivity
+
+class SimpleMvvmActivity : MvvmActivity<ActivitySimpleMvvmBinding, SimpleViewModel>() {
+
+    @Inject
+    private lateinit var localViewModel : SimpleViewModel
+
+    // The rest of the Activity Initialization goes here...
+
+    override fun onRegisterObservables() {
+        // Register your ViewModel's observable fields here...
+        localViewModel.loadingStateHolder.register { /* Handle the field state change */ }
+    }
+    
+    override fun onViewModelEvent(event : ViewModelEvent<*>) {
+        super.onViewModelEvent(event)
+
+        // handle the events emitted by the ViewModel here...
+        when(event) {
+            is SimpleViewModelEvents.SimpleEvent -> { /* Do something... */ }
+        }
+    }
+
+    override fun getLayoutId() : Int {
+        return R.layout.activity_simple_mvvm
+    }
+
+    override fun getBindingVariable() : Int {
+        return BR.viewModel
+    }
+
+    override fun getViewModel() : SimpleViewModel {
+        return localViewModel
+    }
+
+}
+````
+
+</p></details>
+
+> The implementation of the MVVM Activity should be based upon the Dagger [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-dagger/src/main/java/com/arthurivanets/mvvm/dagger/MvvmActivity.kt) class.
+
+<details><summary><b>SimpleMvvmFragment.kt (click to expand)</b></summary>
+<p>
+    
+````kotlin
+import com.arthurivanets.mvvm.dagger.MvvmFragment
+
+class SimpleMvvmFragment : MvvmFragment<FragmentSimpleMvvmBinding, SimpleViewModel>() {
+
+    @Inject
+    private lateinit var localViewModel : SimpleViewModel
+
+    // The rest of the Fragment Initialization goes here...
+
+    override fun onRegisterObservables() {
+        // Register your ViewModel's observable fields here...
+        localViewModel.loadingStateHolder.register { /* Handle the field state change */ }
+    }
+    
+    override fun onViewModelEvent(event : ViewModelEvent<*>) {
+        super.onViewModelEvent(event)
+
+        // handle the events emitted by the ViewModel here...
+        when(event) {
+            is SimpleViewModelEvents.SimpleEvent -> { /* Do something... */ }
+        }
+    }
+
+    override fun getLayoutId() : Int {
+        return R.layout.fragment_simple_mvvm
+    }
+
+    override fun getBindingVariable() : Int {
+        return BR.viewModel
+    }
+
+    override fun getViewModel() : SimpleViewModel {
+        return localViewModel
+    }
+
+}
+````
+
+</p></details>
+
+> The implementation of the MVVM Fragment should be based upon the Dagger [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-dagger/src/main/java/com/arthurivanets/mvvm/dagger/MvvmFragment.kt) class.
+
+> ***See: [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-dagger/src/main/java/com/arthurivanets/mvvm/dagger/MvvmActivity.kt), [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-dagger/src/main/java/com/arthurivanets/mvvm/dagger/MvvmFragment.kt)***
 
 ## Navigation Component Based Implementation
 
-//TODO
+The Navigation Component based implementation process has many things in common with the [Basic Implementation](basic-implementation); the differences are shown in the code snippets below.
 
-## Navigation Component + Dagger Based Implementation
+<details><summary><b>activity_host.xml (click to expand)</b></summary>
+<p>
+    
+````xml
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-//TODO
+    <!-- Data-binding-related -->
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.yourapplication.sample.StubViewModel"/>
+
+    </data>
+
+    <!-- The Actual Layout -->
+
+    <com.google.android.material.internal.ScrimInsetsFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="com.arthurivanets.mvvm.navigation.MvvmNavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/your_navigation_graph"/>
+
+    </com.google.android.material.internal.ScrimInsetsFrameLayout>
+
+</layout>
+````
+
+</p></details>
+
+> The [`MvvmNavHostFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation/MvvmNavHostFragment.kt) should be used as a Navigation Host Fragment of the Host Activity.
+
+<details><summary><b>HostActivity.kt (click to expand)</b></summary>
+<p>
+    
+````kotlin
+import com.arthurivanets.mvvm.navigation.MvvmActivity
+
+class HostActivity : MvvmActivity<ActivityHostBinding, StubViewModel>() {
+
+    private var localViewModel : StubViewModel
+
+    override fun injectDependencies() {
+        localViewModel = StubViewModelImpl()
+    }
+
+    override fun getLayoutId() : Int {
+        return R.layout.activity_host
+    }
+
+    override fun getBindingVariable() : Int {
+        return BR.viewModel
+    }
+
+    override fun getViewModel() : HostActivityViewModel {
+        return localViewModel
+    }
+
+    override fun getNavigationGraphId() : Int {
+        return R.navigation.your_navigation_graph
+    }
+
+}
+````
+
+</p></details>
+
+> The implementation of the Host Activity should be based upon the Navigation [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation/MvvmActivity.kt) class.
+
+<details><summary><b>SimpleMvvmFragment.kt (click to expand)</b></summary>
+<p>
+    
+````kotlin
+import com.arthurivanets.mvvm.navigation.MvvmFragment
+
+class SimpleMvvmFragment : MvvmFragment<FragmentSimpleMvvmBinding, SimpleViewModel>() {
+
+    private lateinit var localViewModel : SimpleViewModel
+
+    override fun injectDependencies() {
+        // Initialize your View Model here...
+        localViewModel = SimpleViewModelImpl()
+    }
+
+    // The rest of the Fragment Initialization goes here...
+
+    override fun onRegisterObservables() {
+        // Register your ViewModel's observable fields here...
+        localViewModel.loadingStateHolder.register { /* Handle the field state change */ }
+    }
+    
+    override fun onViewModelEvent(event : ViewModelEvent<*>) {
+        super.onViewModelEvent(event)
+
+        // handle the events emitted by the ViewModel here...
+        when(event) {
+            is SimpleViewModelEvents.SimpleEvent -> { /* Do something... */ }
+        }
+    }
+
+    override fun getLayoutId() : Int {
+        return R.layout.fragment_simple_mvvm
+    }
+
+    override fun getBindingVariable() : Int {
+        return BR.viewModel
+    }
+
+    override fun getViewModel() : SimpleViewModel {
+        return localViewModel
+    }
+
+}
+````
+
+</p></details>
+
+> The implementation of the MVVM Fragment should be based upon the Navigation [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation/MvvmFragment.kt) class.
+
+> ***See: [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation/MvvmActivity.kt), [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation/MvvmFragment.kt), [`MvvmNavHostFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation/src/main/java/com/arthurivanets/mvvm/navigation/MvvmNavHostFragment.kt)***
+
+## Navigation Component and Dagger Based Implementation
+
+Shares many implementation-specific aspects with the previously described implementation types and is used in the [`Demo Application`](https://github.com/arthur3486/android-mvvm/tree/master/app/src/main).
+
+> ***See: [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger/MvvmActivity.kt), [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger/MvvmFragment.kt)***
 
 ## Contribution
 
@@ -100,8 +619,8 @@ See the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## Hall of Fame
 
-> Using ARVI in your app and want it to get listed here? Email me at arthur.ivanets.l@gmail.com!
+> Using Android MVVM Library in your app and want it to get listed here? Email me at arthur.ivanets.l@gmail.com!
 
 ## License
 
-ARVI is licensed under the [Apache 2.0 License](LICENSE).
+ Android MVVM Library is licensed under the [Apache 2.0 License](LICENSE).
