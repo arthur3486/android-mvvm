@@ -9,6 +9,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-Android-green.svg)](http://developer.android.com/index.html)
 ![](https://img.shields.io/badge/API-21%2B-green.svg?style=flat)
+![](https://travis-ci.org/arthur3486/android-mvvm.svg?branch=master)
 
 ## Contents
 
@@ -19,6 +20,7 @@
 * [Dagger Based Implementation](#dagger-based-implementation)
 * [Navigation Component Based Implementation](#navigation-component-based-implementation)
 * [Navigation Component and Dagger Based Implementation](#navigation-component-and-dagger-based-implementation)
+* [Compilation](#compilation)
 * [Contribution](#contribution)
 * [Hall of Fame](#hall-of-fame)
 * [License](#license)
@@ -612,6 +614,16 @@ class SimpleMvvmFragment : MvvmFragment<FragmentSimpleMvvmBinding, SimpleViewMod
 Shares many implementation-specific aspects with the previously described implementation types and is used in the [`Demo Application`](https://github.com/arthur3486/android-mvvm/tree/master/app/src/main).
 
 > ***See: [`MvvmActivity`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger/MvvmActivity.kt), [`MvvmFragment`](https://github.com/arthur3486/android-mvvm/blob/master/mvvm-navigation-dagger/src/main/java/com/arthurivanets/mvvm/navigation/dagger/MvvmFragment.kt)***
+
+## Compilation
+
+In order to compile the [`app`](https://github.com/arthur3486/android-mvvm/tree/master/app/src/main) module you need to obtain the `PUBLIC_API_KEY` and `PRIVATE_API_KEY` from the [`Marvel API`](https://developer.marvel.com/) portal, which should be saved in either global `gradle.properties` file or the project-specific one thereafter.
+
+***gradle.properties***
+````groovy
+marvelApiPublicKey=PUBLIC_API_KEY
+marvelApiPrivateKey=PRIVATE_API_KEY
+````
 
 ## Contribution
 

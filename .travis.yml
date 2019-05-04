@@ -40,6 +40,9 @@ before_install:
   - chmod +x gradlew
 
 script:
-   - ./gradlew clean build check
+   - ./gradlew :mvvm:clean :mvvm:build :mvvm:check
+   - ./gradlew :mvvm-dagger:clean :mvvm-dagger:build :mvvm-dagger:check
+   - ./gradlew :mvvm-navigation:clean :mvvm-navigation:build :mvvm-navigation:check
+   - ./gradlew :mvvm-navigation-dagger:clean :mvvm-navigation-dagger:build :mvvm-navigation-dagger:check
 
 after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
