@@ -9,3 +9,7 @@ ext.stringField = { config, name, value ->
 ext.valueOrDefault = { value, defaultValue ->
     return ((value != null) ? value : defaultValue)
 }
+
+ext.propertyOrDefault = { propertyName, defaultValue ->
+    return (project.properties[propertyName] ?: defaultValue)
+}

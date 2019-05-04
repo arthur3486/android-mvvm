@@ -37,8 +37,8 @@ android {
         multiDexEnabled true
 
         // Fields
-        stringField(defaultConfig, "API_PUBLIC_KEY", "${marvelApiPublicKey}")
-        stringField(defaultConfig, "API_PRIVATE_KEY", "${marvelApiPrivateKey}")
+        stringField(defaultConfig, "API_PUBLIC_KEY", "${propertyOrDefault("marvelApiPublicKey", "")}")
+        stringField(defaultConfig, "API_PRIVATE_KEY", "${propertyOrDefault("marvelApiPrivateKey", "")}")
     }
 
     compileOptions {
