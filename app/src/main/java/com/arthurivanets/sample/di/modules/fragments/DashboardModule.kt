@@ -16,8 +16,7 @@
 
 package com.arthurivanets.sample.di.modules.fragments
 
-import androidx.lifecycle.ViewModelProviders
-import com.arthurivanets.mvvm.ViewModelProviderFactory
+import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.ui.dashboard.DashboardFragment
 import com.arthurivanets.sample.ui.dashboard.DashboardViewModel
 import com.arthurivanets.sample.ui.dashboard.DashboardViewModelImpl
@@ -30,8 +29,9 @@ class DashboardModule {
 
     @Provides
     fun provideDashboardViewModel(fragment : DashboardFragment) : DashboardViewModel {
-        val viewModelFactory = ViewModelProviderFactory(DashboardViewModelImpl())
-        return ViewModelProviders.of(fragment, viewModelFactory).get(DashboardViewModelImpl::class.java)
+        return fragment.provideViewModel(DashboardViewModelImpl::class.java) {
+            DashboardViewModelImpl()
+        }
     }
 
 

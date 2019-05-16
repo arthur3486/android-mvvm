@@ -16,8 +16,7 @@
 
 package com.arthurivanets.sample.di.modules.fragments
 
-import androidx.lifecycle.ViewModelProviders
-import com.arthurivanets.mvvm.ViewModelProviderFactory
+import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.events.EventsRepository
 import com.arthurivanets.sample.ui.events.info.EventInfoFragment
 import com.arthurivanets.sample.ui.events.info.EventInfoViewModel
@@ -35,16 +34,18 @@ class EventsModule {
     @Provides
     fun provideEventsViewModel(fragment : EventsFragment,
                                eventsRepository : EventsRepository) : EventsViewModel {
-        val viewModelFactory = ViewModelProviderFactory(EventsViewModelImpl(eventsRepository))
-        return ViewModelProviders.of(fragment, viewModelFactory).get(EventsViewModelImpl::class.java)
+        return fragment.provideViewModel(EventsViewModelImpl::class.java) {
+            EventsViewModelImpl(eventsRepository)
+        }
     }
 
 
     @Provides
     fun provideEventInfoViewModel(fragment : EventInfoFragment,
                                   eventsRepository : EventsRepository) : EventInfoViewModel {
-        val viewModelFactory = ViewModelProviderFactory(EventInfoViewModelImpl(eventsRepository))
-        return ViewModelProviders.of(fragment, viewModelFactory).get(EventInfoViewModelImpl::class.java)
+        return fragment.provideViewModel(EventInfoViewModelImpl::class.java) {
+            EventInfoViewModelImpl(eventsRepository)
+        }
     }
 
 

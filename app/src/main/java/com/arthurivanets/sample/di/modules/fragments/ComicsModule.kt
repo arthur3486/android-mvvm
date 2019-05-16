@@ -16,8 +16,7 @@
 
 package com.arthurivanets.sample.di.modules.fragments
 
-import androidx.lifecycle.ViewModelProviders
-import com.arthurivanets.mvvm.ViewModelProviderFactory
+import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.comics.ComicsRepository
 import com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment
 import com.arthurivanets.sample.ui.comics.info.ComicsInfoViewModel
@@ -35,16 +34,18 @@ class ComicsModule {
     @Provides
     fun provideComicsViewModel(fragment : ComicsFragment,
                                comicsRepository : ComicsRepository) : ComicsViewModel {
-        val viewModelFactory = ViewModelProviderFactory(ComicsViewModelImpl(comicsRepository))
-        return ViewModelProviders.of(fragment, viewModelFactory).get(ComicsViewModelImpl::class.java)
+        return fragment.provideViewModel(ComicsViewModelImpl::class.java) {
+            ComicsViewModelImpl(comicsRepository)
+        }
     }
 
 
     @Provides
     fun provideComicsInfoViewModel(fragment : ComicsInfoFragment,
                                    comicsRepository : ComicsRepository) : ComicsInfoViewModel {
-        val viewModelFactory = ViewModelProviderFactory(ComicsInfoViewModelImpl(comicsRepository))
-        return ViewModelProviders.of(fragment, viewModelFactory).get(ComicsInfoViewModelImpl::class.java)
+        return fragment.provideViewModel(ComicsInfoViewModelImpl::class.java) {
+            ComicsInfoViewModelImpl(comicsRepository)
+        }
     }
 
 

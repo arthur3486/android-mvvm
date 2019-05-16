@@ -16,8 +16,7 @@
 
 package com.arthurivanets.sample.di.modules.fragments
 
-import androidx.lifecycle.ViewModelProviders
-import com.arthurivanets.mvvm.ViewModelProviderFactory
+import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.characters.CharactersRepository
 import com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment
 import com.arthurivanets.sample.ui.characters.info.CharacterInfoViewModel
@@ -35,16 +34,18 @@ class CharactersModule {
     @Provides
     fun provideCharactersViewModel(fragment : CharactersFragment,
                                    charactersRepository : CharactersRepository) : CharactersViewModel {
-        val viewModelFactory = ViewModelProviderFactory(CharactersViewModelImpl(charactersRepository))
-        return ViewModelProviders.of(fragment, viewModelFactory).get(CharactersViewModelImpl::class.java)
+        return fragment.provideViewModel(CharactersViewModelImpl::class.java) {
+            CharactersViewModelImpl(charactersRepository)
+        }
     }
 
 
     @Provides
     fun provideCharacterInfoViewModel(fragment : CharacterInfoFragment,
                                       charactersRepository : CharactersRepository) : CharacterInfoViewModel {
-        val viewModelFactory = ViewModelProviderFactory(CharacterInfoViewModelImpl(charactersRepository))
-        return ViewModelProviders.of(fragment, viewModelFactory).get(CharacterInfoViewModelImpl::class.java)
+        return fragment.provideViewModel(CharacterInfoViewModelImpl::class.java) {
+            CharacterInfoViewModelImpl(charactersRepository)
+        }
     }
 
 

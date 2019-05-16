@@ -16,8 +16,7 @@
 
 package com.arthurivanets.sample.di.modules.activities
 
-import androidx.lifecycle.ViewModelProviders
-import com.arthurivanets.mvvm.ViewModelProviderFactory
+import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.ui.host.HostActivity
 import com.arthurivanets.sample.ui.host.HostActivityViewModel
 import com.arthurivanets.sample.ui.host.HostActivityViewModelImpl
@@ -30,8 +29,9 @@ class HostModule {
 
     @Provides
     fun provideHostViewModel(activity : HostActivity) : HostActivityViewModel {
-        val viewModelFactory = ViewModelProviderFactory(HostActivityViewModelImpl())
-        return ViewModelProviders.of(activity, viewModelFactory).get(HostActivityViewModelImpl::class.java)
+        return activity.provideViewModel(HostActivityViewModelImpl::class.java) {
+            HostActivityViewModelImpl()
+        }
     }
 
 

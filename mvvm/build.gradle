@@ -56,6 +56,7 @@ dependencies {
 
     implementation kotlinDependencies
     implementation androidCoreDependencies
+    implementation lifecycleDependencies
 
     implementation rxJavaDependencies
     implementation rxBusDependencies

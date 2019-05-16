@@ -24,17 +24,20 @@ import androidx.lifecycle.ViewModelProvider
  * <br>
  * Allows you to construct the [ViewModel] that meets your requirements (e.g. perform the dependency injection into your [ViewModel]).
  */
-class ViewModelProviderFactory<V : ViewModel>(private val viewModel : V) : ViewModelProvider.Factory {
-
-
+class ViewModelProviderFactory<V : ViewModel>(
+    private val viewModelClass : Class<V>,
+    private val creator : () -> V
+) : ViewModelProvider.Factory {
+    
+    
     @SuppressWarnings("unchecked")
     override fun <T : ViewModel?> create(modelClass : Class<T>) : T {
-        if(!modelClass.isAssignableFrom(viewModel::class.java)) {
+        if(!modelClass.isAssignableFrom(viewModelClass)) {
             throw IllegalArgumentException("Unsupported class name.")
         }
-
-        return (viewModel as T)
+        
+        return (creator() as T)
     }
-
-
+    
+    
 }
