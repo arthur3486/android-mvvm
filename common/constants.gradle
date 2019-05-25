@@ -17,7 +17,8 @@
 project.ext {
     compileSdk = 28
     targetSdk = 28
-    minSdk = 21
+    appMinSdk = 21
+    libraryMinSdk = 18
 
     supportVersion = "1.0.2"
     coreVersion = "1.0.1"
@@ -52,8 +53,8 @@ project.ext {
     releaseRepoName = "maven"
     releaseUserOrg = "arthurlabs"
     releaseGroupId = "com.arthurivanets.mvvm"
-    releaseVersion = "1.1.0"
-    releaseVersionCode = 2
+    releaseVersion = "1.1.1"
+    releaseVersionCode = 3
     releaseWebsite = "https://github.com/arthur3486/android-mvvm"
     releaseLicense = ["Apache-2.0"]
 

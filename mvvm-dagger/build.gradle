@@ -27,7 +27,7 @@ android {
     compileSdkVersion rootProject.compileSdk
 
     defaultConfig {
-        minSdkVersion rootProject.minSdk
+        minSdkVersion rootProject.libraryMinSdk
         targetSdkVersion rootProject.targetSdk
         versionCode rootProject.releaseVersionCode
         versionName rootProject.releaseVersion

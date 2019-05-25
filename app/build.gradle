@@ -28,7 +28,7 @@ android {
 
     defaultConfig {
         applicationId "com.arthurivanets.sample"
-        minSdkVersion rootProject.minSdk
+        minSdkVersion rootProject.appMinSdk
         targetSdkVersion rootProject.targetSdk
         versionCode rootProject.releaseVersionCode
         versionName rootProject.releaseVersion
