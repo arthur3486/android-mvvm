@@ -29,7 +29,7 @@ class DashboardModule {
 
     @Provides
     fun provideDashboardViewModel(fragment : DashboardFragment) : DashboardViewModel {
-        return fragment.provideViewModel(DashboardViewModelImpl::class.java) {
+        return fragment.provideViewModel {
             DashboardViewModelImpl()
         }
     }

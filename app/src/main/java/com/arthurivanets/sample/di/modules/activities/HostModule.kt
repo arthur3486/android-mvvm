@@ -29,7 +29,7 @@ class HostModule {
 
     @Provides
     fun provideHostViewModel(activity : HostActivity) : HostActivityViewModel {
-        return activity.provideViewModel(HostActivityViewModelImpl::class.java) {
+        return activity.provideViewModel {
             HostActivityViewModelImpl()
         }
     }

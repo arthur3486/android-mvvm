@@ -24,6 +24,7 @@ apply from: "../common/utils.gradle"
 apply from: "../common/dependencies.gradle"
 
 android {
+    buildToolsVersion "29.0.0"
     compileSdkVersion rootProject.compileSdk
 
     defaultConfig {

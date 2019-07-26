@@ -18,7 +18,7 @@ package com.arthurivanets.sample.domain.di.modules
 
 import android.content.Context
 import com.arthurivanets.commons.network.NetworkStateProvider
-import com.arthurivanets.commons.network.NetworkStateProviderImpl
+import com.arthurivanets.commons.network.createNetworkStateProvider
 import dagger.Module
 import dagger.Provides
 
@@ -28,7 +28,7 @@ class DomainUtilsModule {
 
     @Provides
     fun provideNetworkStateProvider(context : Context) : NetworkStateProvider {
-        return NetworkStateProviderImpl(context)
+        return context.createNetworkStateProvider()
     }
 
 

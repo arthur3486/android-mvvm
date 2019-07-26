@@ -34,7 +34,7 @@ class ComicsModule {
     @Provides
     fun provideComicsViewModel(fragment : ComicsFragment,
                                comicsRepository : ComicsRepository) : ComicsViewModel {
-        return fragment.provideViewModel(ComicsViewModelImpl::class.java) {
+        return fragment.provideViewModel {
             ComicsViewModelImpl(comicsRepository)
         }
     }
@@ -43,7 +43,7 @@ class ComicsModule {
     @Provides
     fun provideComicsInfoViewModel(fragment : ComicsInfoFragment,
                                    comicsRepository : ComicsRepository) : ComicsInfoViewModel {
-        return fragment.provideViewModel(ComicsInfoViewModelImpl::class.java) {
+        return fragment.provideViewModel {
             ComicsInfoViewModelImpl(comicsRepository)
         }
     }

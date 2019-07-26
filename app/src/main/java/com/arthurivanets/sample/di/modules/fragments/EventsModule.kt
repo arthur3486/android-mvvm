@@ -34,7 +34,7 @@ class EventsModule {
     @Provides
     fun provideEventsViewModel(fragment : EventsFragment,
                                eventsRepository : EventsRepository) : EventsViewModel {
-        return fragment.provideViewModel(EventsViewModelImpl::class.java) {
+        return fragment.provideViewModel {
             EventsViewModelImpl(eventsRepository)
         }
     }
@@ -43,7 +43,7 @@ class EventsModule {
     @Provides
     fun provideEventInfoViewModel(fragment : EventInfoFragment,
                                   eventsRepository : EventsRepository) : EventInfoViewModel {
-        return fragment.provideViewModel(EventInfoViewModelImpl::class.java) {
+        return fragment.provideViewModel {
             EventInfoViewModelImpl(eventsRepository)
         }
     }

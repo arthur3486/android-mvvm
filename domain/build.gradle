@@ -59,6 +59,7 @@ dependencies {
     kapt daggerAnnotationProcessingDependencies
     implementation daggerDependencies
 
+    implementation rxJavaDependencies
     implementation rxBusDependencies
     implementation commonsDependencies
 

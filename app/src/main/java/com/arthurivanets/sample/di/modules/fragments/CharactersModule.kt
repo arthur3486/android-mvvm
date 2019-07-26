@@ -34,7 +34,7 @@ class CharactersModule {
     @Provides
     fun provideCharactersViewModel(fragment : CharactersFragment,
                                    charactersRepository : CharactersRepository) : CharactersViewModel {
-        return fragment.provideViewModel(CharactersViewModelImpl::class.java) {
+        return fragment.provideViewModel {
             CharactersViewModelImpl(charactersRepository)
         }
     }
@@ -43,7 +43,7 @@ class CharactersModule {
     @Provides
     fun provideCharacterInfoViewModel(fragment : CharacterInfoFragment,
                                       charactersRepository : CharactersRepository) : CharacterInfoViewModel {
-        return fragment.provideViewModel(CharacterInfoViewModelImpl::class.java) {
+        return fragment.provideViewModel {
             CharacterInfoViewModelImpl(charactersRepository)
         }
     }

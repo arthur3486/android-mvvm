@@ -139,6 +139,7 @@ ext {
 
     // Commons
     commonsDependencies = dependencies([
+        commonsCore: "com.arthurivanets.commons:commons-core:${rootProject.commonsVersion}",
         commonsKtx: "com.arthurivanets.commons:commons-ktx:${rootProject.commonsVersion}",
         commonsNetwork: "com.arthurivanets.commons:commons-network:${rootProject.commonsVersion}",
         commonsRxKtx: "com.arthurivanets.commons:commons-rx-ktx:${rootProject.commonsVersion}",

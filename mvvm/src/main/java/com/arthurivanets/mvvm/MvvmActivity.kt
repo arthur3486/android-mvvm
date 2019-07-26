@@ -193,10 +193,10 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     }
 
 
-    final override fun onRestoreInstanceState(savedInstanceState : Bundle?) {
+    final override fun onRestoreInstanceState(savedInstanceState : Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        savedInstanceState?.let(::onRestoreStateInternal)
+        savedInstanceState.let(::onRestoreStateInternal)
     }
 
 
@@ -216,10 +216,10 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     }
 
 
-    final override fun onSaveInstanceState(outState : Bundle?) {
+    final override fun onSaveInstanceState(outState : Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState?.let(::onSaveStateInternal)
+        outState.let(::onSaveStateInternal)
     }
 
 

@@ -15,8 +15,8 @@
  */
 
 project.ext {
-    compileSdk = 28
-    targetSdk = 28
+    compileSdk = 29
+    targetSdk = 29
     appMinSdk = 21
     libraryMinSdk = 18
 
@@ -45,7 +45,7 @@ project.ext {
     jacksonVersion = "2.9.7"
     retrofitVersion = "2.5.0"
     okHttpVersion = "3.14.0"
-    commonsVersion = "0.1.3"
+    commonsVersion = "0.2.3"
     roomVersion = "2.0.0"
     bottomSheetsVersion = "1.0.2"
     commonWidgetsVersion = "0.1.0"
@@ -53,8 +53,8 @@ project.ext {
     releaseRepoName = "maven"
     releaseUserOrg = "arthurlabs"
     releaseGroupId = "com.arthurivanets.mvvm"
-    releaseVersion = "1.1.1"
-    releaseVersionCode = 3
+    releaseVersion = "1.2.0"
+    releaseVersionCode = 4
     releaseWebsite = "https://github.com/arthur3486/android-mvvm"
     releaseLicense = ["Apache-2.0"]
 

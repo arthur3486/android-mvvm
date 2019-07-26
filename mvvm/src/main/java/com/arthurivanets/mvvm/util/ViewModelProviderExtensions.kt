@@ -31,9 +31,9 @@ import com.arthurivanets.mvvm.ViewModelProviderFactory
  * The creation of a new [ViewModel] instance using the [creator] will happen only if the [ViewModelProviders] doesn't have
  * a retained version of the corresponding [ViewModel] instance, otherwise the existing (retained) [ViewModel] will be reused.
  */
-fun <T : ViewModel> FragmentActivity.provideViewModel(viewModelClass : Class<T>, creator : () -> T) : T {
-    val viewModelFactory = ViewModelProviderFactory(viewModelClass, creator)
-    return ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
+inline fun <reified T : ViewModel> FragmentActivity.provideViewModel(noinline creator : () -> T) : T {
+    val viewModelFactory = ViewModelProviderFactory(T::class.java, creator)
+    return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
 }
 
 
@@ -43,7 +43,7 @@ fun <T : ViewModel> FragmentActivity.provideViewModel(viewModelClass : Class<T>,
  * The creation of a new [ViewModel] instance using the [creator] will happen only if the [ViewModelProviders] doesn't have
  * a retained version of the corresponding [ViewModel] instance, otherwise the existing (retained) [ViewModel] will be reused.
  */
-fun <T : ViewModel> Fragment.provideViewModel(viewModelClass : Class<T>, creator : () -> T) : T {
-    val viewModelFactory = ViewModelProviderFactory(viewModelClass, creator)
-    return ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
+inline fun <reified T : ViewModel> Fragment.provideViewModel(noinline creator : () -> T) : T {
+    val viewModelFactory = ViewModelProviderFactory(T::class.java, creator)
+    return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
 }
