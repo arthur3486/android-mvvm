@@ -16,7 +16,7 @@
 
 package com.arthurivanets.sample.data.datastores
 
-import com.arthurivanets.commons.data.datastore.DataStore
+import com.arthurivanets.sample.data.datastores.base.DataStore
 
 /**
  *

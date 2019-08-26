@@ -16,9 +16,16 @@
 
 package com.arthurivanets.sample.ui.dashboard
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.arthurivanets.commons.ktx.getColorCompat
+import com.arthurivanets.commons.ktx.selectedAndReleased
 import com.arthurivanets.commons.ktx.statusBarSize
 import com.arthurivanets.commons.ktx.updatePadding
 import com.arthurivanets.mvvm.BR
@@ -26,6 +33,7 @@ import com.arthurivanets.mvvm.navigation.dagger.MvvmFragment
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.dashboard.DashboardViewPagerAdapter
 import com.arthurivanets.sample.databinding.FragmentDashboardBinding
+import com.arthurivanets.sample.ui.base.BaseFragment
 import com.arthurivanets.sample.ui.characters.list.CharactersFragment
 import com.arthurivanets.sample.ui.comics.list.ComicsFragment
 import com.arthurivanets.sample.ui.events.list.EventsFragment
@@ -35,20 +43,19 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.view_toolbar.*
 import javax.inject.Inject
 
-class DashboardFragment : MvvmFragment<FragmentDashboardBinding, DashboardViewModel>() {
+class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>() {
 
 
     @Inject
     lateinit var localViewModel : DashboardViewModel
 
-    private lateinit var adapter : DashboardViewPagerAdapter
+    private lateinit var pagerAdapter : DashboardViewPagerAdapter
 
 
     override fun init(savedInstanceState : Bundle?) {
         super.init(savedInstanceState)
         
         initToolbar()
-        initAdapter()
         initViewPager()
         initBottomBar()
     }
@@ -60,39 +67,41 @@ class DashboardFragment : MvvmFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
 
-    private fun initAdapter() {
-        adapter = DashboardViewPagerAdapter(childFragmentManager).apply {
+    private fun initViewPager() {
+        with(viewPager) {
+            adapter = initPagerAdapter()
+            offscreenPageLimit = pagerAdapter.count
+            isSwipeable = false
+        }
+    }
+    
+    
+    private fun initPagerAdapter() : DashboardViewPagerAdapter {
+        return DashboardViewPagerAdapter(childFragmentManager).apply {
             addFragment(ComicsFragment())
             addFragment(EventsFragment())
             addFragment(CharactersFragment())
-        }
-    }
-
-
-    private fun initViewPager() {
-        viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = adapter.count
-        viewPager.isSwipeable = false
+        }.also { pagerAdapter = it }
     }
 
 
     private fun initBottomBar() {
         with(bottomBar) {
-            inflateMenu(com.arthurivanets.sample.R.menu.dashboard_navigation_menu)
-            itemIconTintList = com.arthurivanets.commons.ktx.selectedAndReleased(
-                getColorCompat(com.arthurivanets.sample.R.color.navigation_item_color_selected_state),
-                getColorCompat(com.arthurivanets.sample.R.color.navigation_item_color_released_state)
+            inflateMenu(R.menu.dashboard_navigation_menu)
+            itemIconTintList = selectedAndReleased(
+                getColorCompat(R.color.navigation_item_color_selected_state),
+                getColorCompat(R.color.navigation_item_color_released_state)
             )
-            itemTextColor = com.arthurivanets.commons.ktx.selectedAndReleased(
-                getColorCompat(com.arthurivanets.sample.R.color.navigation_item_color_selected_state),
-                getColorCompat(com.arthurivanets.sample.R.color.navigation_item_color_released_state)
+            itemTextColor = selectedAndReleased(
+                getColorCompat(R.color.navigation_item_color_selected_state),
+                getColorCompat(R.color.navigation_item_color_released_state)
             )
             setOnNavigationItemSelectedListener(::onNavigationItemSelected)
             setOnNavigationItemReselectedListener(::onNavigationItemReselected)
         }
     }
-
-
+    
+    
     private fun onNavigationItemSelected(item : MenuItem) : Boolean {
         viewPager.setCurrentItem(getPageIndexForMenuItem(item), false)
         return true
@@ -100,8 +109,8 @@ class DashboardFragment : MvvmFragment<FragmentDashboardBinding, DashboardViewMo
 
 
     private fun onNavigationItemReselected(item : MenuItem) {
-        if(!adapter.isEmpty) {
-            adapter.getItem(getPageIndexForMenuItem(item)).attemptScrollToTop(false)
+        if(!pagerAdapter.isEmpty) {
+            pagerAdapter.getFragment(getPageIndexForMenuItem(item))?.attemptScrollToTop(false)
         }
     }
 

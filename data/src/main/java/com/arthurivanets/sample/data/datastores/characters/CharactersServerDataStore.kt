@@ -17,11 +17,11 @@
 package com.arthurivanets.sample.data.datastores.characters
 
 import android.content.Context
-import com.arthurivanets.commons.data.datastore.AbstractDataStore
 import com.arthurivanets.commons.data.util.Response
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
 import com.arthurivanets.commons.rx.ktx.asSingle
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
-import com.arthurivanets.sample.data.api.MarvelApi
+
+import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.datastores.comics.toResponse
 import com.arthurivanets.sample.data.util.DataCharacter
 import com.arthurivanets.sample.data.util.DataComics
@@ -64,19 +64,19 @@ internal class CharactersServerDataStore(context : Context) : AbstractDataStore(
 
 
     override fun getCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
-        return MarvelApi.INSTANCE.characters.getCharacter(id)
+        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.characters.getCharacter(id)
             .flatMap { it.toSingleItemResponse().asSingle() }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     override fun getCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
-        return MarvelApi.INSTANCE.characters.getCharacters(
+        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.characters.getCharacters(
             offset = offset,
             limit = limit
         )
         .flatMap { it.toResponse().asSingle() }
-        .typicalBackgroundWorkSchedulers()
+        .applyIOWorkSchedulers()
     }
     
     
@@ -88,13 +88,13 @@ internal class CharactersServerDataStore(context : Context) : AbstractDataStore(
     override fun getCharacterComics(characterId : Long,
                                     offset : Int,
                                     limit : Int) : Single<Response<List<DataComics>, Throwable>> {
-        return MarvelApi.INSTANCE.characters.getCharacterComics(
+        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.characters.getCharacterComics(
             characterId = characterId,
             offset = offset,
             limit = limit
         )
         .flatMap { it.toResponse().asSingle() }
-        .typicalBackgroundWorkSchedulers()
+        .applyIOWorkSchedulers()
     }
     
     

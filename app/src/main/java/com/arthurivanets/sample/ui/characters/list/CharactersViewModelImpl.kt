@@ -18,19 +18,25 @@ package com.arthurivanets.sample.ui.characters.list
 
 import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
 import com.arthurivanets.commons.data.rx.ktx.resultOrError
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.characters.CharacterItem
 import com.arthurivanets.sample.domain.entities.Character
 import com.arthurivanets.sample.domain.repositories.characters.CharactersRepository
-import com.arthurivanets.sample.ui.base.AbstractDataLoadingViewModel
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.characters.DEFAULT_CHARACTER_LOADING_LIMIT
 
 class CharactersViewModelImpl(
-    private val charactersRepository : CharactersRepository
-) : AbstractDataLoadingViewModel(), CharactersViewModel {
+    private val charactersRepository : CharactersRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel(), CharactersViewModel {
 
 
     override val items = ObservableTrackableArrayList<Long, CharacterItem>()
+    
+    private var isDataLoading = false
 
 
     override fun onStart() {
@@ -40,8 +46,8 @@ class CharactersViewModelImpl(
     }
 
 
-    override fun onCharacterClicked(item : CharacterItem) {
-        dispatchEvent(CharactersViewModelEvents.OpenCharacterInfoScreen(item.itemModel))
+    override fun onCharacterClicked(character : Character) {
+        route(MarvelRoutes.CharacterInfoScreen(character))
     }
 
 
@@ -53,29 +59,35 @@ class CharactersViewModelImpl(
 
 
     private fun loadData() {
-        if(isLoading) {
+        if(isDataLoading) {
             return
         }
-
-        isLoading = true
+    
+        isDataLoading = true
+        
+        changeViewState(GeneralViewStates.Loading<Unit>())
 
         charactersRepository.getCharacters(0, DEFAULT_CHARACTER_LOADING_LIMIT)
             .resultOrError()
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers(schedulerProvider)
             .subscribe(::onLoadedSuccessfully, ::onLoadingFailed)
             .manageLongLivingDisposable()
     }
 
 
     private fun onLoadedSuccessfully(characters : List<Character>) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
 
         characters.forEach { items.addOrUpdate(CharacterItem(it)) }
     }
 
 
     private fun onLoadingFailed(throwable : Throwable) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

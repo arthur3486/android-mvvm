@@ -18,6 +18,7 @@ package com.arthurivanets.sample.domain.di.modules
 
 import android.content.Context
 import com.arthurivanets.commons.network.NetworkStateProvider
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
 import com.arthurivanets.sample.data.datastores.DataStoreFactory
 import com.arthurivanets.sample.data.datastores.events.EventsDataStore
 import com.arthurivanets.sample.data.datastores.events.EventsDataStoreFactory
@@ -61,12 +62,14 @@ class EventsModule {
     fun provideRepository(@Source(Source.Type.CACHE) cacheDataStore : EventsDataStore,
                           @Source(Source.Type.DATABASE) databaseDataStore : EventsDataStore,
                           @Source(Source.Type.SERVER) serverDataStore : EventsDataStore,
-                          networkStateProvider : NetworkStateProvider) : EventsRepository {
+                          networkStateProvider : NetworkStateProvider,
+                          schedulerProvider : SchedulerProvider) : EventsRepository {
         return EventsRepositoryImpl(
             cacheDataStore = cacheDataStore,
             databaseDataStore = databaseDataStore,
             serverDataStore = serverDataStore,
-            networkStateProvider = networkStateProvider
+            networkStateProvider = networkStateProvider,
+            schedulerProvider = schedulerProvider
         )
     }
 

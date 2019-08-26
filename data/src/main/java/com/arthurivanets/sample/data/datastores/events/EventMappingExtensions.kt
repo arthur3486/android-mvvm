@@ -19,17 +19,16 @@
 package com.arthurivanets.sample.data.datastores.events
 
 import com.arthurivanets.commons.data.util.Response
-import com.arthurivanets.sample.data.api.responses.EventsResponse
 import com.arthurivanets.sample.data.datastores.util.*
 import com.arthurivanets.sample.data.util.*
 
 
-internal fun EventsResponse.toSingleItemResponse() : Response<DataEvent, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.EventsResponse.toSingleItemResponse() : Response<DataEvent, Throwable> {
     return this.toSingleItemResponse { it.toDataEvent() }
 }
 
 
-internal fun EventsResponse.toResponse() : Response<List<DataEvent>, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.EventsResponse.toResponse() : Response<List<DataEvent>, Throwable> {
     return this.toResponse { it.toDataEvents() }
 }
 

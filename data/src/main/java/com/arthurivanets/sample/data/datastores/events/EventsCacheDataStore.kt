@@ -17,9 +17,9 @@
 package com.arthurivanets.sample.data.datastores.events
 
 import android.content.Context
-import com.arthurivanets.commons.data.datastore.AbstractDataStore
 import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.commons.data.util.asResult
+import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.datastores.util.take
 import com.arthurivanets.sample.data.util.DataCharacter
 import com.arthurivanets.sample.data.util.DataComics
@@ -45,7 +45,7 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
 
     private fun saveEventInternal(event : DataEvent) : Response<DataEvent, Throwable> {
         eventsCache[event.id] = event
-        return event.asResult()
+        return Response.result(event)
     }
 
 
@@ -56,7 +56,7 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
 
     private fun saveEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> {
         events.forEach { eventsCache[it.id] = it }
-        return events.asResult()
+        return Response.result(events)
     }
 
 
@@ -76,7 +76,7 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
 
 
     private fun deleteEventInternal(event : DataEvent) : Response<DataEvent, Throwable> {
-        return Response(result = eventsCache.remove(event.id))
+        return Response.result(eventsCache.remove(event.id))
     }
 
 
@@ -92,7 +92,7 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
             eventsCache.remove(event.id)?.let { deletedEvents.add(it) }
         }
 
-        return deletedEvents.asResult()
+        return Response.result(deletedEvents)
     }
 
 
@@ -102,7 +102,7 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
 
 
     private fun getEventInternal(id : Long) : Response<DataEvent, Throwable> {
-        return Response(result = eventsCache[id])
+        return Response.result(eventsCache[id])
     }
 
 
@@ -131,7 +131,7 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
 
         charactersCache[eventId] = cachedCharacters
 
-        return characters.asResult()
+        return Response.result(characters)
     }
 
 
@@ -170,7 +170,7 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
     
         comicsCache[eventId] = cachedComics
     
-        return comics.asResult()
+        return Response.result(comics)
     }
     
     

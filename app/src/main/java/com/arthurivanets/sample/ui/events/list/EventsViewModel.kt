@@ -17,13 +17,14 @@
 package com.arthurivanets.sample.ui.events.list
 
 import com.arthurivanets.adapster.databinding.TrackableList
+import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.sample.adapters.events.EventItem
-import com.arthurivanets.sample.ui.base.DataLoadingViewModel
+import com.arthurivanets.sample.domain.entities.Event
 
-interface EventsViewModel : DataLoadingViewModel {
+interface EventsViewModel : BaseViewModel {
 
     val items : TrackableList<Long, EventItem>
 
-    fun onEventClicked(item : EventItem)
+    fun onEventClicked(event : Event)
 
 }

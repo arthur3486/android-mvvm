@@ -17,13 +17,12 @@
 package com.arthurivanets.sample.ui.comics.list
 
 import android.os.Bundle
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arthurivanets.adapster.listeners.OnItemClickListener
-import com.arthurivanets.mvvm.events.ViewModelEvent
+import com.arthurivanets.mvvm.events.Route
+import com.arthurivanets.mvvm.events.ViewState
 import com.arthurivanets.sample.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.comics.ComicsItem
@@ -33,9 +32,12 @@ import com.arthurivanets.sample.adapters.comics.ComicsItemsRecyclerViewAdapter
 import com.arthurivanets.sample.databinding.FragmentComicsBinding
 import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.comics.COMICS_COLUMN_COUNT
 import com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment
 import com.arthurivanets.sample.ui.comics.info.newBundle
+import com.arthurivanets.sample.ui.util.extensions.onItemClick
 import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedTitleTransitionName
 import com.arthurivanets.sample.ui.util.markers.CanScrollToTop
@@ -74,21 +76,13 @@ class ComicsFragment : BaseFragment<FragmentComicsBinding, ComicsViewModel>(), C
 
 
     private fun initAdapter() : ComicsItemsRecyclerViewAdapter {
-        adapter = ComicsItemsRecyclerViewAdapter(
+        return ComicsItemsRecyclerViewAdapter(
             context = context!!,
             items = localViewModel.items,
             resources = itemResources
-        )
-        adapter.onItemClickListener = OnItemClickListener { _, item, _ -> localViewModel.onComicsClicked(item) }
-
-        return adapter
-    }
-    
-    
-    override fun postInit() {
-        super.postInit()
-        
-        onLoadingStateChanged(localViewModel.isLoading)
+        ).apply {
+            onItemClickListener = onItemClick { localViewModel.onComicsClicked(it.itemModel) }
+        }.also { adapter = it }
     }
     
     
@@ -101,25 +95,43 @@ class ComicsFragment : BaseFragment<FragmentComicsBinding, ComicsViewModel>(), C
     }
     
     
-    override fun onRegisterObservables() {
-        localViewModel.loadingStateHolder.register(::onLoadingStateChanged)
-    }
-    
-    
-    private fun onLoadingStateChanged(isLoading : Boolean) {
-        progress_bar.isVisible = isLoading
-    }
-
-
-    override fun onViewModelEvent(event : ViewModelEvent<*>) {
-        super.onViewModelEvent(event)
-
-        when(event) {
-            is ComicsViewModelEvents.OpenComicsInfoScreen -> event.data?.let(::onOpenComicsInfoScreen)
+    override fun onViewStateChanged(state : ViewState<*>) {
+        when(state) {
+            is GeneralViewStates.Idle -> onIdleState()
+            is GeneralViewStates.Loading -> onLoadingState()
+            is GeneralViewStates.Success -> onSuccessState()
+            is GeneralViewStates.Error -> onErrorState()
         }
     }
-
-
+    
+    
+    private fun onIdleState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    private fun onLoadingState() {
+        progress_bar.isVisible = true
+    }
+    
+    
+    private fun onSuccessState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    private fun onErrorState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    override fun onRoute(route : Route<*>) {
+        when(route) {
+            is MarvelRoutes.ComicsInfoScreen -> route.payload?.let(::onOpenComicsInfoScreen)
+        }
+    }
+    
+    
     private fun onOpenComicsInfoScreen(comics : Comics) {
         val viewHolder = (getItemViewHolder(comics) ?: return)
         

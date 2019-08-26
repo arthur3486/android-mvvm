@@ -18,6 +18,7 @@ package com.arthurivanets.sample.domain.di.modules
 
 import android.content.Context
 import com.arthurivanets.commons.network.NetworkStateProvider
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
 import com.arthurivanets.sample.data.datastores.DataStoreFactory
 import com.arthurivanets.sample.data.datastores.comics.ComicsDataStore
 import com.arthurivanets.sample.data.datastores.comics.ComicsDataStoreFactory
@@ -61,12 +62,14 @@ class ComicsModule {
     fun provideRepository(@Source(Source.Type.CACHE) cacheDataStore : ComicsDataStore,
                           @Source(Source.Type.DATABASE) databaseDataStore : ComicsDataStore,
                           @Source(Source.Type.SERVER) serverDataStore : ComicsDataStore,
-                          networkStateProvider : NetworkStateProvider) : ComicsRepository {
+                          networkStateProvider : NetworkStateProvider,
+                          schedulerProvider : SchedulerProvider) : ComicsRepository {
         return ComicsRepositoryImpl(
             cacheDataStore = cacheDataStore,
             databaseDataStore = databaseDataStore,
             serverDataStore = serverDataStore,
-            networkStateProvider = networkStateProvider
+            networkStateProvider = networkStateProvider,
+            schedulerProvider = schedulerProvider
         )
     }
 

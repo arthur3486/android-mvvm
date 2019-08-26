@@ -16,8 +16,8 @@
 
 package com.arthurivanets.sample.data.datastores.events
 
-import com.arthurivanets.commons.data.datastore.DataStore
 import com.arthurivanets.commons.data.util.Response
+import com.arthurivanets.sample.data.datastores.base.DataStore
 import com.arthurivanets.sample.data.util.DataCharacter
 import com.arthurivanets.sample.data.util.DataComics
 import com.arthurivanets.sample.data.util.DataEvent

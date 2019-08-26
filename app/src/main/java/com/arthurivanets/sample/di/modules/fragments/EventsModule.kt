@@ -16,6 +16,7 @@
 
 package com.arthurivanets.sample.di.modules.fragments
 
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
 import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.events.EventsRepository
 import com.arthurivanets.sample.ui.events.info.EventInfoFragment
@@ -33,18 +34,26 @@ class EventsModule {
 
     @Provides
     fun provideEventsViewModel(fragment : EventsFragment,
-                               eventsRepository : EventsRepository) : EventsViewModel {
+                               eventsRepository : EventsRepository,
+                               schedulerProvider : SchedulerProvider) : EventsViewModel {
         return fragment.provideViewModel {
-            EventsViewModelImpl(eventsRepository)
+            EventsViewModelImpl(
+                eventsRepository = eventsRepository,
+                schedulerProvider = schedulerProvider
+            )
         }
     }
 
 
     @Provides
     fun provideEventInfoViewModel(fragment : EventInfoFragment,
-                                  eventsRepository : EventsRepository) : EventInfoViewModel {
+                                  eventsRepository : EventsRepository,
+                                  schedulerProvider : SchedulerProvider) : EventInfoViewModel {
         return fragment.provideViewModel {
-            EventInfoViewModelImpl(eventsRepository)
+            EventInfoViewModelImpl(
+                eventsRepository = eventsRepository,
+                schedulerProvider = schedulerProvider
+            )
         }
     }
 

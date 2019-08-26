@@ -25,11 +25,10 @@ import com.arthurivanets.sample.ui.base.BaseFragment
 /**
  *
  */
-abstract class BaseViewPagerAdapter(fragmentManager : FragmentManager) : FragmentPagerAdapter(fragmentManager), CanHandleBackPressEvents {
+abstract class BaseViewPagerAdapter(fragmentManager : FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT), CanHandleBackPressEvents {
 
 
-    protected val fragmentManager : FragmentManager = fragmentManager
-    protected val fragmentList = ArrayList<BaseFragment<*, *>>()
+    private val fragmentList = ArrayList<BaseFragment<*, *>>()
 
 
     fun addFragment(fragment : BaseFragment<*, *>) {
@@ -47,16 +46,11 @@ abstract class BaseViewPagerAdapter(fragmentManager : FragmentManager) : Fragmen
     }
 
 
-    override fun getItemId(position : Int) : Long {
-        return position.toLong()
-    }
-
-
     override fun getCount() : Int {
         return fragmentList.size
     }
-
-
+    
+    
     override fun onBackPressed() : Boolean {
         for(fragment in fragmentList) {
             if(fragment.onBackPressed()) {

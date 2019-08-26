@@ -18,8 +18,7 @@ package com.arthurivanets.sample
 
 import android.os.Looper
 import android.util.Log
-import com.arthurivanets.sample.data.api.MarvelApi
-import com.arthurivanets.sample.data.api.util.RequestAuthorizer
+import com.arthurivanets.marvelapi.MarvelApi
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.plugins.RxJavaPlugins
@@ -40,15 +39,10 @@ class MarvelApplication : BaseApplication() {
 
 
     private fun initMarvelApi() {
-        MarvelApi.INSTANCE.apply {
-            setAuthorizer(
-                RequestAuthorizer(
-                    publicKey = BuildConfig.API_PUBLIC_KEY,
-                    privateKey = BuildConfig.API_PRIVATE_KEY
-                )
-            )
-            enableDebugging()
-        }
+        MarvelApi.INSTANCE.init(
+            publicKey = BuildConfig.API_PUBLIC_KEY,
+            privateKey = BuildConfig.API_PRIVATE_KEY
+        )
     }
 
 

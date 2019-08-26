@@ -18,19 +18,25 @@ package com.arthurivanets.sample.ui.comics.list
 
 import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
 import com.arthurivanets.commons.data.rx.ktx.resultOrError
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.comics.ComicsItem
 import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.domain.repositories.comics.ComicsRepository
-import com.arthurivanets.sample.ui.base.AbstractDataLoadingViewModel
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.comics.DEFAULT_COMICS_LOADING_LIMIT
 
 class ComicsViewModelImpl(
-    private val comicsRepository : ComicsRepository
-) : AbstractDataLoadingViewModel(), ComicsViewModel {
+    private val comicsRepository : ComicsRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel(), ComicsViewModel {
 
 
     override val items = ObservableTrackableArrayList<Long, ComicsItem>()
+    
+    private var isDataLoading = false
 
 
     override fun onStart() {
@@ -40,8 +46,8 @@ class ComicsViewModelImpl(
     }
 
 
-    override fun onComicsClicked(item : ComicsItem) {
-        dispatchEvent(ComicsViewModelEvents.OpenComicsInfoScreen(item.itemModel))
+    override fun onComicsClicked(comics : Comics) {
+        route(MarvelRoutes.ComicsInfoScreen(comics))
     }
 
 
@@ -53,29 +59,35 @@ class ComicsViewModelImpl(
 
 
     private fun loadData() {
-        if(isLoading) {
+        if(isDataLoading) {
             return
         }
-
-        isLoading = true
+    
+        isDataLoading = true
+        
+        changeViewState(GeneralViewStates.Loading<Unit>())
 
         comicsRepository.getComics(0, DEFAULT_COMICS_LOADING_LIMIT)
             .resultOrError()
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers(schedulerProvider)
             .subscribe(::onLoadedSuccessfully, ::onLoadingFailed)
             .manageLongLivingDisposable()
     }
 
 
     private fun onLoadedSuccessfully(comics : List<Comics>) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
 
         comics.forEach { items.addOrUpdate(ComicsItem(it)) }
     }
 
 
     private fun onLoadingFailed(throwable : Throwable) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

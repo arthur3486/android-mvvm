@@ -3,7 +3,7 @@ apply from: "../common/constants.gradle"
 ext {
     // Kotlin
     kotlinDependencies = dependencies([
-        kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+        kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     ])
 
     // Android Core
@@ -33,8 +33,8 @@ ext {
 
     // Navigation
     navigationDependencies = dependencies([
-        navigationFragmentKtx: "android.arch.navigation:navigation-fragment-ktx:${rootProject.navigationVersion}",
-        navigationUiKtx: "android.arch.navigation:navigation-ui-ktx:${rootProject.navigationVersion}"
+        navigationFragmentKtx: "androidx.navigation:navigation-fragment-ktx:${rootProject.navigationVersion}",
+        navigationUiKtx: "androidx.navigation:navigation-ui-ktx:${rootProject.navigationVersion}"
     ])
 
     // Dagger Annotation Processing
@@ -47,8 +47,7 @@ ext {
     daggerDependencies = dependencies([
         dagger: "com.google.dagger:dagger:${rootProject.daggerVersion}",
         daggerAndroid: "com.google.dagger:dagger-android:${rootProject.daggerVersion}",
-        daggerAndroidSupport: "com.google.dagger:dagger-android-support:${rootProject.daggerVersion}",
-        daggerAndroidX: "com.arthurivanets.dagger.androidx:dagger-androidx:${rootProject.daggerAndroidXVersion}"
+        daggerAndroidSupport: "com.google.dagger:dagger-android-support:${rootProject.daggerVersion}"
     ])
 
     // Rx Java
@@ -59,8 +58,7 @@ ext {
 
     // Rx Bus
     rxBusDependencies = dependencies([
-        rxBus: "com.arthurivanets.rxbus:rxbus:${rootProject.rxBusVersion}",
-        rxBusAndroid: "com.arthurivanets.rxbus:rxbus-android:${rootProject.rxBusVersion}"
+        rxBus: "com.arthurivanets.rxbus:rxbus:${rootProject.rxBusVersion}"
     ])
 
     // Jackson
@@ -141,11 +139,20 @@ ext {
     commonsDependencies = dependencies([
         commonsCore: "com.arthurivanets.commons:commons-core:${rootProject.commonsVersion}",
         commonsKtx: "com.arthurivanets.commons:commons-ktx:${rootProject.commonsVersion}",
-        commonsNetwork: "com.arthurivanets.commons:commons-network:${rootProject.commonsVersion}",
-        commonsRxKtx: "com.arthurivanets.commons:commons-rx-ktx:${rootProject.commonsVersion}",
+        commonsNetwork: "com.arthurivanets.commons:commons-network:${rootProject.commonsVersion}"
+    ])
+
+    // Commons Data
+    commonsDataDependencies = dependencies([
         commonsData: "com.arthurivanets.commons:commons-data:${rootProject.commonsVersion}",
         commonsDataRxKtx: "com.arthurivanets.commons:commons-data-rx-ktx:${rootProject.commonsVersion}",
         commonsDataNetworkKtx: "com.arthurivanets.commons:commons-data-network-ktx:${rootProject.commonsVersion}"
+    ])
+
+    // Commons Rx
+    commonsRxJavaDependencies = dependencies([
+        commonsRx: "com.arthurivanets.commons:commons-rx:${rootProject.commonsVersion}",
+        commonsRxKtx: "com.arthurivanets.commons:commons-rx-ktx:${rootProject.commonsVersion}"
     ])
 
     // Unit Testing

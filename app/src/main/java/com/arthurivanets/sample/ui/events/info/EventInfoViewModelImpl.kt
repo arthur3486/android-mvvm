@@ -20,8 +20,10 @@ import android.os.Bundle
 import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
 import com.arthurivanets.commons.data.rx.ktx.resultOrError
 import com.arthurivanets.commons.ktx.extract
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
 import com.arthurivanets.commons.rx.ktx.combineResults
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.characters.CharacterItem
 import com.arthurivanets.sample.adapters.characters.SmallCharacterItem
 import com.arthurivanets.sample.adapters.comics.ComicsItem
@@ -30,20 +32,23 @@ import com.arthurivanets.sample.domain.entities.Character
 import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.domain.entities.Event
 import com.arthurivanets.sample.domain.repositories.events.EventsRepository
-import com.arthurivanets.sample.ui.base.AbstractDataLoadingViewModel
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.events.DEFAULT_EVENT_INFO_CHARACTER_LOADING_LIMIT
 import com.arthurivanets.sample.ui.events.DEFAULT_EVENT_INFO_COMICS_LOADING_LIMIT
 import io.reactivex.Single
 
 class EventInfoViewModelImpl(
-    private val eventsRepository : EventsRepository
-) : AbstractDataLoadingViewModel(), EventInfoViewModel {
+    private val eventsRepository : EventsRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel(), EventInfoViewModel {
     
     
-    private var event = Event()
-    
+    override var event = Event()
     override val comicsItems = ObservableTrackableArrayList<Long, ComicsItem>()
     override val characterItems = ObservableTrackableArrayList<Long, CharacterItem>()
+    
+    private var isDataLoading = false
     
     
     override fun onStart() {
@@ -69,23 +74,13 @@ class EventInfoViewModelImpl(
     }
     
     
-    override fun onComicsClicked(item : ComicsItem) {
-        dispatchEvent(EventInfoViewModelEvents.OpenComicsInfoScreen(item.itemModel))
+    override fun onComicsClicked(comics : Comics) {
+        route(MarvelRoutes.ComicsInfoScreen(comics))
     }
     
     
-    override fun onCharacterClicked(item : CharacterItem) {
-        dispatchEvent(EventInfoViewModelEvents.OpenCharacterInfoScreen(item.itemModel))
-    }
-    
-    
-    override fun setEvent(event : Event) {
-        this.event = event
-    }
-    
-    
-    override fun getEvent() : Event {
-        return this.event
+    override fun onCharacterClicked(character : Character) {
+        route(MarvelRoutes.CharacterInfoScreen(character))
     }
     
     
@@ -97,11 +92,13 @@ class EventInfoViewModelImpl(
     
     
     private fun loadCharacters() {
-        if(isLoading) {
+        if(isDataLoading) {
             return
         }
+    
+        isDataLoading = true
         
-        isLoading = true
+        changeViewState(GeneralViewStates.Loading<Unit>())
         
         Single.zip(
             eventsRepository.getEventComics(
@@ -116,14 +113,16 @@ class EventInfoViewModelImpl(
             ).resultOrError(),
             combineResults()
         )
-        .typicalBackgroundWorkSchedulers()
+        .applyIOWorkSchedulers(schedulerProvider)
         .subscribe(::onDataLoadedSuccessfully, ::onDataLoadingFailed)
         .manageLongLivingDisposable()
     }
     
     
     private fun onDataLoadedSuccessfully(data : Pair<List<Comics>, List<Character>>) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
         
         data.first.forEach { comicsItems.addOrUpdate(SmallComicsItem(it)) }
         data.second.forEach { characterItems.addOrUpdate(SmallCharacterItem(it)) }
@@ -131,7 +130,9 @@ class EventInfoViewModelImpl(
     
     
     private fun onDataLoadingFailed(throwable : Throwable) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
         
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

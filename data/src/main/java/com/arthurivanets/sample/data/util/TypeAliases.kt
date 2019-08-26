@@ -19,27 +19,27 @@ package com.arthurivanets.sample.data.util
 
 // Character
 internal typealias DataCharacter = com.arthurivanets.sample.data.entities.Character
-internal typealias ApiCharacter = com.arthurivanets.sample.data.api.model.Character
+internal typealias ApiCharacter = com.arthurivanets.marvelapi.model.Character
 internal typealias DatabaseCharacter = com.arthurivanets.sample.data.db.entities.Character
 
 // Event
 internal typealias DataEvent = com.arthurivanets.sample.data.entities.Event
-internal typealias ApiEvent = com.arthurivanets.sample.data.api.model.Event
+internal typealias ApiEvent = com.arthurivanets.marvelapi.model.Event
 internal typealias DatabaseEvent = com.arthurivanets.sample.data.db.entities.Event
 
 // Comics
 internal typealias DataComics = com.arthurivanets.sample.data.entities.Comics
-internal typealias ApiComics = com.arthurivanets.sample.data.api.model.Comics
+internal typealias ApiComics = com.arthurivanets.marvelapi.model.Comics
 internal typealias DatabaseComics = com.arthurivanets.sample.data.db.entities.Comics
 
 // Creator
 internal typealias DataCreator = com.arthurivanets.sample.data.entities.Creator
-internal typealias ApiCreator = com.arthurivanets.sample.data.api.model.Creator
+internal typealias ApiCreator = com.arthurivanets.marvelapi.model.Creator
 
 // Image
 internal typealias DataImage = com.arthurivanets.sample.data.entities.Image
-internal typealias ApiImage = com.arthurivanets.sample.data.api.model.Image
+internal typealias ApiImage = com.arthurivanets.marvelapi.model.Image
 
 // Url
 internal typealias DataUrl = com.arthurivanets.sample.data.entities.Url
-internal typealias ApiUrl = com.arthurivanets.sample.data.api.model.Url
+internal typealias ApiUrl = com.arthurivanets.marvelapi.model.Url

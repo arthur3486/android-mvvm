@@ -21,8 +21,8 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arthurivanets.adapster.listeners.OnItemClickListener
-import com.arthurivanets.mvvm.events.ViewModelEvent
+import com.arthurivanets.mvvm.events.Route
+import com.arthurivanets.mvvm.events.ViewState
 import com.arthurivanets.sample.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.characters.CharacterItem
@@ -32,9 +32,12 @@ import com.arthurivanets.sample.adapters.characters.CharacterItemsRecyclerViewAd
 import com.arthurivanets.sample.databinding.FragmentCharactersBinding
 import com.arthurivanets.sample.domain.entities.Character
 import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.characters.CHARACTERS_COLUMN_COUNT
 import com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment
 import com.arthurivanets.sample.ui.characters.info.newBundle
+import com.arthurivanets.sample.ui.util.extensions.onItemClick
 import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedNameTransitionName
 import com.arthurivanets.sample.ui.util.markers.CanScrollToTop
@@ -73,21 +76,13 @@ class CharactersFragment : BaseFragment<FragmentCharactersBinding, CharactersVie
 
 
     private fun initAdapter() : CharacterItemsRecyclerViewAdapter {
-        adapter = CharacterItemsRecyclerViewAdapter(
+        return CharacterItemsRecyclerViewAdapter(
             context = context!!,
             items = localViewModel.items,
             resources = itemResources
-        )
-        adapter.onItemClickListener = OnItemClickListener { _, item, _ -> localViewModel.onCharacterClicked(item) }
-
-        return adapter
-    }
-    
-    
-    override fun postInit() {
-        super.postInit()
-        
-        onLoadingStateChanged(localViewModel.isLoading)
+        ).apply {
+            onItemClickListener = onItemClick { localViewModel.onCharacterClicked(it.itemModel) }
+        }.also { adapter = it }
     }
     
     
@@ -100,21 +95,39 @@ class CharactersFragment : BaseFragment<FragmentCharactersBinding, CharactersVie
     }
     
     
-    override fun onRegisterObservables() {
-        localViewModel.loadingStateHolder.register(::onLoadingStateChanged)
+    override fun onViewStateChanged(state : ViewState<*>) {
+        when(state) {
+            is GeneralViewStates.Idle -> onIdleState()
+            is GeneralViewStates.Loading -> onLoadingState()
+            is GeneralViewStates.Success -> onSuccessState()
+            is GeneralViewStates.Error -> onErrorState()
+        }
     }
     
     
-    private fun onLoadingStateChanged(isLoading : Boolean) {
-        progress_bar.isVisible = isLoading
+    private fun onIdleState() {
+        progress_bar.isVisible = false
     }
-
-
-    override fun onViewModelEvent(event : ViewModelEvent<*>) {
-        super.onViewModelEvent(event)
-
-        when(event) {
-            is CharactersViewModelEvents.OpenCharacterInfoScreen -> event.data?.let(::onOpenCharacterInfoScreen)
+    
+    
+    private fun onLoadingState() {
+        progress_bar.isVisible = true
+    }
+    
+    
+    private fun onSuccessState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    private fun onErrorState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    override fun onRoute(route : Route<*>) {
+        when(route) {
+            is MarvelRoutes.CharacterInfoScreen -> route.payload?.let(::onOpenCharacterInfoScreen)
         }
     }
     

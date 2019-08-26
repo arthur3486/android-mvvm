@@ -17,13 +17,14 @@
 package com.arthurivanets.sample.ui.characters.list
 
 import com.arthurivanets.adapster.databinding.TrackableList
+import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.sample.adapters.characters.CharacterItem
-import com.arthurivanets.sample.ui.base.DataLoadingViewModel
+import com.arthurivanets.sample.domain.entities.Character
 
-interface CharactersViewModel : DataLoadingViewModel {
+interface CharactersViewModel : BaseViewModel {
 
     val items : TrackableList<Long, CharacterItem>
 
-    fun onCharacterClicked(item : CharacterItem)
+    fun onCharacterClicked(character : Character)
 
 }

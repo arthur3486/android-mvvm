@@ -19,7 +19,6 @@
 package com.arthurivanets.sample.data.datastores.characters
 
 import com.arthurivanets.commons.data.util.Response
-import com.arthurivanets.sample.data.api.responses.CharactersResponse
 import com.arthurivanets.sample.data.datastores.util.toDataImage
 import com.arthurivanets.sample.data.datastores.util.toDataUrls
 import com.arthurivanets.sample.data.datastores.util.toResponse
@@ -27,12 +26,12 @@ import com.arthurivanets.sample.data.datastores.util.toSingleItemResponse
 import com.arthurivanets.sample.data.util.*
 
 
-internal fun CharactersResponse.toSingleItemResponse() : Response<DataCharacter, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.CharactersResponse.toSingleItemResponse() : Response<DataCharacter, Throwable> {
     return this.toSingleItemResponse { it.toDataCharacter() }
 }
 
 
-internal fun CharactersResponse.toResponse() : Response<List<DataCharacter>, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.CharactersResponse.toResponse() : Response<List<DataCharacter>, Throwable> {
     return this.toResponse { it.toDataCharacters() }
 }
 

@@ -21,8 +21,8 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arthurivanets.adapster.listeners.OnItemClickListener
-import com.arthurivanets.mvvm.events.ViewModelEvent
+import com.arthurivanets.mvvm.events.Route
+import com.arthurivanets.mvvm.events.ViewState
 import com.arthurivanets.sample.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.events.EventItem
@@ -32,8 +32,11 @@ import com.arthurivanets.sample.adapters.events.EventItemsRecyclerViewAdapter
 import com.arthurivanets.sample.databinding.FragmentEventsBinding
 import com.arthurivanets.sample.domain.entities.Event
 import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.events.info.EventInfoFragment
 import com.arthurivanets.sample.ui.events.info.newBundle
+import com.arthurivanets.sample.ui.util.extensions.onItemClick
 import com.arthurivanets.sample.ui.util.extensions.sharedDescriptionTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedTitleTransitionName
@@ -73,21 +76,13 @@ class EventsFragment : BaseFragment<FragmentEventsBinding, EventsViewModel>(), C
 
 
     private fun initAdapter() : EventItemsRecyclerViewAdapter {
-        adapter = EventItemsRecyclerViewAdapter(
+        return EventItemsRecyclerViewAdapter(
             context = context!!,
             items = localViewModel.items,
             resources = itemResources
-        )
-        adapter.onItemClickListener = OnItemClickListener { _, item, _ -> localViewModel.onEventClicked(item) }
-
-        return adapter
-    }
-    
-    
-    override fun postInit() {
-        super.postInit()
-        
-        onLoadingStateChanged(localViewModel.isLoading)
+        ).apply {
+            onItemClickListener = onItemClick { localViewModel.onEventClicked(it.itemModel) }
+        }.also { adapter = it }
     }
     
     
@@ -100,21 +95,39 @@ class EventsFragment : BaseFragment<FragmentEventsBinding, EventsViewModel>(), C
     }
     
     
-    override fun onRegisterObservables() {
-        localViewModel.loadingStateHolder.register(::onLoadingStateChanged)
+    override fun onViewStateChanged(state : ViewState<*>) {
+        when(state) {
+            is GeneralViewStates.Idle -> onIdleState()
+            is GeneralViewStates.Loading -> onLoadingState()
+            is GeneralViewStates.Success -> onSuccessState()
+            is GeneralViewStates.Error -> onErrorState()
+        }
     }
     
     
-    private fun onLoadingStateChanged(isLoading : Boolean) {
-        progress_bar.isVisible = isLoading
+    private fun onIdleState() {
+        progress_bar.isVisible = false
     }
-
-
-    override fun onViewModelEvent(event : ViewModelEvent<*>) {
-        super.onViewModelEvent(event)
-
-        when(event) {
-            is EventsViewModelEvents.OpenEventInfoScreen -> event.data?.let(::onOpenEventInfoScreen)
+    
+    
+    private fun onLoadingState() {
+        progress_bar.isVisible = true
+    }
+    
+    
+    private fun onSuccessState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    private fun onErrorState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    override fun onRoute(route : Route<*>) {
+        when(route) {
+            is MarvelRoutes.EventInfoScreen -> route.payload?.let(::onOpenEventInfoScreen)
         }
     }
     

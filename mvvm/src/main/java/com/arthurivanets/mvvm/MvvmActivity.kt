@@ -25,14 +25,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.databinding.ViewDataBinding
-import com.arthurivanets.mvvm.events.GeneralViewModelEvents
-import com.arthurivanets.mvvm.events.ViewModelEvent
+import com.arthurivanets.mvvm.events.Command
+import com.arthurivanets.mvvm.events.Route
+import com.arthurivanets.mvvm.events.ViewState
 import com.arthurivanets.mvvm.markers.CanFetchExtras
 import com.arthurivanets.mvvm.markers.CanHandleNewIntent
 import com.arthurivanets.mvvm.util.currentFragment
 import com.arthurivanets.mvvm.util.handleBackPressEvent
 import com.arthurivanets.mvvm.util.handleNewIntent
 import com.arthurivanets.mvvm.util.onPropertyChanged
+import com.arthurivanets.rxbus.register
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
@@ -48,8 +50,9 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
 
     private var viewDataBinding : VDB? = null
     private var viewModel : VM? = null
-
-    private val eventConsumerDisposables = CompositeDisposable()
+    
+    private val viewStateSubscriptionDisposables = CompositeDisposable()
+    private val subscriptionDisposables = CompositeDisposable()
     private val registeredObservables = HashSet<Pair<Observable.OnPropertyChangedCallback, Observable>>()
 
 
@@ -62,6 +65,7 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
         init(savedInstanceState)
         postInit()
         performDataBinding()
+        subscribeViewStateObservers()
     }
 
 
@@ -173,7 +177,7 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
 
         viewModel?.onStop()
 
-        unsubscribeEventConsumers()
+        disposeSubscriptions()
         unregisterFields()
     }
 
@@ -240,6 +244,7 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
 
 
     final override fun onDestroy() {
+        disposeViewStateSubscriptions()
         onRecycle()
         super.onDestroy()
     }
@@ -251,30 +256,81 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     protected open fun onRecycle() {
         // to be overridden
     }
-
-
+    
+    
     /**
-     * Gets called whenever the new [BaseViewModel] event arrives.
+     * Gets called whenever the new [Command] arrives from the [BaseViewModel].
      *
-     * @param event the newly arrived [BaseViewModel] event
+     * Override this method to provide the handling of the ViewModel-specific commands.
+     *
+     * @param command the newly arrived [Command]
      */
     @CallSuper
-    protected open fun onViewModelEvent(event : ViewModelEvent<*>) {
-        when(event) {
-            is GeneralViewModelEvents.ConfirmBackButtonPress -> onBackPressed()
-            is GeneralViewModelEvents.FinishActivity -> finish()
-        }
+    protected open fun onHandleCommand(command : Command<*>) {
+        // to be overridden
     }
-
-
+    
+    
+    /**
+     * Gets called whenever the [ViewState] change event arrives from the [BaseViewModel].
+     *
+     * Override this method to provide the handling of the UI state changes
+     * based on the emitted [ViewState] change events.
+     *
+     * @param state the new [ViewState]
+     */
+    protected open fun onViewStateChanged(state : ViewState<*>) {
+        // to be overridden
+    }
+    
+    
+    /**
+     * Gets called whenever the new [Route] event arrives from the [BaseViewModel].
+     *
+     * Override this method to provide the handling of the navigation between the application screens
+     * based on the emitted [Route] events.
+     *
+     * @param route the newly arrived [Route]
+     */
+    protected open fun onRoute(route : Route<*>) {
+        // to be overridden
+    }
+    
+    
+    private fun subscribeViewStateObservers() {
+        viewModel?.viewStateBus
+            ?.register(Consumer(::onViewStateChanged))
+            ?.manageViewStateSubscription()
+    }
+    
+    
+    private fun disposeViewStateSubscriptions() {
+        viewStateSubscriptionDisposables.clear()
+    }
+    
+    
     private fun subscribeEventConsumers() {
-        viewModel?.subscribe(Consumer(::onViewModelEvent))
+        subscribeToViewModelCommandBus()
+        subscribeToViewModelRouteBus()
+    }
+    
+    
+    private fun subscribeToViewModelCommandBus() {
+        viewModel?.commandBus
+            ?.register(Consumer(::onHandleCommand))
             ?.manageLifecycle()
     }
-
-
-    private fun unsubscribeEventConsumers() {
-        eventConsumerDisposables.clear()
+    
+    
+    private fun subscribeToViewModelRouteBus() {
+        viewModel?.routeBus
+            ?.register(Consumer(::onRoute))
+            ?.manageLifecycle()
+    }
+    
+    
+    private fun disposeSubscriptions() {
+        subscriptionDisposables.clear()
     }
 
 
@@ -311,10 +367,15 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
      * @return the initialized [BaseViewModel]
      */
     abstract fun getViewModel() : VM
-
-
+    
+    
+    private fun Disposable.manageViewStateSubscription() {
+        viewStateSubscriptionDisposables.add(this)
+    }
+    
+    
     private fun Disposable.manageLifecycle() {
-        eventConsumerDisposables.add(this)
+        subscriptionDisposables.add(this)
     }
 
 

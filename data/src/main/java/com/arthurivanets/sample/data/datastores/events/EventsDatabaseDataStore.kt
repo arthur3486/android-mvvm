@@ -17,10 +17,10 @@
 package com.arthurivanets.sample.data.datastores.events
 
 import android.content.Context
-import com.arthurivanets.commons.data.datastore.AbstractDataStore
 import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.commons.data.util.resultOrError
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.db.Database
 import com.arthurivanets.sample.data.util.DataCharacter
 import com.arthurivanets.sample.data.util.DataComics
@@ -35,12 +35,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun saveEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { saveEventInternal(event) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun saveEventInternal(event : DataEvent) : Response<DataEvent, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .eventsTable()
             .save(event.toDatabaseEvent())
 
@@ -50,12 +50,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun saveEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { saveEventsInternal(events) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun saveEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .eventsTable()
             .save(events.toDatabaseEvents())
 
@@ -65,12 +65,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun updateEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { updateEventInternal(event) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun updateEventInternal(event : DataEvent) : Response<DataEvent, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .eventsTable()
             .update(event.toDatabaseEvent())
 
@@ -80,12 +80,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun updateEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { updateEventsInternal(events) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun updateEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .eventsTable()
             .update(events.toDatabaseEvents())
 
@@ -95,12 +95,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun deleteEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { deleteEventInternal(event) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun deleteEventInternal(event : DataEvent) : Response<DataEvent, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .eventsTable()
             .delete(event.toDatabaseEvent())
 
@@ -110,12 +110,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun deleteEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { deleteEventsInternal(events) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun deleteEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .eventsTable()
             .delete(events.toDatabaseEvents())
 
@@ -125,12 +125,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun getEvent(id : Long) : Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { getEventInternal(id) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun getEventInternal(id : Long) : Response<DataEvent, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .eventsTable()
             .getById(id)
             ?.toDataEvent()
@@ -139,12 +139,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun getEvents(offset : Int, limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { getEventsInternal(offset, limit) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun getEventsInternal(offset : Int, limit : Int) : Response<List<DataEvent>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .eventsTable()
             .get(offset = offset, limit = limit)
             .fromDatabaseToDataEvents()

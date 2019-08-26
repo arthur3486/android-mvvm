@@ -17,11 +17,10 @@
 package com.arthurivanets.sample.data.datastores.events
 
 import android.content.Context
-import com.arthurivanets.commons.data.datastore.AbstractDataStore
 import com.arthurivanets.commons.data.util.Response
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
 import com.arthurivanets.commons.rx.ktx.asSingle
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
-import com.arthurivanets.sample.data.api.MarvelApi
+import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.datastores.characters.toResponse
 import com.arthurivanets.sample.data.datastores.comics.toResponse
 import com.arthurivanets.sample.data.util.DataCharacter
@@ -63,19 +62,19 @@ internal class EventsServerDataStore(context : Context) : AbstractDataStore(cont
 
 
     override fun getEvent(id : Long) : Single<Response<DataEvent, Throwable>> {
-        return MarvelApi.INSTANCE.events.getEvent(id)
+        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.events.getEvent(id)
             .flatMap { it.toSingleItemResponse().asSingle() }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     override fun getEvents(offset : Int, limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
-        return MarvelApi.INSTANCE.events.getEvents(
+        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.events.getEvents(
             offset = offset,
             limit = limit
         )
         .flatMap { it.toResponse().asSingle() }
-        .typicalBackgroundWorkSchedulers()
+        .applyIOWorkSchedulers()
     }
 
 
@@ -87,13 +86,13 @@ internal class EventsServerDataStore(context : Context) : AbstractDataStore(cont
     override fun getEventCharacters(eventId : Long,
                                     offset : Int,
                                     limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
-        return MarvelApi.INSTANCE.events.getEventCharacters(
+        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.events.getEventCharacters(
             eventId = eventId,
             offset = offset,
             limit = limit
         )
         .flatMap { it.toResponse().asSingle() }
-        .typicalBackgroundWorkSchedulers()
+        .applyIOWorkSchedulers()
     }
     
     
@@ -105,13 +104,13 @@ internal class EventsServerDataStore(context : Context) : AbstractDataStore(cont
     override fun getEventComics(eventId : Long,
                                 offset : Int,
                                 limit : Int) : Single<Response<List<DataComics>, Throwable>> {
-        return MarvelApi.INSTANCE.events.getEventComics(
+        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.events.getEventComics(
             eventId = eventId,
             offset = offset,
             limit = limit
         )
         .flatMap { it.toResponse().asSingle() }
-        .typicalBackgroundWorkSchedulers()
+        .applyIOWorkSchedulers()
     }
     
     

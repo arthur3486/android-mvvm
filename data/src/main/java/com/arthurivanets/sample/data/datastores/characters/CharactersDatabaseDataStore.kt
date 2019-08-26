@@ -17,10 +17,10 @@
 package com.arthurivanets.sample.data.datastores.characters
 
 import android.content.Context
-import com.arthurivanets.commons.data.datastore.AbstractDataStore
 import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.commons.data.util.resultOrError
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.db.Database
 import com.arthurivanets.sample.data.util.DataCharacter
 import com.arthurivanets.sample.data.util.DataComics
@@ -34,12 +34,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
 
     override fun saveCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
         return Single.fromCallable { saveCharacterInternal(character) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun saveCharacterInternal(character : DataCharacter) : Response<DataCharacter, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .charactersTable()
             .save(character.toDatabaseCharacter())
 
@@ -49,12 +49,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
 
     override fun saveCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { saveCharactersInternal(characters) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun saveCharactersInternal(characters : List<DataCharacter>) : Response<List<DataCharacter>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .charactersTable()
             .save(characters.toDatabaseCharacters())
 
@@ -64,12 +64,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
 
     override fun updateCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
         return Single.fromCallable { updateCharacterInternal(character) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun updateCharacterInternal(character : DataCharacter) : Response<DataCharacter, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .charactersTable()
             .update(character.toDatabaseCharacter())
 
@@ -79,12 +79,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
 
     override fun updateCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { updateCharacterInternal(characters) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun updateCharacterInternal(characters : List<DataCharacter>) : Response<List<DataCharacter>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .charactersTable()
             .update(characters.toDatabaseCharacters())
 
@@ -94,12 +94,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
 
     override fun deleteCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
         return Single.fromCallable { deleteCharacterInternal(character) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun deleteCharacterInternal(character : DataCharacter) : Response<DataCharacter, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .charactersTable()
             .delete(character.toDatabaseCharacter())
 
@@ -109,12 +109,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
 
     override fun deleteCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { deleteCharactersInternal(characters) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun deleteCharactersInternal(characters : List<DataCharacter>) : Response<List<DataCharacter>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .charactersTable()
             .delete(characters.toDatabaseCharacters())
 
@@ -124,12 +124,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
 
     override fun getCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
         return Single.fromCallable { getCharacterInternal(id) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun getCharacterInternal(id : Long) : Response<DataCharacter, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .charactersTable()
             .getById(id)
             ?.toDataCharacter()
@@ -138,12 +138,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
 
     override fun getCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { getCharactersInternal(offset, limit) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun getCharactersInternal(offset : Int, limit : Int) : Response<List<DataCharacter>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .charactersTable()
             .get(offset = offset, limit = limit)
             .fromDatabaseToDataCharacters()

@@ -23,7 +23,7 @@
         
         <!-- View Pager -->
         
-        <com.arthurivanets.sample.ui.widget.AdvancedViewPager
+        <com.arthurivanets.sample.ui.widget.NavigationViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

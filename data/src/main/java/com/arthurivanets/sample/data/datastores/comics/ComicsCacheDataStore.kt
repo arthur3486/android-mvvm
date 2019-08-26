@@ -17,9 +17,9 @@
 package com.arthurivanets.sample.data.datastores.comics
 
 import android.content.Context
-import com.arthurivanets.commons.data.datastore.AbstractDataStore
 import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.commons.data.util.asResult
+import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.datastores.util.take
 import com.arthurivanets.sample.data.util.DataCharacter
 import com.arthurivanets.sample.data.util.DataComics
@@ -45,7 +45,7 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
 
     private fun saveComicsInternal(comics : DataComics) : Response<DataComics, Throwable> {
         comicsCache[comics.id] = comics
-        return comics.asResult()
+        return Response.result(comics)
     }
 
 
@@ -56,7 +56,7 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
 
     private fun saveComicsInternal(comics : List<DataComics>) : Response<List<DataComics>, Throwable> {
         comics.forEach { comicsCache[it.id] = it }
-        return comics.asResult()
+        return Response.result(comics)
     }
 
 
@@ -76,7 +76,7 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
 
 
     private fun deleteComicsInternal(comics : DataComics) : Response<DataComics, Throwable> {
-        return Response(result = comicsCache.remove(comics.id))
+        return Response.result(comicsCache.remove(comics.id))
     }
 
 
@@ -92,7 +92,7 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
             comicsCache.remove(singleComics.id)?.let { deletedComics.add(it) }
         }
 
-        return deletedComics.asResult()
+        return Response.result(deletedComics)
     }
 
 
@@ -102,7 +102,7 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
 
 
     private fun getSingleComicsInternal(id : Long) : Response<DataComics, Throwable> {
-        return Response(result = comicsCache[id])
+        return Response.result(comicsCache[id])
     }
 
 
@@ -131,7 +131,7 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
 
         charactersCache[comicsId] = cachedCharacters
 
-        return characters.asResult()
+        return Response.result(characters)
     }
 
 
@@ -170,7 +170,7 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
 
         eventsCache[comicsId] = cachedEvents
 
-        return events.asResult()
+        return Response.result(events)
     }
 
 

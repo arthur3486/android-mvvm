@@ -16,13 +16,35 @@
 
 package com.arthurivanets.mvvm
 
-import com.arthurivanets.mvvm.events.ViewModelEvent
+import com.arthurivanets.mvvm.events.Command
+import com.arthurivanets.mvvm.events.Route
+import com.arthurivanets.mvvm.events.ViewState
 import com.arthurivanets.mvvm.markers.CanHandleBackPressEvents
 import com.arthurivanets.mvvm.markers.CanManageState
 import com.arthurivanets.mvvm.markers.ViewModelLifecycle
-import com.arthurivanets.rxbus.EventSource
+import com.arthurivanets.rxbus.RxBus
 
 /**
  * A base contract used to implement the concrete version of the View Model.
  */
-interface BaseViewModel : ViewModelLifecycle, CanManageState, CanHandleBackPressEvents, EventSource<ViewModelEvent<*>>
+interface BaseViewModel : ViewModelLifecycle, CanManageState, CanHandleBackPressEvents {
+    
+    /**
+     * An [RxBus] that the ViewModel emits the [Command]s through.
+     * (The actual handling of the emitted [Command]s is completely up to the subscribing side (i.e. Activity, Fragment, View))
+     */
+    val commandBus : RxBus<Command<*>>
+    
+    /**
+     * An [RxBus] that the ViewModel notifies about [ViewState] changes through.
+     * (The actual handling of the [ViewState] changes is completely up to the subscribing side (i.e. Activity, Fragment, View))
+     */
+    val viewStateBus : RxBus<ViewState<*>>
+    
+    /**
+     * An [RxBus] that the ViewModel emits the [Route]s through.
+     * (The actual handling of the emitted [Route]s is completely up to the subscribing side (i.e. Activity, Fragment, View))
+     */
+    val routeBus : RxBus<Route<*>>
+    
+}

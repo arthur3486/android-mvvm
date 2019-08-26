@@ -16,21 +16,19 @@
 
 package com.arthurivanets.sample.domain.repositories.characters
 
-import com.arthurivanets.commons.data.eventbus.RepositoryEventBus
 import com.arthurivanets.commons.data.exceptions.NoResultError
 import com.arthurivanets.commons.data.network.ktx.ifNetworkAvailable
-import com.arthurivanets.commons.data.repository.AbstractRepository
 import com.arthurivanets.commons.data.rx.ktx.flatMapOrError
 import com.arthurivanets.commons.data.rx.ktx.successfulResponseOrError
 import com.arthurivanets.commons.data.rx.ktx.withNonEmptyResult
 import com.arthurivanets.commons.data.rx.ktx.withResult
 import com.arthurivanets.commons.data.util.Response
-import com.arthurivanets.commons.data.util.asError
 import com.arthurivanets.commons.network.NetworkStateProvider
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.rxbus.BusEvent
 import com.arthurivanets.sample.data.datastores.characters.CharactersDataStore
+import com.arthurivanets.sample.domain.repositories.base.AbstractRepository
 import com.arthurivanets.sample.domain.repositories.comics.toDomainComicsResponse
-import com.arthurivanets.sample.domain.repositories.util.StubEventBus
 import com.arthurivanets.sample.domain.repositories.util.convertResponse
 import com.arthurivanets.sample.domain.util.DataCharacter
 import com.arthurivanets.sample.domain.util.DataComics
@@ -40,11 +38,12 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 
 internal class CharactersRepositoryImpl(
-    val cacheDataStore : CharactersDataStore,
-    val databaseDataStore : CharactersDataStore,
-    val serverDataStore : CharactersDataStore,
-    val networkStateProvider : NetworkStateProvider
-) : AbstractRepository<RepositoryEventBus>(StubEventBus()), CharactersRepository {
+    private val cacheDataStore : CharactersDataStore,
+    private val databaseDataStore : CharactersDataStore,
+    private val serverDataStore : CharactersDataStore,
+    private val networkStateProvider : NetworkStateProvider,
+    schedulerProvider : SchedulerProvider
+) : AbstractRepository<BusEvent<*>>(schedulerProvider), CharactersRepository {
 
 
     override fun getCharacter(id : Long) : Single<Response<DomainCharacter, Throwable>> {
@@ -54,33 +53,29 @@ internal class CharactersRepositoryImpl(
             getServerCharacter(id)
         )
         .withResult()
-        .first(NoResultError("No Result found.").asError())
-        .typicalBackgroundWorkSchedulers()
+        .first(Response.error(NoResultError("No Result found.")))
+        .flatMapOrError(::createCacheCharacter)
+        .convertResponse { it.toDomainCharacterResponse() }
+        .withAppropriateSchedulers()
     }
 
 
-    private fun getCacheCharacter(id : Long) : Single<Response<DomainCharacter, Throwable>> {
+    private fun getCacheCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
         return this.cacheDataStore.getCharacter(id)
-            .convertResponse { it.toDomainCharacterResponse() }
     }
 
 
-    private fun getDatabaseCharacter(id : Long) : Single<Response<DomainCharacter, Throwable>> {
+    private fun getDatabaseCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
         return this.databaseDataStore.getCharacter(id)
-            .cacheCharacterResponse()
-            .convertResponse { it.toDomainCharacterResponse() }
             .successfulResponseOrError()
     }
 
 
-    private fun getServerCharacter(id : Long) : Single<Response<DomainCharacter, Throwable>> {
+    private fun getServerCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
-            this.serverDataStore.getCharacter(id).flatMapOrError { character ->
-                this.databaseDataStore.saveCharacter(character).successfulResponseOrError()
-            }
-            .cacheCharacterResponse()
-            .convertResponse { it.toDomainCharacterResponse() }
-        )
+            this.serverDataStore.getCharacter(id)
+                .flatMapOrError(::createDatabaseCharacter)
+        ).successfulResponseOrError()
     }
 
 
@@ -91,33 +86,29 @@ internal class CharactersRepositoryImpl(
             getServerCharacters(offset, limit)
         )
         .withNonEmptyResult()
-        .first(NoResultError("No Result found.").asError())
-        .typicalBackgroundWorkSchedulers()
+        .first(Response.result(emptyList()))
+        .flatMapOrError(::createCacheCharacters)
+        .convertResponse { it.toDomainCharactersResponse() }
+        .withAppropriateSchedulers()
     }
 
 
-    private fun getCacheCharacters(offset : Int, limit : Int) : Single<Response<List<DomainCharacter>, Throwable>> {
+    private fun getCacheCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
         return this.cacheDataStore.getCharacters(offset, limit)
-            .convertResponse { it.toDomainCharactersResponse() }
     }
 
 
-    private fun getDatabaseCharacters(offset : Int, limit : Int) : Single<Response<List<DomainCharacter>, Throwable>> {
+    private fun getDatabaseCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
         return this.databaseDataStore.getCharacters(offset, limit)
-            .cacheCharactersResponse()
-            .convertResponse { it.toDomainCharactersResponse() }
             .successfulResponseOrError()
     }
 
 
-    private fun getServerCharacters(offset : Int, limit : Int) : Single<Response<List<DomainCharacter>, Throwable>> {
+    private fun getServerCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
-            this.serverDataStore.getCharacters(offset, limit).flatMapOrError { characters ->
-                this.databaseDataStore.saveCharacters(characters).successfulResponseOrError()
-            }
-            .cacheCharactersResponse()
-            .convertResponse { it.toDomainCharactersResponse(sortItems = true) }
-        )
+            this.serverDataStore.getCharacters(offset, limit)
+                .flatMapOrError(::createDatabaseCharacters)
+        ).successfulResponseOrError()
     }
 
 
@@ -128,7 +119,9 @@ internal class CharactersRepositoryImpl(
             getServerCharacters(offset, limit).toFlowable()
         )
         .withResult()
-        .typicalBackgroundWorkSchedulers()
+        .flatMapOrError { createCacheCharacters(it).toFlowable() }
+        .convertResponse { it.toDomainCharactersResponse() }
+        .withAppropriateSchedulers()
     }
     
     
@@ -137,62 +130,72 @@ internal class CharactersRepositoryImpl(
                                     limit : Int) : Single<Response<List<DomainComics>, Throwable>> {
         return Single.concat(
             getCacheCharacterComics(
-                character = character,
+                characterId = character.id,
                 offset = offset,
                 limit = limit
             ),
             getServerCharacterComics(
-                character = character,
+                characterId = character.id,
                 offset = offset,
                 limit = limit
             )
         )
         .withNonEmptyResult()
-        .first(NoResultError("No Result found.").asError())
-        .typicalBackgroundWorkSchedulers()
+        .first(Response.result(emptyList()))
+        .flatMapOrError { createCacheComics(character.id, it) }
+        .convertResponse { it.toDomainComicsResponse() }
+        .withAppropriateSchedulers()
     }
     
     
-    private fun getCacheCharacterComics(character : DomainCharacter,
+    private fun getCacheCharacterComics(characterId : Long,
                                         offset : Int,
-                                        limit : Int) : Single<Response<List<DomainComics>, Throwable>> {
+                                        limit : Int) : Single<Response<List<DataComics>, Throwable>> {
         return this.cacheDataStore.getCharacterComics(
-            characterId = character.id,
+            characterId = characterId,
             offset = offset,
             limit = limit
         )
-        .convertResponse { it.toDomainComicsResponse() }
     }
     
     
-    private fun getServerCharacterComics(character : DomainCharacter,
+    private fun getServerCharacterComics(characterId : Long,
                                          offset : Int,
-                                         limit : Int) : Single<Response<List<DomainComics>, Throwable>> {
+                                         limit : Int) : Single<Response<List<DataComics>, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
             this.serverDataStore.getCharacterComics(
-                characterId = character.id,
+                characterId = characterId,
                 offset = offset,
                 limit = limit
             )
-            .cacheCharacterComics(character)
-            .convertResponse { it.toDomainComicsResponse(sortItems = true) }
+        ).successfulResponseOrError()
+    }
+    
+    
+    private fun createDatabaseCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
+        return this.databaseDataStore.saveCharacter(character)
             .successfulResponseOrError()
-        )
     }
     
     
-    private fun Single<Response<DataCharacter, Throwable>>.cacheCharacterResponse() : Single<Response<DataCharacter, Throwable>> {
-        return this.flatMapOrError { cacheDataStore.saveCharacter(it) }
-    }
-
-
-    private fun Single<Response<List<DataCharacter>, Throwable>>.cacheCharactersResponse() : Single<Response<List<DataCharacter>, Throwable>> {
-        return this.flatMapOrError { cacheDataStore.saveCharacters(it) }
+    private fun createDatabaseCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+        return this.databaseDataStore.saveCharacters(characters)
+            .successfulResponseOrError()
     }
     
     
-    private fun Single<Response<List<DataComics>, Throwable>>.cacheCharacterComics(character : DomainCharacter) : Single<Response<List<DataComics>, Throwable>> {
-        return this.flatMapOrError { cacheDataStore.saveCharacterComics(character.id, it) }
+    private fun createCacheCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
+        return this.cacheDataStore.saveCharacter(character)
+    }
+    
+    
+    private fun createCacheCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+        return this.cacheDataStore.saveCharacters(characters)
+    }
+    
+    
+    private fun createCacheComics(characterId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+        return this.cacheDataStore.saveCharacterComics(characterId, comics)
     }
 
 

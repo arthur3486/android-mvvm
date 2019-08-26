@@ -25,11 +25,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.arthurivanets.adapster.ktx.isEmpty
 import com.arthurivanets.adapster.listeners.DatasetChangeListenerAdapter
-import com.arthurivanets.adapster.listeners.OnItemClickListener
 import com.arthurivanets.commons.ktx.extract
 import com.arthurivanets.commons.ktx.getColorCompat
 import com.arthurivanets.commons.ktx.statusBarSize
-import com.arthurivanets.mvvm.events.ViewModelEvent
+import com.arthurivanets.mvvm.events.Route
+import com.arthurivanets.mvvm.events.ViewState
 import com.arthurivanets.sample.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.comics.ComicsItem
@@ -42,8 +42,11 @@ import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.domain.entities.Image
 import com.arthurivanets.sample.imageloading.ImageLoader
 import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment
 import com.arthurivanets.sample.ui.comics.info.newBundle
+import com.arthurivanets.sample.ui.util.extensions.onItemClick
 import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedNameTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedTitleTransitionName
@@ -76,13 +79,13 @@ class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, Charact
         super.fetchExtras(extras)
         
         extras.extract(extrasExtractor).also {
-            localViewModel.setCharacter(it.character)
+            localViewModel.character = it.character
         }
     }
     
     
     override fun init(savedInstanceState : Bundle?) {
-        val character = localViewModel.getCharacter()
+        val character = localViewModel.character
     
         initAppBar(character)
         initComicsRecyclerView()
@@ -133,15 +136,14 @@ class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, Charact
     
     
     private fun initAdapter() : ComicsItemsRecyclerViewAdapter {
-        comicsItemsAdapter = ComicsItemsRecyclerViewAdapter(
+        return ComicsItemsRecyclerViewAdapter(
             context = context!!,
             items = localViewModel.comicsItems,
             resources = comicsItemResources
-        )
-        comicsItemsAdapter.addOnDatasetChangeListener(onDataSetChangeListener)
-        comicsItemsAdapter.onItemClickListener = OnItemClickListener { _, item, _ -> localViewModel.onComicsClicked(item) }
-        
-        return comicsItemsAdapter
+        ).apply {
+            addOnDatasetChangeListener(onDataSetChangeListener)
+            onItemClickListener = onItemClick { localViewModel.onComicsClicked(it.itemModel) }
+        }.also { comicsItemsAdapter = it }
     }
     
     
@@ -163,8 +165,6 @@ class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, Charact
         super.postInit()
         
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        
-        onLoadingStateChanged(localViewModel.isLoading)
     }
     
     
@@ -179,21 +179,39 @@ class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, Charact
     }
     
     
-    override fun onRegisterObservables() {
-        localViewModel.loadingStateHolder.register(::onLoadingStateChanged)
+    override fun onViewStateChanged(state : ViewState<*>) {
+        when(state) {
+            is GeneralViewStates.Idle -> onIdleState()
+            is GeneralViewStates.Loading -> onLoadingState()
+            is GeneralViewStates.Success -> onSuccessState()
+            is GeneralViewStates.Error -> onErrorState()
+        }
     }
     
     
-    private fun onLoadingStateChanged(isLoading : Boolean) {
-        progress_bar.isVisible = isLoading
+    private fun onIdleState() {
+        progress_bar.isVisible = false
     }
     
     
-    override fun onViewModelEvent(event : ViewModelEvent<*>) {
-        super.onViewModelEvent(event)
-
-        when(event) {
-            is CharacterInfoViewModelEvents.OpenComicsInfoScreen -> event.data?.let(::onOpenComicsInfoScreen)
+    private fun onLoadingState() {
+        progress_bar.isVisible = true
+    }
+    
+    
+    private fun onSuccessState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    private fun onErrorState() {
+        progress_bar.isVisible = false
+    }
+    
+    
+    override fun onRoute(route : Route<*>) {
+        when(route) {
+            is MarvelRoutes.ComicsInfoScreen -> route.payload?.let(::onOpenComicsInfoScreen)
         }
     }
     

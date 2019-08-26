@@ -17,10 +17,10 @@
 package com.arthurivanets.sample.data.datastores.comics
 
 import android.content.Context
-import com.arthurivanets.commons.data.datastore.AbstractDataStore
 import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.commons.data.util.resultOrError
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.db.Database
 import com.arthurivanets.sample.data.util.DataCharacter
 import com.arthurivanets.sample.data.util.DataComics
@@ -32,12 +32,12 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun saveComics(comics : DataComics) : Single<Response<DataComics, Throwable>> {
         return Single.fromCallable { saveComicsInternal(comics) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun saveComicsInternal(comics : DataComics) : Response<DataComics, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .comicsTable()
             .save(comics.toDatabaseComics())
 
@@ -47,12 +47,12 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun saveComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
         return Single.fromCallable { saveComicsInternal(comics) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun saveComicsInternal(comics : List<DataComics>) : Response<List<DataComics>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .comicsTable()
             .save(comics.toDatabaseComics())
 
@@ -62,12 +62,12 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun updateComics(comics : DataComics) : Single<Response<DataComics, Throwable>> {
         return Single.fromCallable { updateComicsInternal(comics) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun updateComicsInternal(comics : DataComics) : Response<DataComics, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .comicsTable()
             .update(comics.toDatabaseComics())
 
@@ -77,12 +77,12 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun updateComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
         return Single.fromCallable { updateComicsInternal(comics) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun updateComicsInternal(comics : List<DataComics>) : Response<List<DataComics>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .comicsTable()
             .update(comics.toDatabaseComics())
 
@@ -92,12 +92,12 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun deleteComics(comics : DataComics) : Single<Response<DataComics, Throwable>> {
         return Single.fromCallable { deleteComicsInternal(comics) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun deleteComicsInternal(comics : DataComics) : Response<DataComics, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .comicsTable()
             .delete(comics.toDatabaseComics())
 
@@ -107,12 +107,12 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun deleteComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
         return Single.fromCallable { deleteComicsInternal(comics) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun deleteComicsInternal(comics : List<DataComics>) : Response<List<DataComics>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .comicsTable()
             .delete(comics.toDatabaseComics())
 
@@ -122,12 +122,12 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun getSingleComics(id : Long) : Single<Response<DataComics, Throwable>> {
         return Single.fromCallable { getSingleComicsInternal(id) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun getSingleComicsInternal(id : Long) : Response<DataComics, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .comicsTable()
             .getById(id)
             ?.toDataComics()
@@ -136,12 +136,12 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
 
     override fun getComics(offset : Int, limit : Int) : Single<Response<List<DataComics>, Throwable>> {
         return Single.fromCallable { getComicsInternal(offset, limit) }
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers()
     }
 
 
     private fun getComicsInternal(offset : Int, limit : Int) : Response<List<DataComics>, Throwable> = resultOrError {
-        Database.getInstance(internalContext)
+        Database.getInstance(context)
             .comicsTable()
             .get(offset = offset, limit = limit)
             .fromDatabaseToDataComics()

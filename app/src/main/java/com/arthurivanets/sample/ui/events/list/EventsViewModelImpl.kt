@@ -18,19 +18,25 @@ package com.arthurivanets.sample.ui.events.list
 
 import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
 import com.arthurivanets.commons.data.rx.ktx.resultOrError
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.events.EventItem
 import com.arthurivanets.sample.domain.entities.Event
 import com.arthurivanets.sample.domain.repositories.events.EventsRepository
-import com.arthurivanets.sample.ui.base.AbstractDataLoadingViewModel
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.events.DEFAULT_EVENT_LOADING_LIMIT
 
 class EventsViewModelImpl(
-    private val eventsRepository : EventsRepository
-) : AbstractDataLoadingViewModel(), EventsViewModel {
+    private val eventsRepository : EventsRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel(), EventsViewModel {
 
 
     override val items = ObservableTrackableArrayList<Long, EventItem>()
+    
+    private var isDataLoading = false
 
 
     override fun onStart() {
@@ -40,8 +46,8 @@ class EventsViewModelImpl(
     }
 
 
-    override fun onEventClicked(item : EventItem) {
-        dispatchEvent(EventsViewModelEvents.OpenEventInfoScreen(item.itemModel))
+    override fun onEventClicked(event : Event) {
+        route(MarvelRoutes.EventInfoScreen(event))
     }
 
 
@@ -53,29 +59,35 @@ class EventsViewModelImpl(
 
 
     private fun loadData() {
-        if(isLoading) {
+        if(isDataLoading) {
             return
         }
-
-        isLoading = true
+    
+        isDataLoading = true
+        
+        changeViewState(GeneralViewStates.Loading<Unit>())
 
         eventsRepository.getEvents(0, DEFAULT_EVENT_LOADING_LIMIT)
             .resultOrError()
-            .typicalBackgroundWorkSchedulers()
+            .applyIOWorkSchedulers(schedulerProvider)
             .subscribe(::onLoadedSuccessfully, ::onLoadingFailed)
             .manageLongLivingDisposable()
     }
 
 
     private fun onLoadedSuccessfully(events : List<Event>) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
 
         events.forEach { items.addOrUpdate(EventItem(it)) }
     }
 
 
     private fun onLoadingFailed(throwable : Throwable) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

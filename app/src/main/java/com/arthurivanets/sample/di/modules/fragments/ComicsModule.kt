@@ -16,6 +16,7 @@
 
 package com.arthurivanets.sample.di.modules.fragments
 
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
 import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.comics.ComicsRepository
 import com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment
@@ -33,18 +34,26 @@ class ComicsModule {
 
     @Provides
     fun provideComicsViewModel(fragment : ComicsFragment,
-                               comicsRepository : ComicsRepository) : ComicsViewModel {
+                               comicsRepository : ComicsRepository,
+                               schedulerProvider : SchedulerProvider) : ComicsViewModel {
         return fragment.provideViewModel {
-            ComicsViewModelImpl(comicsRepository)
+            ComicsViewModelImpl(
+                comicsRepository = comicsRepository,
+                schedulerProvider = schedulerProvider
+            )
         }
     }
 
 
     @Provides
     fun provideComicsInfoViewModel(fragment : ComicsInfoFragment,
-                                   comicsRepository : ComicsRepository) : ComicsInfoViewModel {
+                                   comicsRepository : ComicsRepository,
+                                   schedulerProvider : SchedulerProvider) : ComicsInfoViewModel {
         return fragment.provideViewModel {
-            ComicsInfoViewModelImpl(comicsRepository)
+            ComicsInfoViewModelImpl(
+                comicsRepository = comicsRepository,
+                schedulerProvider = schedulerProvider
+            )
         }
     }
 

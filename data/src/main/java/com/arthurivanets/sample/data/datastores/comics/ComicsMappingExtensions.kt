@@ -19,17 +19,16 @@
 package com.arthurivanets.sample.data.datastores.comics
 
 import com.arthurivanets.commons.data.util.Response
-import com.arthurivanets.sample.data.api.responses.ComicsResponse
 import com.arthurivanets.sample.data.datastores.util.*
 import com.arthurivanets.sample.data.util.*
 
 
-internal fun ComicsResponse.toSingleItemResponse() : Response<DataComics, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.ComicsResponse.toSingleItemResponse() : Response<DataComics, Throwable> {
     return this.toSingleItemResponse { it.toDataComics() }
 }
 
 
-internal fun ComicsResponse.toResponse() : Response<List<DataComics>, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.ComicsResponse.toResponse() : Response<List<DataComics>, Throwable> {
     return this.toResponse { it.toDataComics() }
 }
 

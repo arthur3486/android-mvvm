@@ -17,9 +17,9 @@
 package com.arthurivanets.mvvm.dagger
 
 import androidx.databinding.ViewDataBinding
-import com.arthurivanets.dagger.androidx.AndroidXSupportInjection
 import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.mvvm.MvvmFragment
+import dagger.android.support.AndroidSupportInjection
 
 /**
  * A base MVVM Fragment with built-in support for the Dagger2-based dependency injection.
@@ -28,7 +28,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmFra
 
 
     final override fun injectDependencies() {
-        AndroidXSupportInjection.inject(this)
+        AndroidSupportInjection.inject(this)
     }
 
 

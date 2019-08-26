@@ -17,18 +17,16 @@
 package com.arthurivanets.sample.ui.comics.info
 
 import com.arthurivanets.adapster.databinding.TrackableList
+import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.sample.adapters.characters.CharacterItem
+import com.arthurivanets.sample.domain.entities.Character
 import com.arthurivanets.sample.domain.entities.Comics
-import com.arthurivanets.sample.ui.base.DataLoadingViewModel
 
-interface ComicsInfoViewModel : DataLoadingViewModel {
+interface ComicsInfoViewModel : BaseViewModel {
     
+    var comics : Comics
     val characterItems : TrackableList<Long, CharacterItem>
     
-    fun onCharacterClicked(item : CharacterItem)
-
-    fun setComics(comics : Comics)
-    
-    fun getComics() : Comics
+    fun onCharacterClicked(character : Character)
 
 }

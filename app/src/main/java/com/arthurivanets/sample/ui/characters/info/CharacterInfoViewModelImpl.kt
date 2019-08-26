@@ -20,23 +20,28 @@ import android.os.Bundle
 import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
 import com.arthurivanets.commons.data.rx.ktx.resultOrError
 import com.arthurivanets.commons.ktx.extract
-import com.arthurivanets.commons.rx.ktx.typicalBackgroundWorkSchedulers
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.comics.ComicsItem
 import com.arthurivanets.sample.adapters.comics.SmallComicsItem
 import com.arthurivanets.sample.domain.entities.Character
 import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.domain.repositories.characters.CharactersRepository
-import com.arthurivanets.sample.ui.base.AbstractDataLoadingViewModel
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.characters.DEFAULT_CHARACTER_INFO_COMICS_LOADING_LIMIT
 
 class CharacterInfoViewModelImpl(
-    private val charactersRepository : CharactersRepository
-) : AbstractDataLoadingViewModel(), CharacterInfoViewModel {
+    private val charactersRepository : CharactersRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel(), CharacterInfoViewModel {
     
     
-    private var character = Character()
-    
+    override var character = Character()
     override val comicsItems = ObservableTrackableArrayList<Long, ComicsItem>()
+    
+    private var isDataLoading = false
     
     
     override fun onStart() {
@@ -62,18 +67,8 @@ class CharacterInfoViewModelImpl(
     }
     
     
-    override fun onComicsClicked(item : ComicsItem) {
-        dispatchEvent(CharacterInfoViewModelEvents.OpenComicsInfoScreen(item.itemModel))
-    }
-    
-    
-    override fun setCharacter(character : Character) {
-        this.character = character
-    }
-    
-    
-    override fun getCharacter() : Character {
-        return this.character
+    override fun onComicsClicked(comics : Comics) {
+        route(MarvelRoutes.ComicsInfoScreen(comics))
     }
     
     
@@ -85,11 +80,13 @@ class CharacterInfoViewModelImpl(
     
     
     private fun loadCharacters() {
-        if(isLoading) {
+        if(isDataLoading) {
             return
         }
+    
+        isDataLoading = true
         
-        isLoading = true
+        changeViewState(GeneralViewStates.Loading<Unit>())
         
         charactersRepository.getCharacterComics(
             character = character,
@@ -97,21 +94,25 @@ class CharacterInfoViewModelImpl(
             limit = DEFAULT_CHARACTER_INFO_COMICS_LOADING_LIMIT
         )
         .resultOrError()
-        .typicalBackgroundWorkSchedulers()
+        .applyIOWorkSchedulers(schedulerProvider)
         .subscribe(::onComicsLoadedSuccessfully, ::onComicsLoadingFailed)
         .manageLongLivingDisposable()
     }
     
     
     private fun onComicsLoadedSuccessfully(comics : List<Comics>) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
         
         comics.forEach { comicsItems.addOrUpdate(SmallComicsItem(it)) }
     }
     
     
     private fun onComicsLoadingFailed(throwable : Throwable) {
-        isLoading = false
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
         
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

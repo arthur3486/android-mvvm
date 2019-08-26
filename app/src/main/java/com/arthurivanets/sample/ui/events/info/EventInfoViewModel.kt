@@ -17,22 +17,21 @@
 package com.arthurivanets.sample.ui.events.info
 
 import com.arthurivanets.adapster.databinding.TrackableList
+import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.sample.adapters.characters.CharacterItem
 import com.arthurivanets.sample.adapters.comics.ComicsItem
+import com.arthurivanets.sample.domain.entities.Character
+import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.domain.entities.Event
-import com.arthurivanets.sample.ui.base.DataLoadingViewModel
 
-interface EventInfoViewModel : DataLoadingViewModel {
+interface EventInfoViewModel : BaseViewModel {
     
+    var event : Event
     val comicsItems : TrackableList<Long, ComicsItem>
     val characterItems : TrackableList<Long, CharacterItem>
     
-    fun onComicsClicked(item : ComicsItem)
+    fun onComicsClicked(comics : Comics)
     
-    fun onCharacterClicked(item : CharacterItem)
-    
-    fun setEvent(event : Event)
-    
-    fun getEvent() : Event
+    fun onCharacterClicked(character : Character)
     
 }

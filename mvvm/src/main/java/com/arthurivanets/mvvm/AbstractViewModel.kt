@@ -19,24 +19,34 @@ package com.arthurivanets.mvvm
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
-import com.arthurivanets.mvvm.events.ViewModelEvent
+import com.arthurivanets.mvvm.events.Command
+import com.arthurivanets.mvvm.events.Route
+import com.arthurivanets.mvvm.events.ViewState
 import com.arthurivanets.mvvm.util.CompositeMapDisposable
 import com.arthurivanets.mvvm.util.adapt
 import com.arthurivanets.rxbus.BusEvent
 import com.arthurivanets.rxbus.EventSource
-import com.arthurivanets.rxbus.android.AndroidRxBus
+import com.arthurivanets.rxbus.RxBusFactory
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 /**
  * An abstract implementation of the [BaseViewModel].
  * <br>
  * (Extend your concrete [ViewModel] implementations from this class)
+ *
+ * @param defaultViewState the default view state (will be delivered through the corresponding bus)
  */
-abstract class AbstractViewModel : ViewModel(), BaseViewModel {
-
-
-    private val eventBus = AndroidRxBus.newInstance()
+abstract class AbstractViewModel(
+    defaultViewState : ViewState<*>? = null
+) : ViewModel(), BaseViewModel {
+    
+    
+    final override val commandBus = RxBusFactory.create<Command<*>>(PublishSubject.create())
+    final override val viewStateBus = RxBusFactory.create<ViewState<*>>(defaultViewState?.let { BehaviorSubject.createDefault(it) } ?: BehaviorSubject.create())
+    final override val routeBus = RxBusFactory.create<Route<*>>(PublishSubject.create())
 
     private val shortLivingDisposables = CompositeMapDisposable<String>()
     private val longLivingDisposables = CompositeMapDisposable<String>()
@@ -101,18 +111,34 @@ abstract class AbstractViewModel : ViewModel(), BaseViewModel {
     }
 
 
-    final override fun subscribe(eventConsumer : Consumer<ViewModelEvent<*>>) : Disposable {
-        return this.eventBus.register(ViewModelEvent::class.java, eventConsumer)
-    }
-
-
     /**
-     * Dispatches the [ViewModelEvent] to its final destination (the owning View).
+     * Dispatches the [Command] to its final destination (the owning View).
      * <br>
-     * (The event will be delivered if and only if the owning View has an active subscription to the current ViewModel)
+     * (The [Command] will be delivered if and only if the owning View has an active subscription to the current ViewModel)
      */
-    protected fun dispatchEvent(event : ViewModelEvent<*>) {
-        eventBus.post(event)
+    protected fun dispatchCommand(command : Command<*>) {
+        commandBus.post(command)
+    }
+    
+    
+    /**
+     * Changes the current [ViewState] to the specified one, and dispatches the [ViewState] change event
+     * to its final destination (the owning View).
+     * <br>
+     * (The [ViewState] change event will be delivered if and only if the owning View has an active subscription to the current ViewModel)
+     */
+    protected fun changeViewState(newState : ViewState<*>) {
+        viewStateBus.post(newState)
+    }
+    
+    
+    /**
+     * Dispatches the [Route] event to its final destination (the owning View).
+     * <br>
+     * (The [Route] event will be delivered if and only if the owning View has an active subscription to the current ViewModel)
+     */
+    protected fun route(destinationRoute : Route<*>) {
+        routeBus.post(destinationRoute)
     }
 
 

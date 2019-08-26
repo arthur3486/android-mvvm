@@ -17,8 +17,7 @@
 package com.arthurivanets.sample.ui.base
 
 import androidx.databinding.ViewDataBinding
-import com.arthurivanets.dagger.androidx.AndroidXHasSupportFragmentInjector
 import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.mvvm.navigation.dagger.MvvmActivity
 
-abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmActivity<VDB, VM>(), AndroidXHasSupportFragmentInjector
+abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmActivity<VDB, VM>()

@@ -16,6 +16,7 @@
 
 package com.arthurivanets.sample.di.modules.fragments
 
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
 import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.characters.CharactersRepository
 import com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment
@@ -33,18 +34,26 @@ class CharactersModule {
 
     @Provides
     fun provideCharactersViewModel(fragment : CharactersFragment,
-                                   charactersRepository : CharactersRepository) : CharactersViewModel {
+                                   charactersRepository : CharactersRepository,
+                                   schedulerProvider : SchedulerProvider) : CharactersViewModel {
         return fragment.provideViewModel {
-            CharactersViewModelImpl(charactersRepository)
+            CharactersViewModelImpl(
+                charactersRepository = charactersRepository,
+                schedulerProvider = schedulerProvider
+            )
         }
     }
 
 
     @Provides
     fun provideCharacterInfoViewModel(fragment : CharacterInfoFragment,
-                                      charactersRepository : CharactersRepository) : CharacterInfoViewModel {
+                                      charactersRepository : CharactersRepository,
+                                      schedulerProvider : SchedulerProvider) : CharacterInfoViewModel {
         return fragment.provideViewModel {
-            CharacterInfoViewModelImpl(charactersRepository)
+            CharacterInfoViewModelImpl(
+                charactersRepository = charactersRepository,
+                schedulerProvider = schedulerProvider
+            )
         }
     }
 

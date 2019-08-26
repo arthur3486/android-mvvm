@@ -16,15 +16,16 @@
 
 package com.arthurivanets.sample.domain.repositories.events
 
-import com.arthurivanets.commons.data.repository.Repository
 import com.arthurivanets.commons.data.util.Response
+import com.arthurivanets.rxbus.BusEvent
+import com.arthurivanets.sample.domain.repositories.base.Repository
 import com.arthurivanets.sample.domain.util.DomainCharacter
 import com.arthurivanets.sample.domain.util.DomainComics
 import com.arthurivanets.sample.domain.util.DomainEvent
 import io.reactivex.Flowable
 import io.reactivex.Single
 
-interface EventsRepository : Repository {
+interface EventsRepository : Repository<BusEvent<*>> {
 
     fun getEvent(id : Long) : Single<Response<DomainEvent, Throwable>>
 

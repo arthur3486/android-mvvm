@@ -16,15 +16,16 @@
 
 package com.arthurivanets.sample.domain.repositories.comics
 
-import com.arthurivanets.commons.data.repository.Repository
 import com.arthurivanets.commons.data.util.Response
+import com.arthurivanets.rxbus.BusEvent
+import com.arthurivanets.sample.domain.repositories.base.Repository
 import com.arthurivanets.sample.domain.util.DomainCharacter
 import com.arthurivanets.sample.domain.util.DomainComics
 import com.arthurivanets.sample.domain.util.DomainEvent
 import io.reactivex.Flowable
 import io.reactivex.Single
 
-interface ComicsRepository : Repository {
+interface ComicsRepository : Repository<BusEvent<*>> {
 
     fun getSingleComics(id : Long) : Single<Response<DomainComics, Throwable>>
 

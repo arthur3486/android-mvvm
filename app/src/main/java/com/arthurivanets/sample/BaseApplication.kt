@@ -16,28 +16,22 @@
 
 package com.arthurivanets.sample
 
-import android.app.Activity
-import androidx.fragment.app.Fragment
 import androidx.multidex.MultiDexApplication
-import com.arthurivanets.dagger.androidx.AndroidXHasSupportFragmentInjector
 import com.arthurivanets.sample.di.components.AppDependenciesComponent
 import com.arthurivanets.sample.di.components.DaggerAppDependenciesComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-abstract class BaseApplication : MultiDexApplication(), HasActivityInjector, AndroidXHasSupportFragmentInjector {
+abstract class BaseApplication : MultiDexApplication(), HasAndroidInjector {
 
 
     lateinit var dependenciesComponent : AppDependenciesComponent
         private set
-
+    
     @Inject
-    lateinit var activityDispatchingAndroidInjector : DispatchingAndroidInjector<Activity>
-
-    @Inject
-    lateinit var fragmentDispatchingAndroidInjector : DispatchingAndroidInjector<Fragment>
+    lateinit var activityDispatchingAndroidInjector : DispatchingAndroidInjector<Any>
 
 
     final override fun onCreate() {
@@ -66,15 +60,10 @@ abstract class BaseApplication : MultiDexApplication(), HasActivityInjector, And
     protected open fun onInit() {
         //
     }
-
-
-    final override fun activityInjector() : AndroidInjector<Activity> {
+    
+    
+    final override fun androidInjector() : AndroidInjector<Any> {
         return activityDispatchingAndroidInjector
-    }
-
-
-    final override fun supportFragmentInjector() : AndroidInjector<Fragment> {
-        return fragmentDispatchingAndroidInjector
     }
 
 

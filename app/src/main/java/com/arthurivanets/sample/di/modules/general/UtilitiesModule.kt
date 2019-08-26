@@ -16,6 +16,8 @@
 
 package com.arthurivanets.sample.di.modules.general
 
+import com.arthurivanets.commons.rx.schedulers.DefaultSchedulerProvider
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
 import com.arthurivanets.sample.imageloading.ImageLoader
 import com.arthurivanets.sample.imageloading.glide.GlideImageLoader
 import dagger.Module
@@ -28,6 +30,12 @@ class UtilitiesModule {
     @Provides
     fun provideImageLoader() : ImageLoader {
         return GlideImageLoader()
+    }
+    
+    
+    @Provides
+    fun provideSchedulerProvider() : SchedulerProvider {
+        return DefaultSchedulerProvider()
     }
 
 

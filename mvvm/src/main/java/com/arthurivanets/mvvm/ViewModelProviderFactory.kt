@@ -30,7 +30,7 @@ class ViewModelProviderFactory<V : ViewModel>(
 ) : ViewModelProvider.Factory {
     
     
-    @SuppressWarnings("unchecked")
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass : Class<T>) : T {
         if(!modelClass.isAssignableFrom(viewModelClass)) {
             throw IllegalArgumentException("Unsupported class name.")

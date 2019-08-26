@@ -33,9 +33,6 @@ android {
         versionName rootProject.releaseVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        // Base Urls
-        stringField(defaultConfig, "API_BASE_URL", "https://gateway.marvel.com:443/v1/public/")
     }
 
     lintOptions {
@@ -47,6 +44,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -63,7 +65,12 @@ dependencies {
 
     implementation jacksonDependencies
     implementation rxJavaDependencies
+
     implementation commonsDependencies
+    implementation commonsDataDependencies
+    implementation commonsRxJavaDependencies
+
+    implementation project(":marvel-api")
 
     testImplementation unitTestingDependencies
     androidTestImplementation instrumentationTestingDependencies
