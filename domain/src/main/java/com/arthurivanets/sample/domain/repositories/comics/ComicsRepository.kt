@@ -33,12 +33,16 @@ interface ComicsRepository : Repository<BusEvent<*>> {
 
     fun getAllComics(offset : Int, limit : Int) : Flowable<Response<List<DomainComics>, Throwable>>
 
-    fun getComicsCharacters(comics : DomainComics,
-                            offset : Int,
-                            limit : Int) : Single<Response<List<DomainCharacter>, Throwable>>
+    fun getComicsCharacters(
+        comics : DomainComics,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DomainCharacter>, Throwable>>
 
-    fun getComicsEvents(comics : DomainComics,
-                        offset : Int,
-                        limit : Int) : Single<Response<List<DomainEvent>, Throwable>>
+    fun getComicsEvents(
+        comics : DomainComics,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DomainEvent>, Throwable>>
 
 }

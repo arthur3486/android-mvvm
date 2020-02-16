@@ -133,9 +133,11 @@ internal class CharactersCacheDataStore(context : Context) : AbstractDataStore(c
     }
     
     
-    override fun getCharacterComics(characterId : Long,
-                                    offset : Int,
-                                    limit : Int) : Single<Response<List<DataComics>, Throwable>> {
+    override fun getCharacterComics(
+        characterId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataComics>, Throwable>> {
         return Single.fromCallable {
             getCharacterComicsInternal(
                 characterId = characterId,
@@ -146,9 +148,11 @@ internal class CharactersCacheDataStore(context : Context) : AbstractDataStore(c
     }
     
     
-    private fun getCharacterComicsInternal(characterId : Long,
-                                           offset : Int,
-                                           limit : Int) : Response<List<DataComics>, Throwable> {
+    private fun getCharacterComicsInternal(
+        characterId : Long,
+        offset : Int,
+        limit : Int
+    ) : Response<List<DataComics>, Throwable> {
         return (comicsCache[characterId]?.values ?: emptyList<DataComics>())
             .sortedBy { it.id }
             .take(offset, limit)

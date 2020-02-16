@@ -20,6 +20,7 @@ import android.content.Context
 import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
 import com.arthurivanets.commons.rx.ktx.asSingle
+import com.arthurivanets.marvelapi.MarvelApi
 
 import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.datastores.comics.toResponse
@@ -64,14 +65,14 @@ internal class CharactersServerDataStore(context : Context) : AbstractDataStore(
 
 
     override fun getCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.characters.getCharacter(id)
+        return MarvelApi.INSTANCE.characters.getCharacter(id)
             .flatMap { it.toSingleItemResponse().asSingle() }
             .applyIOWorkSchedulers()
     }
 
 
     override fun getCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.characters.getCharacters(
+        return MarvelApi.INSTANCE.characters.getCharacters(
             offset = offset,
             limit = limit
         )
@@ -85,10 +86,12 @@ internal class CharactersServerDataStore(context : Context) : AbstractDataStore(
     }
     
     
-    override fun getCharacterComics(characterId : Long,
-                                    offset : Int,
-                                    limit : Int) : Single<Response<List<DataComics>, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.characters.getCharacterComics(
+    override fun getCharacterComics(
+        characterId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataComics>, Throwable>> {
+        return MarvelApi.INSTANCE.characters.getCharacterComics(
             characterId = characterId,
             offset = offset,
             limit = limit

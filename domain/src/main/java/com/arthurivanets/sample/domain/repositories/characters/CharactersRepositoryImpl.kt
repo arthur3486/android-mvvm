@@ -67,7 +67,6 @@ internal class CharactersRepositoryImpl(
 
     private fun getDatabaseCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
         return this.databaseDataStore.getCharacter(id)
-            .successfulResponseOrError()
     }
 
 
@@ -125,9 +124,11 @@ internal class CharactersRepositoryImpl(
     }
     
     
-    override fun getCharacterComics(character : DomainCharacter,
-                                    offset : Int,
-                                    limit : Int) : Single<Response<List<DomainComics>, Throwable>> {
+    override fun getCharacterComics(
+        character : DomainCharacter,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DomainComics>, Throwable>> {
         return Single.concat(
             getCacheCharacterComics(
                 characterId = character.id,
@@ -148,9 +149,11 @@ internal class CharactersRepositoryImpl(
     }
     
     
-    private fun getCacheCharacterComics(characterId : Long,
-                                        offset : Int,
-                                        limit : Int) : Single<Response<List<DataComics>, Throwable>> {
+    private fun getCacheCharacterComics(
+        characterId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataComics>, Throwable>> {
         return this.cacheDataStore.getCharacterComics(
             characterId = characterId,
             offset = offset,
@@ -159,9 +162,11 @@ internal class CharactersRepositoryImpl(
     }
     
     
-    private fun getServerCharacterComics(characterId : Long,
-                                         offset : Int,
-                                         limit : Int) : Single<Response<List<DataComics>, Throwable>> {
+    private fun getServerCharacterComics(
+        characterId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataComics>, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
             this.serverDataStore.getCharacterComics(
                 characterId = characterId,

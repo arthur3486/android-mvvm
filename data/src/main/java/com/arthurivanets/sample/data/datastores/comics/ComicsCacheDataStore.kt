@@ -135,9 +135,11 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
     }
 
 
-    override fun getComicsCharacters(comicsId : Long,
-                                     offset : Int,
-                                     limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun getComicsCharacters(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable {
             getComicsCharactersInternal(
                 comicsId = comicsId,
@@ -148,9 +150,11 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
     }
 
 
-    private fun getComicsCharactersInternal(comicsId : Long,
-                                            offset : Int,
-                                            limit : Int) : Response<List<DataCharacter>, Throwable> {
+    private fun getComicsCharactersInternal(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Response<List<DataCharacter>, Throwable> {
         return (charactersCache[comicsId]?.values ?: emptyList<DataCharacter>())
             .sortedBy { it.id }
             .take(offset, limit)
@@ -174,9 +178,11 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
     }
 
 
-    override fun getComicsEvents(comicsId : Long,
-                                 offset : Int,
-                                 limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun getComicsEvents(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable {
             getComicsEventsInternal(
                 comicsId = comicsId,
@@ -187,9 +193,11 @@ internal class ComicsCacheDataStore(context : Context) : AbstractDataStore(conte
     }
 
 
-    private fun getComicsEventsInternal(comicsId : Long,
-                                        offset : Int,
-                                        limit : Int) : Response<List<DataEvent>, Throwable> {
+    private fun getComicsEventsInternal(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Response<List<DataEvent>, Throwable> {
         return (eventsCache[comicsId]?.values ?: emptyList<DataEvent>())
             .sortedBy { it.id }
             .take(offset, limit)

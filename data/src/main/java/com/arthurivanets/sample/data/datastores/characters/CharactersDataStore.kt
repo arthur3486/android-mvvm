@@ -42,8 +42,10 @@ interface CharactersDataStore : DataStore {
     
     fun saveCharacterComics(characterId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>>
     
-    fun getCharacterComics(characterId : Long,
-                           offset : Int,
-                           limit : Int) : Single<Response<List<DataComics>, Throwable>>
+    fun getCharacterComics(
+        characterId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataComics>, Throwable>>
 
 }

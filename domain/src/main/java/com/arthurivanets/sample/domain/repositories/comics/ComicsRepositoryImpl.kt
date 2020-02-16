@@ -123,9 +123,11 @@ internal class ComicsRepositoryImpl(
     }
 
 
-    override fun getComicsCharacters(comics : DomainComics,
-                                     offset : Int,
-                                     limit : Int) : Single<Response<List<DomainCharacter>, Throwable>> {
+    override fun getComicsCharacters(
+        comics : DomainComics,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DomainCharacter>, Throwable>> {
         return Single.concat(
             getCacheComicsCharacters(
                 comicsId = comics.id,
@@ -146,9 +148,11 @@ internal class ComicsRepositoryImpl(
     }
 
 
-    private fun getCacheComicsCharacters(comicsId : Long,
-                                         offset : Int,
-                                         limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
+    private fun getCacheComicsCharacters(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataCharacter>, Throwable>> {
         return this.cacheDataStore.getComicsCharacters(
             comicsId = comicsId,
             offset = offset,
@@ -157,9 +161,11 @@ internal class ComicsRepositoryImpl(
     }
 
 
-    private fun getServerComicsCharacters(comicsId : Long,
-                                          offset : Int,
-                                          limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
+    private fun getServerComicsCharacters(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataCharacter>, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
             this.serverDataStore.getComicsCharacters(
                 comicsId = comicsId,
@@ -170,9 +176,11 @@ internal class ComicsRepositoryImpl(
     }
 
 
-    override fun getComicsEvents(comics : DomainComics,
-                                 offset : Int,
-                                 limit : Int) : Single<Response<List<DomainEvent>, Throwable>> {
+    override fun getComicsEvents(
+        comics : DomainComics,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DomainEvent>, Throwable>> {
         return Single.concat(
             getCacheComicsEvents(
                 comicsId = comics.id,
@@ -193,9 +201,11 @@ internal class ComicsRepositoryImpl(
     }
 
 
-    private fun getCacheComicsEvents(comicsId : Long,
-                                     offset : Int,
-                                     limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
+    private fun getCacheComicsEvents(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataEvent>, Throwable>> {
         return this.cacheDataStore.getComicsEvents(
             comicsId = comicsId,
             offset = offset,
@@ -204,9 +214,11 @@ internal class ComicsRepositoryImpl(
     }
 
 
-    private fun getServerComicsEvents(comicsId : Long,
-                                      offset : Int,
-                                      limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
+    private fun getServerComicsEvents(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataEvent>, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
             this.serverDataStore.getComicsEvents(
                 comicsId = comicsId,

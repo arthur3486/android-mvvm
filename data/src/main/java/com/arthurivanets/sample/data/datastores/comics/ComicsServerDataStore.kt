@@ -20,6 +20,7 @@ import android.content.Context
 import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
 import com.arthurivanets.commons.rx.ktx.asSingle
+import com.arthurivanets.marvelapi.MarvelApi
 import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.datastores.characters.toResponse
 import com.arthurivanets.sample.data.datastores.events.toResponse
@@ -62,14 +63,14 @@ internal class ComicsServerDataStore(context : Context) : AbstractDataStore(cont
 
 
     override fun getSingleComics(id : Long) : Single<Response<DataComics, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.comics.getSingleComics(id)
+        return MarvelApi.INSTANCE.comics.getSingleComics(id)
             .flatMap { it.toSingleItemResponse().asSingle() }
             .applyIOWorkSchedulers()
     }
 
 
     override fun getComics(offset : Int, limit : Int) : Single<Response<List<DataComics>, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.comics.getComics(
+        return MarvelApi.INSTANCE.comics.getComics(
             offset = offset,
             limit = limit
         )
@@ -83,10 +84,12 @@ internal class ComicsServerDataStore(context : Context) : AbstractDataStore(cont
     }
 
 
-    override fun getComicsCharacters(comicsId : Long,
-                                     offset : Int,
-                                     limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.comics.getComicsCharacters(
+    override fun getComicsCharacters(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataCharacter>, Throwable>> {
+        return MarvelApi.INSTANCE.comics.getComicsCharacters(
             comicsId = comicsId,
             offset = offset,
             limit = limit
@@ -101,10 +104,12 @@ internal class ComicsServerDataStore(context : Context) : AbstractDataStore(cont
     }
 
 
-    override fun getComicsEvents(comicsId : Long,
-                                 offset : Int,
-                                 limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.comics.getComicsEvents(
+    override fun getComicsEvents(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataEvent>, Throwable>> {
+        return MarvelApi.INSTANCE.comics.getComicsEvents(
             comicsId = comicsId,
             offset = offset,
             limit = limit

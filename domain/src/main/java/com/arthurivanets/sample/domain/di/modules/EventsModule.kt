@@ -30,7 +30,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class EventsModule {
+internal class EventsModule {
 
 
     @Source(Source.Type.CACHE)
@@ -59,11 +59,13 @@ class EventsModule {
 
     @Provides
     @Singleton
-    fun provideRepository(@Source(Source.Type.CACHE) cacheDataStore : EventsDataStore,
-                          @Source(Source.Type.DATABASE) databaseDataStore : EventsDataStore,
-                          @Source(Source.Type.SERVER) serverDataStore : EventsDataStore,
-                          networkStateProvider : NetworkStateProvider,
-                          schedulerProvider : SchedulerProvider) : EventsRepository {
+    fun provideRepository(
+        @Source(Source.Type.CACHE) cacheDataStore : EventsDataStore,
+        @Source(Source.Type.DATABASE) databaseDataStore : EventsDataStore,
+        @Source(Source.Type.SERVER) serverDataStore : EventsDataStore,
+        networkStateProvider : NetworkStateProvider,
+        schedulerProvider : SchedulerProvider
+    ) : EventsRepository {
         return EventsRepositoryImpl(
             cacheDataStore = cacheDataStore,
             databaseDataStore = databaseDataStore,

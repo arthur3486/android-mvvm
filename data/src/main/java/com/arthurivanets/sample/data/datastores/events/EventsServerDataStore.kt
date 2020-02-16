@@ -20,6 +20,7 @@ import android.content.Context
 import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
 import com.arthurivanets.commons.rx.ktx.asSingle
+import com.arthurivanets.marvelapi.MarvelApi
 import com.arthurivanets.sample.data.datastores.base.AbstractDataStore
 import com.arthurivanets.sample.data.datastores.characters.toResponse
 import com.arthurivanets.sample.data.datastores.comics.toResponse
@@ -62,14 +63,14 @@ internal class EventsServerDataStore(context : Context) : AbstractDataStore(cont
 
 
     override fun getEvent(id : Long) : Single<Response<DataEvent, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.events.getEvent(id)
+        return MarvelApi.INSTANCE.events.getEvent(id)
             .flatMap { it.toSingleItemResponse().asSingle() }
             .applyIOWorkSchedulers()
     }
 
 
     override fun getEvents(offset : Int, limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.events.getEvents(
+        return MarvelApi.INSTANCE.events.getEvents(
             offset = offset,
             limit = limit
         )
@@ -83,10 +84,12 @@ internal class EventsServerDataStore(context : Context) : AbstractDataStore(cont
     }
 
 
-    override fun getEventCharacters(eventId : Long,
-                                    offset : Int,
-                                    limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.events.getEventCharacters(
+    override fun getEventCharacters(
+        eventId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataCharacter>, Throwable>> {
+        return MarvelApi.INSTANCE.events.getEventCharacters(
             eventId = eventId,
             offset = offset,
             limit = limit
@@ -101,10 +104,12 @@ internal class EventsServerDataStore(context : Context) : AbstractDataStore(cont
     }
     
     
-    override fun getEventComics(eventId : Long,
-                                offset : Int,
-                                limit : Int) : Single<Response<List<DataComics>, Throwable>> {
-        return com.arthurivanets.marvelapi.MarvelApi.INSTANCE.events.getEventComics(
+    override fun getEventComics(
+        eventId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataComics>, Throwable>> {
+        return MarvelApi.INSTANCE.events.getEventComics(
             eventId = eventId,
             offset = offset,
             limit = limit

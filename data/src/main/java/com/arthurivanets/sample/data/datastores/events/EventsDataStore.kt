@@ -43,14 +43,18 @@ interface EventsDataStore : DataStore {
 
     fun saveEventCharacters(eventId : Long, characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>>
 
-    fun getEventCharacters(eventId : Long,
-                           offset : Int,
-                           limit : Int) : Single<Response<List<DataCharacter>, Throwable>>
+    fun getEventCharacters(
+        eventId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataCharacter>, Throwable>>
     
     fun saveEventComics(eventId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>>
     
-    fun getEventComics(eventId : Long,
-                       offset : Int,
-                       limit : Int) : Single<Response<List<DataComics>, Throwable>>
+    fun getEventComics(
+        eventId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataComics>, Throwable>>
 
 }

@@ -153,9 +153,11 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
     }
 
 
-    override fun getComicsCharacters(comicsId : Long,
-                                     offset : Int,
-                                     limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun getComicsCharacters(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataCharacter>, Throwable>> {
         throw UnsupportedOperationException("Comics Characters cannot be fetched from the Database.")
     }
 
@@ -165,9 +167,11 @@ internal class ComicsDatabaseDataStore(context : Context) : AbstractDataStore(co
     }
 
 
-    override fun getComicsEvents(comicsId : Long,
-                                 offset : Int,
-                                 limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun getComicsEvents(
+        comicsId : Long,
+        offset : Int,
+        limit : Int
+    ) : Single<Response<List<DataEvent>, Throwable>> {
         throw UnsupportedOperationException("Comics Events cannot be fetched from the Database.")
     }
 

@@ -30,7 +30,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class CharactersModule {
+internal class CharactersModule {
 
 
     @Source(Source.Type.CACHE)
@@ -59,11 +59,13 @@ class CharactersModule {
 
     @Provides
     @Singleton
-    fun provideRepository(@Source(Source.Type.CACHE) cacheDataStore : CharactersDataStore,
-                          @Source(Source.Type.DATABASE) databaseDataStore : CharactersDataStore,
-                          @Source(Source.Type.SERVER) serverDataStore : CharactersDataStore,
-                          networkStateProvider : NetworkStateProvider,
-                          schedulerProvider : SchedulerProvider) : CharactersRepository {
+    fun provideRepository(
+        @Source(Source.Type.CACHE) cacheDataStore : CharactersDataStore,
+        @Source(Source.Type.DATABASE) databaseDataStore : CharactersDataStore,
+        @Source(Source.Type.SERVER) serverDataStore : CharactersDataStore,
+        networkStateProvider : NetworkStateProvider,
+        schedulerProvider : SchedulerProvider
+    ) : CharactersRepository {
         return CharactersRepositoryImpl(
             cacheDataStore = cacheDataStore,
             databaseDataStore = databaseDataStore,
