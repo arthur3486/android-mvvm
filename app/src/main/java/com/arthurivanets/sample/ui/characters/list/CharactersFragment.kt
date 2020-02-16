@@ -30,7 +30,7 @@ import com.arthurivanets.sample.adapters.characters.CharacterItemViewHolder
 import com.arthurivanets.sample.adapters.characters.CharacterItemsRecyclerViewAdapter
 import com.arthurivanets.sample.databinding.FragmentCharactersBinding
 import com.arthurivanets.sample.domain.entities.Character
-import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.BaseMvvmFragment
 import com.arthurivanets.sample.ui.base.GeneralViewStates
 import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.characters.CHARACTERS_COLUMN_COUNT
@@ -43,7 +43,7 @@ import kotlinx.android.synthetic.main.fragment_characters.*
 import kotlinx.android.synthetic.main.view_progress_bar_circular.*
 import javax.inject.Inject
 
-class CharactersFragment : BaseFragment<FragmentCharactersBinding, CharactersViewModel>(R.layout.fragment_characters), CanScrollToTop {
+class CharactersFragment : BaseMvvmFragment<FragmentCharactersBinding, CharactersViewModel>(R.layout.fragment_characters), CanScrollToTop {
     
 
     @Inject

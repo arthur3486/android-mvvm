@@ -18,6 +18,7 @@ package com.arthurivanets.mvvm
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,7 +62,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @return the binding variable id
      */
-    protected abstract val bindingVariable : Int
+    protected open val bindingVariable : Int = 0
     
     /**
      * The content [View] of the current [MvvmFragment].
@@ -95,6 +96,12 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      * and ready to load data or do something useful)
      */
     var isActive by Delegates.observable(true) { _, oldValue, newValue -> onActiveStateChange(oldValue, newValue) }
+    
+    /**
+     * Override this property in order to enable/disable
+     * the DataBinding for the Fragment.
+     */
+    protected open val isDataBindingEnabled = true
 
 
     final override fun onCreate(savedInstanceState : Bundle?) {
@@ -120,13 +127,19 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         savedInstanceState : Bundle?
     ) : View? {
         if(!isViewCreated) {
-            viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-            rootView = viewDataBinding?.root
+            if(isDataBindingEnabled) {
+                viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+                rootView = viewDataBinding?.root
+            } else {
+                rootView = inflater.inflate(layoutId, container, false)
+            }
         }
         
-        viewDataBinding?.setVariable(bindingVariable, viewModel)
-        viewDataBinding?.lifecycleOwner = this
-
+        if(isDataBindingEnabled) {
+            viewDataBinding?.setVariable(bindingVariable, viewModel)
+            viewDataBinding?.lifecycleOwner = this
+        }
+        
         return rootView
     }
 
@@ -224,7 +237,11 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      */
     @CallSuper
     protected open fun performDataBinding() {
-        viewDataBinding?.executePendingBindings()
+        if(isDataBindingEnabled) {
+            viewDataBinding?.executePendingBindings()
+        } else {
+            Log.e(this::class.java.canonicalName, "The DataBinding is disabled for this Fragment.")
+        }
     }
     
     

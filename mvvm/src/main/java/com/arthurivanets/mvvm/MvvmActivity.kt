@@ -18,6 +18,7 @@ package com.arthurivanets.mvvm
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -55,7 +56,7 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @return the binding variable id
      */
-    abstract val bindingVariable : Int
+    protected open val bindingVariable : Int = 0
     
     var extrasBundle = Bundle()
         private set
@@ -66,6 +67,12 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
     private val viewStateSubscriptionDisposables = CompositeDisposable()
     private val subscriptionDisposables = CompositeDisposable()
     private val registeredObservables = HashSet<Pair<Observable.OnPropertyChangedCallback, Observable>>()
+    
+    /**
+     * Override this property in order to enable/disable
+     * the DataBinding for the Activity.
+     */
+    protected open val isDataBindingEnabled = true
 
 
     final override fun onCreate(savedInstanceState : Bundle?) {
@@ -73,7 +80,7 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
         intent?.extras?.let(::fetchExtras)
         preInit()
         super.onCreate(savedInstanceState)
-        initDataBinding()
+        initView()
         init(savedInstanceState)
         postInit()
         performDataBinding()
@@ -146,12 +153,19 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
     }
 
 
-    private fun initDataBinding() {
-        viewDataBinding = (viewDataBinding ?: DataBindingUtil.setContentView(this, layoutId))
+    private fun initView() {
+        if(isDataBindingEnabled) {
+            viewDataBinding = (viewDataBinding ?: DataBindingUtil.setContentView(this, layoutId))
+        } else {
+            setContentView(layoutId)
+        }
+        
         viewModel = (viewModel ?: createViewModel())
 
-        viewDataBinding?.setVariable(bindingVariable, viewModel)
-        viewDataBinding?.lifecycleOwner = this
+        if(isDataBindingEnabled) {
+            viewDataBinding?.setVariable(bindingVariable, viewModel)
+            viewDataBinding?.lifecycleOwner = this
+        }
     }
     
     
@@ -168,7 +182,11 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
      */
     @CallSuper
     protected open fun performDataBinding() {
-        viewDataBinding?.executePendingBindings()
+        if(isDataBindingEnabled) {
+            viewDataBinding?.executePendingBindings()
+        } else {
+            Log.e(this::class.java.canonicalName, "The DataBinding is disabled for this Activity.")
+        }
     }
 
 

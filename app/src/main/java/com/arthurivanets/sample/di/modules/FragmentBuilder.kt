@@ -18,7 +18,6 @@ package com.arthurivanets.sample.di.modules
 
 import com.arthurivanets.sample.di.modules.fragments.CharactersModule
 import com.arthurivanets.sample.di.modules.fragments.ComicsModule
-import com.arthurivanets.sample.di.modules.fragments.DashboardModule
 import com.arthurivanets.sample.di.modules.fragments.EventsModule
 import com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment
 import com.arthurivanets.sample.ui.characters.list.CharactersFragment
@@ -34,7 +33,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentBuilder {
 
 
-    @ContributesAndroidInjector(modules = [DashboardModule::class])
+    @ContributesAndroidInjector
     abstract fun buildDashboardFragment() : DashboardFragment
 
 

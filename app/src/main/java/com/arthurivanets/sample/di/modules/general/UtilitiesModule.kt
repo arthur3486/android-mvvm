@@ -18,6 +18,7 @@ package com.arthurivanets.sample.di.modules.general
 
 import com.arthurivanets.sample.imageloading.ImageLoader
 import com.arthurivanets.sample.imageloading.glide.GlideImageLoader
+import com.arthurivanets.sample.ui.base.StubViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -28,6 +29,12 @@ class UtilitiesModule {
     @Provides
     fun provideImageLoader() : ImageLoader {
         return GlideImageLoader()
+    }
+    
+    
+    @Provides
+    fun provideStubViewModel() : StubViewModel {
+        return StubViewModel()
     }
 
 

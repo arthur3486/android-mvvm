@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.arthurivanets.mvvm.markers.CanHandleBackPressEvents
-import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.BaseMvvmFragment
 
 /**
  *
@@ -28,15 +28,15 @@ import com.arthurivanets.sample.ui.base.BaseFragment
 abstract class BaseViewPagerAdapter(fragmentManager : FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT), CanHandleBackPressEvents {
 
 
-    private val fragmentList = ArrayList<BaseFragment<*, *>>()
+    private val fragmentList = ArrayList<BaseMvvmFragment<*, *>>()
 
 
-    fun addFragment(fragment : BaseFragment<*, *>) {
+    fun addFragment(fragment : BaseMvvmFragment<*, *>) {
         fragmentList.add(fragment)
     }
 
 
-    fun getFragment(position : Int) : BaseFragment<*, *>? {
+    fun getFragment(position : Int) : BaseMvvmFragment<*, *>? {
         return (if((position >= 0) && (position < fragmentList.size)) fragmentList[position] else null)
     }
 

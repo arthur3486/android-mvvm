@@ -16,7 +16,6 @@
 
 package com.arthurivanets.sample.di.modules
 
-import com.arthurivanets.sample.di.modules.activities.HostModule
 import com.arthurivanets.sample.ui.host.HostActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -25,7 +24,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
 
 
-    @ContributesAndroidInjector(modules = [HostModule::class])
+    @ContributesAndroidInjector
     abstract fun bindHostActivity() : HostActivity
 
 

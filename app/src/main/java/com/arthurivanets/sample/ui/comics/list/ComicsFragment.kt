@@ -30,7 +30,7 @@ import com.arthurivanets.sample.adapters.comics.ComicsItemViewHolder
 import com.arthurivanets.sample.adapters.comics.ComicsItemsRecyclerViewAdapter
 import com.arthurivanets.sample.databinding.FragmentComicsBinding
 import com.arthurivanets.sample.domain.entities.Comics
-import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.BaseMvvmFragment
 import com.arthurivanets.sample.ui.base.GeneralViewStates
 import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.comics.COMICS_COLUMN_COUNT
@@ -43,7 +43,7 @@ import kotlinx.android.synthetic.main.fragment_comics.*
 import kotlinx.android.synthetic.main.view_progress_bar_circular.*
 import javax.inject.Inject
 
-class ComicsFragment : BaseFragment<FragmentComicsBinding, ComicsViewModel>(R.layout.fragment_comics), CanScrollToTop {
+class ComicsFragment : BaseMvvmFragment<FragmentComicsBinding, ComicsViewModel>(R.layout.fragment_comics), CanScrollToTop {
     
 
     @Inject

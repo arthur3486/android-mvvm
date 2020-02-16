@@ -17,12 +17,10 @@
 package com.arthurivanets.sample.ui.host
 
 import com.arthurivanets.commons.ktx.requestPortraitScreenOrientation
-import com.arthurivanets.mvvm.BR
 import com.arthurivanets.sample.R
-import com.arthurivanets.sample.databinding.ActivityHostBinding
 import com.arthurivanets.sample.ui.base.BaseActivity
 
-class HostActivity : BaseActivity<ActivityHostBinding, HostActivityViewModel>(R.layout.activity_host) {
+class HostActivity : BaseActivity(R.layout.activity_host) {
 
 
     override val navigationGraphId = R.navigation.navigation_host_activity

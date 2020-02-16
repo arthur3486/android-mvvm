@@ -109,9 +109,10 @@ dependencies {
     implementation project(":marvel-api")
     implementation project(":imageloading")
     implementation project(":imageloading-glide")
-    implementation project(":mvvm")
-    implementation project(":mvvm-navigation")
-    implementation project(":mvvm-navigation-dagger")
+
+    implementation "com.arthurivanets.mvvm:mvvm-core:1.4.1"
+    implementation "com.arthurivanets.mvvm:mvvm-navigation:1.4.1"
+    implementation "com.arthurivanets.mvvm:mvvm-navigation-dagger:1.4.1"
 
     testImplementation unitTestingDependencies
     androidTestImplementation instrumentationTestingDependencies

@@ -24,7 +24,6 @@ import com.arthurivanets.commons.ktx.statusBarSize
 import com.arthurivanets.commons.ktx.updatePadding
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.dashboard.DashboardViewPagerAdapter
-import com.arthurivanets.sample.databinding.FragmentDashboardBinding
 import com.arthurivanets.sample.ui.base.BaseFragment
 import com.arthurivanets.sample.ui.characters.list.CharactersFragment
 import com.arthurivanets.sample.ui.comics.list.ComicsFragment
@@ -34,7 +33,7 @@ import com.arthurivanets.sample.ui.util.extensions.isEmpty
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.view_toolbar.*
 
-class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>(R.layout.fragment_dashboard) {
+class DashboardFragment : BaseFragment(R.layout.fragment_dashboard) {
 
 
     private lateinit var pagerAdapter : DashboardViewPagerAdapter

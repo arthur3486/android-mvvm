@@ -54,8 +54,8 @@ project.ext {
     releaseRepoName = "maven"
     releaseUserOrg = "arthurlabs"
     releaseGroupId = "com.arthurivanets.mvvm"
-    releaseVersion = "1.4.0"
-    releaseVersionCode = 7
+    releaseVersion = "1.4.1"
+    releaseVersionCode = 8
     releaseWebsite = "https://github.com/arthur3486/android-mvvm"
     releaseLicense = ["Apache-2.0"]
 

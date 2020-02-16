@@ -30,7 +30,7 @@ import com.arthurivanets.sample.adapters.events.EventItemViewHolder
 import com.arthurivanets.sample.adapters.events.EventItemsRecyclerViewAdapter
 import com.arthurivanets.sample.databinding.FragmentEventsBinding
 import com.arthurivanets.sample.domain.entities.Event
-import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.BaseMvvmFragment
 import com.arthurivanets.sample.ui.base.GeneralViewStates
 import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.dashboard.DashboardFragmentDirections
@@ -43,7 +43,7 @@ import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.view_progress_bar_circular.*
 import javax.inject.Inject
 
-class EventsFragment : BaseFragment<FragmentEventsBinding, EventsViewModel>(R.layout.fragment_events), CanScrollToTop {
+class EventsFragment : BaseMvvmFragment<FragmentEventsBinding, EventsViewModel>(R.layout.fragment_events), CanScrollToTop {
     
 
     @Inject

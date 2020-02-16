@@ -40,7 +40,7 @@ import com.arthurivanets.sample.domain.entities.Character
 import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.domain.entities.Image
 import com.arthurivanets.sample.imageloading.ImageLoader
-import com.arthurivanets.sample.ui.base.BaseFragment
+import com.arthurivanets.sample.ui.base.BaseMvvmFragment
 import com.arthurivanets.sample.ui.base.GeneralViewStates
 import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.util.extensions.onItemClick
@@ -54,7 +54,7 @@ import kotlinx.android.synthetic.main.view_item_empty_view.*
 import kotlinx.android.synthetic.main.view_progress_bar_horizontal.*
 import javax.inject.Inject
 
-class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, CharacterInfoViewModel>(R.layout.fragment_character_info) {
+class CharacterInfoFragment : BaseMvvmFragment<FragmentCharacterInfoBinding, CharacterInfoViewModel>(R.layout.fragment_character_info) {
     
     
     private val args by navArgs<CharacterInfoFragmentArgs>()
