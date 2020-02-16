@@ -18,7 +18,9 @@ package com.arthurivanets.mvvm.navigation
 
 import android.os.Bundle
 import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import com.arthurivanets.mvvm.BaseViewModel
@@ -27,7 +29,7 @@ import com.arthurivanets.mvvm.MvvmFragment
 /**
  * A base MVVM Fragment with built-in support for Android X Navigation Concept.
  */
-abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmFragment<VDB, VM>() {
+abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmFragment<VDB, VM>(layoutId) {
 
 
     /**
@@ -37,15 +39,32 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmFra
      * @param extras the extra arguments to be passed to the destination screen
      * @param navigationExtras
      */
-    protected fun navigate(@IdRes destinationId : Int,
-                           extras : Bundle? = null,
-                           navigationExtras : Navigator.Extras? = null) {
+    protected fun navigate(
+        @IdRes destinationId : Int,
+        extras : Bundle? = null,
+        navigationExtras : Navigator.Extras? = null
+    ) {
         findNavController().navigate(
             destinationId,
             extras,
             null,
             navigationExtras
         )
+    }
+    
+    
+    /**
+     * Navigates to the specified destination screen.
+     *
+     * @param directions the direction that leads to the destiantion screen.
+     * @param navigationExtras
+     */
+    protected fun navigate(directions : NavDirections, navigationExtras : Navigator.Extras? = null) {
+        navigationExtras?.let { navExtras ->
+            findNavController().navigate(directions, navExtras)
+        } ?: run {
+            findNavController().navigate(directions)
+        }
     }
     
     

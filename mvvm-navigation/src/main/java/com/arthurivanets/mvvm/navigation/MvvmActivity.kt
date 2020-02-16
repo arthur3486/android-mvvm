@@ -19,18 +19,51 @@ package com.arthurivanets.mvvm.navigation
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.annotation.NavigationRes
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.mvvm.MvvmActivity
 import com.arthurivanets.mvvm.navigation.util.addExtras
+import com.arthurivanets.mvvm.util.plus
 
 /**
  * A base MVVM Activity with built-in support for Android X Navigation Concept.
  */
-abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmActivity<VDB, VM>() {
+abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmActivity<VDB, VM>(layoutId) {
+    
+    
+    /**
+     * Used to obtain the exact id of the navigation graph to be used by this activity.
+     *
+     * @return the id of the navigation graph
+     */
+    @get:NavigationRes
+    protected open val navigationGraphId : Int = 0
+    
+    /**
+     * Override this property to specify a custom Start Destination.
+     *
+     * @return the exact id of the destination to be used as the starting one.
+     */
+    @get:IdRes
+    protected open val navigationGraphStartDestination : Int = 0
+    
+    /**
+     * Accesses the The NavController associated with the current activity.
+     */
+    protected val navController : NavController
+        get() = findNavController(R.id.nav_host_fragment)
+    
+    /**
+     * The initial input to be provided to the start destination fragment.
+     */
+    protected open val startDestinationInput : Bundle = Bundle()
 
 
     @CallSuper
@@ -41,9 +74,9 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmAct
 
     private fun initNavigationGraph() {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?)?.navController?.apply {
-            graph = navInflater.inflate(getNavigationGraphId()).also {
-                it.startDestination = (if(getNavigationGraphStartDestination() != 0) getNavigationGraphStartDestination() else it.startDestination)
-                it.addExtras(extrasBundle)
+            graph = navInflater.inflate(navigationGraphId).also {
+                it.startDestination = (if(navigationGraphStartDestination != 0) navigationGraphStartDestination else it.startDestination)
+                it.addExtras(extrasBundle + startDestinationInput)
             }
         }
     }
@@ -56,32 +89,27 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmAct
      * @param extras the extra arguments to be passed to the destination screen
      */
     protected fun navigate(@IdRes destinationId : Int, extras : Bundle? = null) {
-        findNavController(R.id.nav_host_fragment).navigate(destinationId, extras)
+        navController.navigate(destinationId, extras)
+    }
+    
+    
+    /**
+     * Navigates to the specified destination screen.
+     *
+     * @param directions the direction that leads to the destiantion screen.
+     * @param navigationExtras
+     */
+    protected fun navigate(directions : NavDirections, navigationExtras : Navigator.Extras? = null) {
+        navigationExtras?.let { navExtras ->
+            navController.navigate(directions, navExtras)
+        } ?: run {
+            navController.navigate(directions)
+        }
     }
 
 
     final override fun onSupportNavigateUp() : Boolean {
-        return findNavController(R.id.nav_host_fragment).navigateUp()
-    }
-
-
-    /**
-     * Used to obtain the exact id of the navigation graph to be used by this activity.
-     *
-     * @return the id of the navigation graph
-     */
-    @NavigationRes
-    protected abstract fun getNavigationGraphId() : Int
-
-
-    /**
-     * Override this method to specify a custom Start Destination.
-     *
-     * @return the exact id of the destination to be used as the starting one.
-     */
-    @IdRes
-    protected open fun getNavigationGraphStartDestination() : Int {
-        return 0
+        return navController.navigateUp()
     }
 
 

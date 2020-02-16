@@ -48,8 +48,20 @@ import kotlin.properties.Delegates
 /**
  * A base MVVM Fragment to be used in conjunction with the concrete implementations of the [BaseViewModel].
  */
-abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel> : Fragment(), CanFetchExtras, CanHandleNewIntent, CanHandleBackPressEvents {
+abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
+    @LayoutRes
+    private val layoutId : Int
+) : Fragment(), CanFetchExtras, CanHandleNewIntent, CanHandleBackPressEvents {
     
+    
+    /**
+     * Retrieves the id of the Data Binding variable.
+     * (This id should correspond to the id of the ViewModel
+     * variable defined in your xml layout file)
+     *
+     * @return the binding variable id
+     */
+    protected abstract val bindingVariable : Int
     
     /**
      * The content [View] of the current [MvvmFragment].
@@ -102,13 +114,17 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel> : Fragmen
     }
 
 
-    override fun onCreateView(inflater : LayoutInflater, container : ViewGroup?, savedInstanceState : Bundle?) : View? {
+    override fun onCreateView(
+        inflater : LayoutInflater,
+        container : ViewGroup?,
+        savedInstanceState : Bundle?
+    ) : View? {
         if(!isViewCreated) {
-            viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+            viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
             rootView = viewDataBinding?.root
         }
         
-        viewDataBinding?.setVariable(getBindingVariable(), viewModel)
+        viewDataBinding?.setVariable(bindingVariable, viewModel)
         viewDataBinding?.lifecycleOwner = this
 
         return rootView
@@ -173,8 +189,16 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel> : Fragmen
 
 
     private fun initViewModel() {
-        viewModel = getViewModel()
+        viewModel = createViewModel()
     }
+    
+    
+    /**
+     * Creates the concrete version of the [BaseViewModel].
+     *
+     * @return the created concrete version of the [BaseViewModel]
+     */
+    protected abstract fun createViewModel() : VM
 
 
     /**
@@ -548,35 +572,6 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel> : Fragmen
         registeredObservables.clear()
     }
 
-
-    /**
-     * Retrieves the resource id of the layout which will be used
-     * as a content view of the [Fragment].
-     *
-     * @return a valid layout resource id
-     */
-    @LayoutRes
-    protected abstract fun getLayoutId() : Int
-
-
-    /**
-     * Retrieves the id of the Data Binding variable.
-     * (This id should correspond to the id of the ViewModel
-     * variable defined in your xml layout file)
-     *
-     * @return the binding variable id
-     */
-    protected abstract fun getBindingVariable() : Int
-
-
-    /**
-     * Used to retrieve the concrete version of the
-     * initialized [BaseViewModel].
-     *
-     * @return the initialized [BaseViewModel]
-     */
-    protected abstract fun getViewModel() : VM
-    
     
     private fun Disposable.manageViewStateSubscription() {
         viewStateSubscriptionDisposables.add(this)

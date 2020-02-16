@@ -1,22 +1,20 @@
 package com.arthurivanets.mvvm.dagger
 
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.mvvm.MvvmActivity
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
  * A base MVVM Activity with built-in support for the Dagger2-based dependency injection.
  */
-abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmActivity<VDB, VM>(), HasAndroidInjector {
+abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmActivity<VDB, VM>(layoutId) {
     
-    
+
     @Inject
-    lateinit var androidInjector : DispatchingAndroidInjector<Any>
+    lateinit var viewModel : VM
 
 
     final override fun injectDependencies() {
@@ -24,9 +22,9 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmAct
     }
     
     
-    final override fun androidInjector() : AndroidInjector<Any> {
-        return androidInjector
+    final override fun createViewModel() : VM {
+        return viewModel
     }
-
-
+    
+    
 }

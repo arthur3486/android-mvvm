@@ -16,20 +16,31 @@
 
 package com.arthurivanets.mvvm.dagger
 
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.mvvm.MvvmFragment
 import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 /**
  * A base MVVM Fragment with built-in support for the Dagger2-based dependency injection.
  */
-abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmFragment<VDB, VM>() {
+abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmFragment<VDB, VM>(layoutId) {
+    
+    
+    @Inject
+    lateinit var viewModel : VM
 
 
     final override fun injectDependencies() {
         AndroidSupportInjection.inject(this)
     }
-
-
+    
+    
+    final override fun createViewModel() : VM {
+        return viewModel
+    }
+    
+    
 }

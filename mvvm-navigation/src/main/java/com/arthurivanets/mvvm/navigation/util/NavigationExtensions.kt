@@ -20,7 +20,16 @@ package com.arthurivanets.mvvm.navigation.util
 
 import android.os.Bundle
 import androidx.navigation.NavArgument
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph
+
+
+/**
+ * Determines if the current Fragment Page is the start destination
+ * (according to the associated navigation graph).
+ */
+val NavController.isOnStartDestination : Boolean
+    get() = (this.currentDestination?.id == this.graph.startDestination)
 
 
 /**

@@ -42,9 +42,21 @@ import io.reactivex.functions.Consumer
 /**
  * A base MVVM Activity to be used in conjunction with the concrete implementations of the [BaseViewModel].
  */
-abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity(), CanFetchExtras, CanHandleNewIntent {
-
-
+abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
+    @LayoutRes
+    private val layoutId : Int
+) : AppCompatActivity(), CanFetchExtras, CanHandleNewIntent {
+    
+    
+    /**
+     * Retrieves the id of the Data Binding variable.
+     * (This id should correspond to the id of the ViewModel
+     * variable defined in your xml layout file)
+     *
+     * @return the binding variable id
+     */
+    abstract val bindingVariable : Int
+    
     var extrasBundle = Bundle()
         private set
 
@@ -135,12 +147,20 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
 
 
     private fun initDataBinding() {
-        viewDataBinding = (viewDataBinding ?: DataBindingUtil.setContentView(this, getLayoutId()))
-        viewModel = (viewModel ?: getViewModel())
+        viewDataBinding = (viewDataBinding ?: DataBindingUtil.setContentView(this, layoutId))
+        viewModel = (viewModel ?: createViewModel())
 
-        viewDataBinding?.setVariable(getBindingVariable(), viewModel)
+        viewDataBinding?.setVariable(bindingVariable, viewModel)
         viewDataBinding?.lifecycleOwner = this
     }
+    
+    
+    /**
+     * Creates the concrete version of the [BaseViewModel].
+     *
+     * @return the created concrete version of the [BaseViewModel]
+     */
+    protected abstract fun createViewModel() : VM
 
 
     /**
@@ -174,7 +194,7 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     @CallSuper
     override fun onPause() {
         super.onPause()
-
+    
         viewModel?.onStop()
 
         disposeSubscriptions()
@@ -340,35 +360,6 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     }
 
 
-    /**
-     * Retrieves the resource id of the layout which will be used
-     * as a content view of the [android.app.Activity].
-     *
-     * @return a valid layout resource id
-     */
-    @LayoutRes
-    abstract fun getLayoutId() : Int
-
-
-    /**
-     * Retrieves the id of the Data Binding variable.
-     * (This id should correspond to the id of the ViewModel
-     * variable defined in your xml layout file)
-     *
-     * @return the binding variable id
-     */
-    abstract fun getBindingVariable() : Int
-
-
-    /**
-     * Used to retrieve the concrete version of the
-     * initialized [BaseViewModel].
-     *
-     * @return the initialized [BaseViewModel]
-     */
-    abstract fun getViewModel() : VM
-    
-    
     private fun Disposable.manageViewStateSubscription() {
         viewStateSubscriptionDisposables.add(this)
     }
