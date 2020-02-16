@@ -31,9 +31,11 @@ class ComicsModule {
 
 
     @Provides
-    fun provideComicsViewModel(fragment : ComicsFragment,
-                               comicsRepository : ComicsRepository,
-                               schedulerProvider : SchedulerProvider) : ComicsViewModel {
+    fun provideComicsViewModel(
+        fragment : ComicsFragment,
+        comicsRepository : ComicsRepository,
+        schedulerProvider : SchedulerProvider
+    ) : ComicsViewModel {
         return fragment.provideViewModel {
             ComicsViewModel(
                 comicsRepository = comicsRepository,
@@ -44,9 +46,11 @@ class ComicsModule {
 
 
     @Provides
-    fun provideComicsInfoViewModel(fragment : ComicsInfoFragment,
-                                   comicsRepository : ComicsRepository,
-                                   schedulerProvider : SchedulerProvider) : ComicsInfoViewModel {
+    fun provideComicsInfoViewModel(
+        fragment : ComicsInfoFragment,
+        comicsRepository : ComicsRepository,
+        schedulerProvider : SchedulerProvider
+    ) : ComicsInfoViewModel {
         return fragment.provideViewModel {
             ComicsInfoViewModel(
                 comicsRepository = comicsRepository,

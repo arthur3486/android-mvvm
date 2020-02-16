@@ -31,9 +31,11 @@ class EventsModule {
 
 
     @Provides
-    fun provideEventsViewModel(fragment : EventsFragment,
-                               eventsRepository : EventsRepository,
-                               schedulerProvider : SchedulerProvider) : EventsViewModel {
+    fun provideEventsViewModel(
+        fragment : EventsFragment,
+        eventsRepository : EventsRepository,
+        schedulerProvider : SchedulerProvider
+    ) : EventsViewModel {
         return fragment.provideViewModel {
             EventsViewModel(
                 eventsRepository = eventsRepository,
@@ -44,9 +46,11 @@ class EventsModule {
 
 
     @Provides
-    fun provideEventInfoViewModel(fragment : EventInfoFragment,
-                                  eventsRepository : EventsRepository,
-                                  schedulerProvider : SchedulerProvider) : EventInfoViewModel {
+    fun provideEventInfoViewModel(
+        fragment : EventInfoFragment,
+        eventsRepository : EventsRepository,
+        schedulerProvider : SchedulerProvider
+    ) : EventInfoViewModel {
         return fragment.provideViewModel {
             EventInfoViewModel(
                 eventsRepository = eventsRepository,
