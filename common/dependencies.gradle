@@ -158,11 +158,14 @@ ext {
     // Unit Testing
     unitTestingDependencies = dependencies([
         jUnit: "junit:junit:${rootProject.jUnitVersion}",
+        coreTests: "androidx.test:core:${rootProject.coreTestsVersion}",
+        mockito: "org.mockito:mockito-core:${rootProject.mockitoVersion}"
     ])
 
     // Instrumentation Testing
     instrumentationTestingDependencies = dependencies([
         runner: "androidx.test:runner:${rootProject.testRunnerVersion}",
+        rules: "androidx.test:rules:${rootProject.testRunnerVersion}",
         espresso: "androidx.test.espresso:espresso-core:${rootProject.espressoVersion}"
     ])
 }

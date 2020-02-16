@@ -35,19 +35,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-    }
-
-    androidExtensions {
-        experimental = true
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     compileOptions {
@@ -64,15 +60,8 @@ dependencies {
     kapt daggerAnnotationProcessingDependencies
     implementation daggerDependencies
 
-    implementation rxJavaDependencies
-    implementation rxBusDependencies
-
     implementation commonsDependencies
-    implementation commonsDataDependencies
     implementation commonsRxJavaDependencies
-
-    implementation project(":data")
-    implementation project(":commons")
 
     testImplementation unitTestingDependencies
     androidTestImplementation instrumentationTestingDependencies
