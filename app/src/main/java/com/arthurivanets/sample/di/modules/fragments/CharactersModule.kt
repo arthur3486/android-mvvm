@@ -21,10 +21,8 @@ import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.characters.CharactersRepository
 import com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment
 import com.arthurivanets.sample.ui.characters.info.CharacterInfoViewModel
-import com.arthurivanets.sample.ui.characters.info.CharacterInfoViewModelImpl
 import com.arthurivanets.sample.ui.characters.list.CharactersFragment
 import com.arthurivanets.sample.ui.characters.list.CharactersViewModel
-import com.arthurivanets.sample.ui.characters.list.CharactersViewModelImpl
 import dagger.Module
 import dagger.Provides
 
@@ -37,7 +35,7 @@ class CharactersModule {
                                    charactersRepository : CharactersRepository,
                                    schedulerProvider : SchedulerProvider) : CharactersViewModel {
         return fragment.provideViewModel {
-            CharactersViewModelImpl(
+            CharactersViewModel(
                 charactersRepository = charactersRepository,
                 schedulerProvider = schedulerProvider
             )
@@ -50,7 +48,7 @@ class CharactersModule {
                                       charactersRepository : CharactersRepository,
                                       schedulerProvider : SchedulerProvider) : CharacterInfoViewModel {
         return fragment.provideViewModel {
-            CharacterInfoViewModelImpl(
+            CharacterInfoViewModel(
                 charactersRepository = charactersRepository,
                 schedulerProvider = schedulerProvider
             )

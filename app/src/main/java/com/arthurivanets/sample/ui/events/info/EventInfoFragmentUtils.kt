@@ -19,28 +19,13 @@
 package com.arthurivanets.sample.ui.events.info
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import com.arthurivanets.sample.domain.entities.Event
-
-
-internal val extrasExtractor : (Bundle.() -> Extras) = {
-    Extras(
-        event = (this.getParcelable(ExtrasKeys.EVENT) ?: Event())
-    )
-}
 
 
 internal val stateExtractor : (Bundle.() -> State) = {
     State(
         event = (this.getParcelable(StateKeys.EVENT) ?: Event())
     )
-}
-
-
-internal object ExtrasKeys {
-    
-    const val EVENT = "event"
-    
 }
 
 
@@ -51,11 +36,6 @@ internal object StateKeys {
 }
 
 
-internal data class Extras(
-    val event : Event = Event()
-)
-
-
 internal data class State(
     val event : Event
 )
@@ -63,11 +43,4 @@ internal data class State(
 
 internal fun Bundle.saveState(state : State) {
     this.putParcelable(StateKeys.EVENT, state.event)
-}
-
-
-fun EventInfoFragment.Companion.newBundle(event : Event) : Bundle {
-    return bundleOf(
-        ExtrasKeys.EVENT to event
-    )
 }

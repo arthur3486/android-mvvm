@@ -19,28 +19,13 @@
 package com.arthurivanets.sample.ui.comics.info
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import com.arthurivanets.sample.domain.entities.Comics
-
-
-internal val extrasExtractor : (Bundle.() -> Extras) = {
-    Extras(
-        comics = (this.getParcelable(ExtrasKeys.COMICS) ?: Comics())
-    )
-}
 
 
 internal val stateExtractor : (Bundle.() -> State) = {
     State(
         comics = (this.getParcelable(StateKeys.COMICS) ?: Comics())
     )
-}
-
-
-internal object ExtrasKeys {
-    
-    const val COMICS = "comics"
-    
 }
 
 
@@ -51,11 +36,6 @@ internal object StateKeys {
 }
 
 
-internal data class Extras(
-    val comics : Comics = Comics()
-)
-
-
 internal data class State(
     val comics : Comics
 )
@@ -63,11 +43,4 @@ internal data class State(
 
 internal fun Bundle.saveState(state : State) {
     this.putParcelable(StateKeys.COMICS, state.comics)
-}
-
-
-fun ComicsInfoFragment.Companion.newBundle(comics : Comics) : Bundle {
-    return bundleOf(
-        ExtrasKeys.COMICS to comics
-    )
 }

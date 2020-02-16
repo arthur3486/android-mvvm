@@ -21,10 +21,8 @@ import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.events.EventsRepository
 import com.arthurivanets.sample.ui.events.info.EventInfoFragment
 import com.arthurivanets.sample.ui.events.info.EventInfoViewModel
-import com.arthurivanets.sample.ui.events.info.EventInfoViewModelImpl
 import com.arthurivanets.sample.ui.events.list.EventsFragment
 import com.arthurivanets.sample.ui.events.list.EventsViewModel
-import com.arthurivanets.sample.ui.events.list.EventsViewModelImpl
 import dagger.Module
 import dagger.Provides
 
@@ -37,7 +35,7 @@ class EventsModule {
                                eventsRepository : EventsRepository,
                                schedulerProvider : SchedulerProvider) : EventsViewModel {
         return fragment.provideViewModel {
-            EventsViewModelImpl(
+            EventsViewModel(
                 eventsRepository = eventsRepository,
                 schedulerProvider = schedulerProvider
             )
@@ -50,7 +48,7 @@ class EventsModule {
                                   eventsRepository : EventsRepository,
                                   schedulerProvider : SchedulerProvider) : EventInfoViewModel {
         return fragment.provideViewModel {
-            EventInfoViewModelImpl(
+            EventInfoViewModel(
                 eventsRepository = eventsRepository,
                 schedulerProvider = schedulerProvider
             )

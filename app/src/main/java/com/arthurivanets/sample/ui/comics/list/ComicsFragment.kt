@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arthurivanets.mvvm.events.Route
 import com.arthurivanets.mvvm.events.ViewState
-import com.arthurivanets.sample.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.comics.ComicsItem
 import com.arthurivanets.sample.adapters.comics.ComicsItemResources
@@ -35,8 +34,7 @@ import com.arthurivanets.sample.ui.base.BaseFragment
 import com.arthurivanets.sample.ui.base.GeneralViewStates
 import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.comics.COMICS_COLUMN_COUNT
-import com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment
-import com.arthurivanets.sample.ui.comics.info.newBundle
+import com.arthurivanets.sample.ui.dashboard.DashboardFragmentDirections
 import com.arthurivanets.sample.ui.util.extensions.onItemClick
 import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedTitleTransitionName
@@ -45,11 +43,8 @@ import kotlinx.android.synthetic.main.fragment_comics.*
 import kotlinx.android.synthetic.main.view_progress_bar_circular.*
 import javax.inject.Inject
 
-class ComicsFragment : BaseFragment<FragmentComicsBinding, ComicsViewModel>(), CanScrollToTop {
-
-
-    @Inject
-    lateinit var localViewModel : ComicsViewModel
+class ComicsFragment : BaseFragment<FragmentComicsBinding, ComicsViewModel>(R.layout.fragment_comics), CanScrollToTop {
+    
 
     @Inject
     lateinit var itemResources : ComicsItemResources
@@ -78,10 +73,10 @@ class ComicsFragment : BaseFragment<FragmentComicsBinding, ComicsViewModel>(), C
     private fun initAdapter() : ComicsItemsRecyclerViewAdapter {
         return ComicsItemsRecyclerViewAdapter(
             context = context!!,
-            items = localViewModel.items,
+            items = viewModel.items,
             resources = itemResources
         ).apply {
-            onItemClickListener = onItemClick { localViewModel.onComicsClicked(it.itemModel) }
+            onItemClickListener = onItemClick { viewModel.onComicsClicked(it.itemModel) }
         }.also { adapter = it }
     }
     
@@ -136,9 +131,8 @@ class ComicsFragment : BaseFragment<FragmentComicsBinding, ComicsViewModel>(), C
         val viewHolder = (getItemViewHolder(comics) ?: return)
         
         navigate(
-            R.id.comicsInfoFragmentAction,
-            ComicsInfoFragment.newBundle(comics),
-            FragmentNavigatorExtras(
+            directions = DashboardFragmentDirections.comicsInfoFragmentAction(comics),
+            navigationExtras = FragmentNavigatorExtras(
                 viewHolder.imageIv to comics.sharedImageTransitionName,
                 viewHolder.titleTv to comics.sharedTitleTransitionName
             )
@@ -154,21 +148,6 @@ class ComicsFragment : BaseFragment<FragmentComicsBinding, ComicsViewModel>(), C
         } else {
             null
         }
-    }
-
-
-    override fun getLayoutId() : Int {
-        return R.layout.fragment_comics
-    }
-
-
-    override fun getBindingVariable() : Int {
-        return BR.viewModel
-    }
-
-
-    override fun getViewModel() : ComicsViewModel {
-        return localViewModel
     }
 
 

@@ -21,37 +21,15 @@ import com.arthurivanets.mvvm.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.databinding.ActivityHostBinding
 import com.arthurivanets.sample.ui.base.BaseActivity
-import javax.inject.Inject
 
-class HostActivity : BaseActivity<ActivityHostBinding, HostActivityViewModel>() {
-
-
-    @Inject
-    lateinit var localViewModel : HostActivityViewModel
+class HostActivity : BaseActivity<ActivityHostBinding, HostActivityViewModel>(R.layout.activity_host) {
 
 
+    override val navigationGraphId = R.navigation.navigation_host_activity
+    
+    
     override fun preInit() {
         requestPortraitScreenOrientation()
-    }
-
-
-    override fun getLayoutId() : Int {
-        return R.layout.activity_host
-    }
-
-
-    override fun getBindingVariable() : Int {
-        return BR.viewModel
-    }
-
-
-    override fun getViewModel() : HostActivityViewModel {
-        return localViewModel
-    }
-
-
-    override fun getNavigationGraphId() : Int {
-        return R.navigation.navigation_host_activity
     }
 
 

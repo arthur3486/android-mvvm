@@ -16,20 +16,12 @@
 
 package com.arthurivanets.sample.ui.dashboard
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import com.arthurivanets.commons.ktx.getColorCompat
 import com.arthurivanets.commons.ktx.selectedAndReleased
 import com.arthurivanets.commons.ktx.statusBarSize
 import com.arthurivanets.commons.ktx.updatePadding
-import com.arthurivanets.mvvm.BR
-import com.arthurivanets.mvvm.navigation.dagger.MvvmFragment
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.dashboard.DashboardViewPagerAdapter
 import com.arthurivanets.sample.databinding.FragmentDashboardBinding
@@ -41,13 +33,9 @@ import com.arthurivanets.sample.ui.util.extensions.attemptScrollToTop
 import com.arthurivanets.sample.ui.util.extensions.isEmpty
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.view_toolbar.*
-import javax.inject.Inject
 
-class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>() {
+class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>(R.layout.fragment_dashboard) {
 
-
-    @Inject
-    lateinit var localViewModel : DashboardViewModel
 
     private lateinit var pagerAdapter : DashboardViewPagerAdapter
 
@@ -121,21 +109,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
             R.id.navigation_item_characters -> 2
             else -> 0
         }
-    }
-
-
-    override fun getLayoutId() : Int {
-        return R.layout.fragment_dashboard
-    }
-
-
-    override fun getBindingVariable() : Int {
-        return BR.viewModel
-    }
-
-
-    override fun getViewModel() : DashboardViewModel {
-        return localViewModel
     }
 
 

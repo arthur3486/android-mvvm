@@ -21,10 +21,8 @@ import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.domain.repositories.comics.ComicsRepository
 import com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment
 import com.arthurivanets.sample.ui.comics.info.ComicsInfoViewModel
-import com.arthurivanets.sample.ui.comics.info.ComicsInfoViewModelImpl
 import com.arthurivanets.sample.ui.comics.list.ComicsFragment
 import com.arthurivanets.sample.ui.comics.list.ComicsViewModel
-import com.arthurivanets.sample.ui.comics.list.ComicsViewModelImpl
 import dagger.Module
 import dagger.Provides
 
@@ -37,7 +35,7 @@ class ComicsModule {
                                comicsRepository : ComicsRepository,
                                schedulerProvider : SchedulerProvider) : ComicsViewModel {
         return fragment.provideViewModel {
-            ComicsViewModelImpl(
+            ComicsViewModel(
                 comicsRepository = comicsRepository,
                 schedulerProvider = schedulerProvider
             )
@@ -50,7 +48,7 @@ class ComicsModule {
                                    comicsRepository : ComicsRepository,
                                    schedulerProvider : SchedulerProvider) : ComicsInfoViewModel {
         return fragment.provideViewModel {
-            ComicsInfoViewModelImpl(
+            ComicsInfoViewModel(
                 comicsRepository = comicsRepository,
                 schedulerProvider = schedulerProvider
             )

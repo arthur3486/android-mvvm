@@ -16,15 +16,82 @@
 
 package com.arthurivanets.sample.ui.characters.list
 
-import com.arthurivanets.adapster.databinding.TrackableList
-import com.arthurivanets.mvvm.BaseViewModel
+import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
+import com.arthurivanets.commons.data.rx.ktx.resultOrError
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.characters.CharacterItem
 import com.arthurivanets.sample.domain.entities.Character
+import com.arthurivanets.sample.domain.repositories.characters.CharactersRepository
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
+import com.arthurivanets.sample.ui.characters.DEFAULT_CHARACTER_LOADING_LIMIT
 
-interface CharactersViewModel : BaseViewModel {
+class CharactersViewModel(
+    private val charactersRepository : CharactersRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel() {
 
-    val items : TrackableList<Long, CharacterItem>
 
-    fun onCharacterClicked(character : Character)
+    val items = ObservableTrackableArrayList<Long, CharacterItem>()
+    
+    private var isDataLoading = false
+
+
+    override fun onStart() {
+        super.onStart()
+
+        loadInitialData()
+    }
+
+
+    fun onCharacterClicked(character : Character) {
+        route(MarvelRoutes.CharacterInfoScreen(character))
+    }
+
+
+    private fun loadInitialData() {
+        if(items.isEmpty()) {
+            loadData()
+        }
+    }
+
+
+    private fun loadData() {
+        if(isDataLoading) {
+            return
+        }
+    
+        isDataLoading = true
+        
+        changeViewState(GeneralViewStates.Loading<Unit>())
+
+        charactersRepository.getCharacters(0, DEFAULT_CHARACTER_LOADING_LIMIT)
+            .resultOrError()
+            .applyIOWorkSchedulers(schedulerProvider)
+            .subscribe(::onLoadedSuccessfully, ::onLoadingFailed)
+            .manageLongLivingDisposable()
+    }
+
+
+    private fun onLoadedSuccessfully(characters : List<Character>) {
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
+
+        characters.forEach { items.addOrUpdate(CharacterItem(it)) }
+    }
+
+
+    private fun onLoadingFailed(throwable : Throwable) {
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
+
+        // TODO the proper error handling should be done here
+        throwable.printStackTrace()
+    }
+
 
 }

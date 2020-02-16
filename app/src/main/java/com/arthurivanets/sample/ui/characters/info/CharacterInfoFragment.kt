@@ -20,17 +20,16 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.arthurivanets.adapster.ktx.isEmpty
 import com.arthurivanets.adapster.listeners.DatasetChangeListenerAdapter
-import com.arthurivanets.commons.ktx.extract
 import com.arthurivanets.commons.ktx.getColorCompat
 import com.arthurivanets.commons.ktx.statusBarSize
 import com.arthurivanets.mvvm.events.Route
 import com.arthurivanets.mvvm.events.ViewState
-import com.arthurivanets.sample.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.comics.ComicsItem
 import com.arthurivanets.sample.adapters.comics.ComicsItemResources
@@ -44,8 +43,6 @@ import com.arthurivanets.sample.imageloading.ImageLoader
 import com.arthurivanets.sample.ui.base.BaseFragment
 import com.arthurivanets.sample.ui.base.GeneralViewStates
 import com.arthurivanets.sample.ui.base.MarvelRoutes
-import com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment
-import com.arthurivanets.sample.ui.comics.info.newBundle
 import com.arthurivanets.sample.ui.util.extensions.onItemClick
 import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedNameTransitionName
@@ -57,11 +54,10 @@ import kotlinx.android.synthetic.main.view_item_empty_view.*
 import kotlinx.android.synthetic.main.view_progress_bar_horizontal.*
 import javax.inject.Inject
 
-class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, CharacterInfoViewModel>() {
-
-
-    @Inject
-    lateinit var localViewModel : CharacterInfoViewModel
+class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, CharacterInfoViewModel>(R.layout.fragment_character_info) {
+    
+    
+    private val args by navArgs<CharacterInfoFragmentArgs>()
     
     @Inject
     lateinit var imageLoader : ImageLoader
@@ -72,20 +68,9 @@ class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, Charact
     private lateinit var comicsItemsAdapter : ComicsItemsRecyclerViewAdapter
     
     
-    companion object {}
-    
-    
-    override fun fetchExtras(extras : Bundle) {
-        super.fetchExtras(extras)
-        
-        extras.extract(extrasExtractor).also {
-            localViewModel.character = it.character
-        }
-    }
-    
-    
     override fun init(savedInstanceState : Bundle?) {
-        val character = localViewModel.character
+        val character = args.character
+        viewModel.character = character
     
         initAppBar(character)
         initComicsRecyclerView()
@@ -138,11 +123,11 @@ class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, Charact
     private fun initAdapter() : ComicsItemsRecyclerViewAdapter {
         return ComicsItemsRecyclerViewAdapter(
             context = context!!,
-            items = localViewModel.comicsItems,
+            items = viewModel.comicsItems,
             resources = comicsItemResources
         ).apply {
             addOnDatasetChangeListener(onDataSetChangeListener)
-            onItemClickListener = onItemClick { localViewModel.onComicsClicked(it.itemModel) }
+            onItemClickListener = onItemClick { viewModel.onComicsClicked(it.itemModel) }
         }.also { comicsItemsAdapter = it }
     }
     
@@ -220,9 +205,8 @@ class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, Charact
         val viewHolder = (getItemViewHolder(comics) ?: return)
         
         navigate(
-            R.id.comicsInfoFragmentAction,
-            ComicsInfoFragment.newBundle(comics),
-            FragmentNavigatorExtras(
+            directions = CharacterInfoFragmentDirections.comicsInfoFragmentAction(comics),
+            navigationExtras = FragmentNavigatorExtras(
                 viewHolder.imageIv to comics.sharedImageTransitionName,
                 viewHolder.titleTv to comics.sharedTitleTransitionName
             )
@@ -238,21 +222,6 @@ class CharacterInfoFragment : BaseFragment<FragmentCharacterInfoBinding, Charact
         } else {
             null
         }
-    }
-
-
-    override fun getLayoutId() : Int {
-        return R.layout.fragment_character_info
-    }
-
-
-    override fun getBindingVariable() : Int {
-        return BR.viewModel
-    }
-
-
-    override fun getViewModel() : CharacterInfoViewModel {
-        return localViewModel
     }
     
     

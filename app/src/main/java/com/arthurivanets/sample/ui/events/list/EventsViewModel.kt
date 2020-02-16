@@ -16,15 +16,82 @@
 
 package com.arthurivanets.sample.ui.events.list
 
-import com.arthurivanets.adapster.databinding.TrackableList
-import com.arthurivanets.mvvm.BaseViewModel
+import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
+import com.arthurivanets.commons.data.rx.ktx.resultOrError
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.events.EventItem
 import com.arthurivanets.sample.domain.entities.Event
+import com.arthurivanets.sample.domain.repositories.events.EventsRepository
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
+import com.arthurivanets.sample.ui.events.DEFAULT_EVENT_LOADING_LIMIT
 
-interface EventsViewModel : BaseViewModel {
+class EventsViewModel(
+    private val eventsRepository : EventsRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel() {
 
-    val items : TrackableList<Long, EventItem>
 
-    fun onEventClicked(event : Event)
+    val items = ObservableTrackableArrayList<Long, EventItem>()
+    
+    private var isDataLoading = false
+
+
+    override fun onStart() {
+        super.onStart()
+
+        loadInitialData()
+    }
+
+
+    fun onEventClicked(event : Event) {
+        route(MarvelRoutes.EventInfoScreen(event))
+    }
+
+
+    private fun loadInitialData() {
+        if(items.isEmpty()) {
+            loadData()
+        }
+    }
+
+
+    private fun loadData() {
+        if(isDataLoading) {
+            return
+        }
+    
+        isDataLoading = true
+        
+        changeViewState(GeneralViewStates.Loading<Unit>())
+
+        eventsRepository.getEvents(0, DEFAULT_EVENT_LOADING_LIMIT)
+            .resultOrError()
+            .applyIOWorkSchedulers(schedulerProvider)
+            .subscribe(::onLoadedSuccessfully, ::onLoadingFailed)
+            .manageLongLivingDisposable()
+    }
+
+
+    private fun onLoadedSuccessfully(events : List<Event>) {
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
+
+        events.forEach { items.addOrUpdate(EventItem(it)) }
+    }
+
+
+    private fun onLoadingFailed(throwable : Throwable) {
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
+
+        // TODO the proper error handling should be done here
+        throwable.printStackTrace()
+    }
+
 
 }

@@ -16,6 +16,6 @@
 
 package com.arthurivanets.sample.ui.dashboard
 
-import com.arthurivanets.mvvm.BaseViewModel
+import com.arthurivanets.mvvm.AbstractViewModel
 
-interface DashboardViewModel : BaseViewModel
+class DashboardViewModel : AbstractViewModel()

@@ -16,8 +16,16 @@
 
 package com.arthurivanets.sample.ui.base
 
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.mvvm.navigation.dagger.MvvmFragment
+import com.arthurivanets.sample.BR
 
-abstract class BaseFragment<VDB : ViewDataBinding, VM : BaseViewModel> : MvvmFragment<VDB, VM>()
+abstract class BaseFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmFragment<VDB, VM>(layoutId) {
+    
+    
+    override val bindingVariable = BR.viewModel
+    
+    
+}

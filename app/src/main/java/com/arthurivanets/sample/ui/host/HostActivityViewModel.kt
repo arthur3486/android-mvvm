@@ -16,6 +16,6 @@
 
 package com.arthurivanets.sample.ui.host
 
-import com.arthurivanets.mvvm.BaseViewModel
+import com.arthurivanets.mvvm.AbstractViewModel
 
-interface HostActivityViewModel : BaseViewModel
+class HostActivityViewModel : AbstractViewModel()

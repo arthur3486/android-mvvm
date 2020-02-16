@@ -19,18 +19,17 @@ package com.arthurivanets.sample.ui.events.info
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.arthurivanets.adapster.ktx.isEmpty
 import com.arthurivanets.adapster.listeners.DatasetChangeListenerAdapter
-import com.arthurivanets.commons.ktx.extract
 import com.arthurivanets.commons.ktx.getColorCompat
 import com.arthurivanets.commons.ktx.statusBarSize
 import com.arthurivanets.commons.ktx.updateLayoutParams
 import com.arthurivanets.mvvm.events.Route
 import com.arthurivanets.mvvm.events.ViewState
-import com.arthurivanets.sample.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.characters.CharacterItem
 import com.arthurivanets.sample.adapters.characters.CharacterItemResources
@@ -49,10 +48,6 @@ import com.arthurivanets.sample.imageloading.ImageLoader
 import com.arthurivanets.sample.ui.base.BaseFragment
 import com.arthurivanets.sample.ui.base.GeneralViewStates
 import com.arthurivanets.sample.ui.base.MarvelRoutes
-import com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment
-import com.arthurivanets.sample.ui.characters.info.newBundle
-import com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment
-import com.arthurivanets.sample.ui.comics.info.newBundle
 import com.arthurivanets.sample.ui.util.extensions.*
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.view_event_info_app_bar_content.*
@@ -61,11 +56,10 @@ import kotlinx.android.synthetic.main.view_item_empty_view.*
 import kotlinx.android.synthetic.main.view_progress_bar_horizontal.*
 import javax.inject.Inject
 
-class EventInfoFragment : BaseFragment<FragmentEventInfoBinding, EventInfoViewModel>() {
-
-
-    @Inject
-    lateinit var localViewModel : EventInfoViewModel
+class EventInfoFragment : BaseFragment<FragmentEventInfoBinding, EventInfoViewModel>(R.layout.fragment_event_info) {
+    
+    
+    private val args by navArgs<EventInfoFragmentArgs>()
     
     @Inject
     lateinit var imageLoader : ImageLoader
@@ -80,20 +74,9 @@ class EventInfoFragment : BaseFragment<FragmentEventInfoBinding, EventInfoViewMo
     private lateinit var characterItemsAdapter : CharacterItemsRecyclerViewAdapter
     
     
-    companion object {}
-    
-    
-    override fun fetchExtras(extras : Bundle) {
-        super.fetchExtras(extras)
-    
-        extras.extract(extrasExtractor).also {
-            localViewModel.event = it.event
-        }
-    }
-    
-    
     override fun init(savedInstanceState : Bundle?) {
-        val event = localViewModel.event
+        val event = args.event
+        viewModel.event = args.event
     
         initAppBar(event)
         initComicsRecyclerView()
@@ -148,11 +131,11 @@ class EventInfoFragment : BaseFragment<FragmentEventInfoBinding, EventInfoViewMo
     private fun initComicsAdapter() : ComicsItemsRecyclerViewAdapter {
         return ComicsItemsRecyclerViewAdapter(
             context = context!!,
-            items = localViewModel.comicsItems,
+            items = viewModel.comicsItems,
             resources = comicsItemResources
         ).apply {
             addOnDatasetChangeListener(onComicsDataSetChangeListener)
-            onItemClickListener = onItemClick { localViewModel.onComicsClicked(it.itemModel) }
+            onItemClickListener = onItemClick { viewModel.onComicsClicked(it.itemModel) }
         }.also { comicsItemsAdapter = it }
     }
     
@@ -177,11 +160,11 @@ class EventInfoFragment : BaseFragment<FragmentEventInfoBinding, EventInfoViewMo
     private fun initCharactersAdapter() : CharacterItemsRecyclerViewAdapter {
         return CharacterItemsRecyclerViewAdapter(
             context = context!!,
-            items = localViewModel.characterItems,
+            items = viewModel.characterItems,
             resources = characterItemResources
         ).apply {
             addOnDatasetChangeListener(onCharactersDataSetChangeListener)
-            onItemClickListener = onItemClick { localViewModel.onCharacterClicked(it.itemModel) }
+            onItemClickListener = onItemClick { viewModel.onCharacterClicked(it.itemModel) }
         }.also { characterItemsAdapter = it }
     }
     
@@ -269,9 +252,8 @@ class EventInfoFragment : BaseFragment<FragmentEventInfoBinding, EventInfoViewMo
         val viewHolder = (getComicsItemViewHolder(comics) ?: return)
         
         navigate(
-            R.id.comicsInfoFragmentAction,
-            ComicsInfoFragment.newBundle(comics),
-            FragmentNavigatorExtras(
+            directions = EventInfoFragmentDirections.comicsInfoFragmentAction(comics),
+            navigationExtras = FragmentNavigatorExtras(
                 viewHolder.imageIv to comics.sharedImageTransitionName,
                 viewHolder.titleTv to comics.sharedTitleTransitionName
             )
@@ -283,9 +265,8 @@ class EventInfoFragment : BaseFragment<FragmentEventInfoBinding, EventInfoViewMo
         val viewHolder = (getCharacterItemViewHolder(character) ?: return)
         
         navigate(
-            R.id.characterInfoFragmentAction,
-            CharacterInfoFragment.newBundle(character),
-            FragmentNavigatorExtras(
+            directions = EventInfoFragmentDirections.characterInfoFragmentAction(character),
+            navigationExtras = FragmentNavigatorExtras(
                 viewHolder.imageIv to character.sharedImageTransitionName,
                 viewHolder.nameTv to character.sharedNameTransitionName
             )
@@ -312,21 +293,6 @@ class EventInfoFragment : BaseFragment<FragmentEventInfoBinding, EventInfoViewMo
         } else {
             null
         }
-    }
-
-
-    override fun getLayoutId() : Int {
-        return R.layout.fragment_event_info
-    }
-
-
-    override fun getBindingVariable() : Int {
-        return BR.viewModel
-    }
-
-
-    override fun getViewModel() : EventInfoViewModel {
-        return localViewModel
     }
     
     

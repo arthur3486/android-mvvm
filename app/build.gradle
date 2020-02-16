@@ -18,6 +18,7 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 apply from: "../common/constants.gradle"
 apply from: "../common/utils.gradle"
@@ -103,9 +104,9 @@ dependencies {
 
     implementation adapsterDependencies
 
-    implementation project(":data")
     implementation project(":domain")
-    implementation project(":marvel-api")//TODO
+    implementation project(":commons")
+    implementation project(":marvel-api")
     implementation project(":imageloading")
     implementation project(":imageloading-glide")
     implementation project(":mvvm")

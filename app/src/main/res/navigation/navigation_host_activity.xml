@@ -14,15 +14,33 @@
     
         <action
             android:id="@+id/comicsInfoFragmentAction"
-            app:destination="@id/comicsInfoFragment"/>
+            app:destination="@id/comicsInfoFragment">
+            
+            <argument
+                android:name="comics"
+                app:argType="com.arthurivanets.sample.domain.entities.Comics"/>
+            
+        </action>
     
         <action
             android:id="@+id/eventInfoFragmentAction"
-            app:destination="@id/eventInfoFragment"/>
+            app:destination="@id/eventInfoFragment">
+    
+            <argument
+                android:name="event"
+                app:argType="com.arthurivanets.sample.domain.entities.Event"/>
+            
+        </action>
     
         <action
             android:id="@+id/characterInfoFragmentAction"
-            app:destination="@id/characterInfoFragment"/>
+            app:destination="@id/characterInfoFragment">
+    
+            <argument
+                android:name="character"
+                app:argType="com.arthurivanets.sample.domain.entities.Character"/>
+            
+        </action>
         
     </fragment>
     
@@ -33,9 +51,19 @@
         android:name="com.arthurivanets.sample.ui.comics.info.ComicsInfoFragment"
         android:label="ComicsInfoFragment">
     
+        <argument
+            android:name="comics"
+            app:argType="com.arthurivanets.sample.domain.entities.Comics"/>
+    
         <action
             android:id="@+id/characterInfoFragmentAction"
-            app:destination="@id/characterInfoFragment"/>
+            app:destination="@id/characterInfoFragment">
+    
+            <argument
+                android:name="character"
+                app:argType="com.arthurivanets.sample.domain.entities.Character"/>
+            
+        </action>
         
     </fragment>
     
@@ -46,13 +74,29 @@
         android:name="com.arthurivanets.sample.ui.events.info.EventInfoFragment"
         android:label="EventInfoFragment">
     
+        <argument
+            android:name="event"
+            app:argType="com.arthurivanets.sample.domain.entities.Event"/>
+    
         <action
             android:id="@+id/comicsInfoFragmentAction"
-            app:destination="@id/comicsInfoFragment"/>
+            app:destination="@id/comicsInfoFragment">
+    
+            <argument
+                android:name="comics"
+                app:argType="com.arthurivanets.sample.domain.entities.Comics"/>
+            
+        </action>
     
         <action
             android:id="@+id/characterInfoFragmentAction"
-            app:destination="@id/characterInfoFragment"/>
+            app:destination="@id/characterInfoFragment">
+    
+            <argument
+                android:name="character"
+                app:argType="com.arthurivanets.sample.domain.entities.Character"/>
+            
+        </action>
         
     </fragment>
     
@@ -63,9 +107,19 @@
         android:name="com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment"
         android:label="CharacterInfoFragment">
     
+        <argument
+            android:name="character"
+            app:argType="com.arthurivanets.sample.domain.entities.Character"/>
+    
         <action
             android:id="@+id/comicsInfoFragmentAction"
-            app:destination="@id/comicsInfoFragment"/>
+            app:destination="@id/comicsInfoFragment">
+    
+            <argument
+                android:name="comics"
+                app:argType="com.arthurivanets.sample.domain.entities.Comics"/>
+            
+        </action>
         
     </fragment>
 

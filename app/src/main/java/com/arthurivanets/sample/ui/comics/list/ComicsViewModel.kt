@@ -16,15 +16,82 @@
 
 package com.arthurivanets.sample.ui.comics.list
 
-import com.arthurivanets.adapster.databinding.TrackableList
-import com.arthurivanets.mvvm.BaseViewModel
+import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
+import com.arthurivanets.commons.data.rx.ktx.resultOrError
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.comics.ComicsItem
 import com.arthurivanets.sample.domain.entities.Comics
+import com.arthurivanets.sample.domain.repositories.comics.ComicsRepository
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
+import com.arthurivanets.sample.ui.comics.DEFAULT_COMICS_LOADING_LIMIT
 
-interface ComicsViewModel : BaseViewModel {
+class ComicsViewModel(
+    private val comicsRepository : ComicsRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel() {
 
-    val items : TrackableList<Long, ComicsItem>
 
-    fun onComicsClicked(comics : Comics)
+    val items = ObservableTrackableArrayList<Long, ComicsItem>()
+    
+    private var isDataLoading = false
+
+
+    override fun onStart() {
+        super.onStart()
+
+        loadInitialData()
+    }
+
+
+    fun onComicsClicked(comics : Comics) {
+        route(MarvelRoutes.ComicsInfoScreen(comics))
+    }
+
+
+    private fun loadInitialData() {
+        if(items.isEmpty()) {
+            loadData()
+        }
+    }
+
+
+    private fun loadData() {
+        if(isDataLoading) {
+            return
+        }
+    
+        isDataLoading = true
+        
+        changeViewState(GeneralViewStates.Loading<Unit>())
+
+        comicsRepository.getComics(0, DEFAULT_COMICS_LOADING_LIMIT)
+            .resultOrError()
+            .applyIOWorkSchedulers(schedulerProvider)
+            .subscribe(::onLoadedSuccessfully, ::onLoadingFailed)
+            .manageLongLivingDisposable()
+    }
+
+
+    private fun onLoadedSuccessfully(comics : List<Comics>) {
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
+
+        comics.forEach { items.addOrUpdate(ComicsItem(it)) }
+    }
+
+
+    private fun onLoadingFailed(throwable : Throwable) {
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
+
+        // TODO the proper error handling should be done here
+        throwable.printStackTrace()
+    }
+
 
 }

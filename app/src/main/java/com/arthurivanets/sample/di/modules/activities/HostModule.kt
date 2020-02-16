@@ -19,7 +19,6 @@ package com.arthurivanets.sample.di.modules.activities
 import com.arthurivanets.mvvm.util.provideViewModel
 import com.arthurivanets.sample.ui.host.HostActivity
 import com.arthurivanets.sample.ui.host.HostActivityViewModel
-import com.arthurivanets.sample.ui.host.HostActivityViewModelImpl
 import dagger.Module
 import dagger.Provides
 
@@ -30,7 +29,7 @@ class HostModule {
     @Provides
     fun provideHostViewModel(activity : HostActivity) : HostActivityViewModel {
         return activity.provideViewModel {
-            HostActivityViewModelImpl()
+            HostActivityViewModel()
         }
     }
 

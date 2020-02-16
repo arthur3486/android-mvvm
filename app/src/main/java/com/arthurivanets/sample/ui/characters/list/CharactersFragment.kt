@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arthurivanets.mvvm.events.Route
 import com.arthurivanets.mvvm.events.ViewState
-import com.arthurivanets.sample.BR
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.characters.CharacterItem
 import com.arthurivanets.sample.adapters.characters.CharacterItemResources
@@ -35,8 +34,7 @@ import com.arthurivanets.sample.ui.base.BaseFragment
 import com.arthurivanets.sample.ui.base.GeneralViewStates
 import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.characters.CHARACTERS_COLUMN_COUNT
-import com.arthurivanets.sample.ui.characters.info.CharacterInfoFragment
-import com.arthurivanets.sample.ui.characters.info.newBundle
+import com.arthurivanets.sample.ui.dashboard.DashboardFragmentDirections
 import com.arthurivanets.sample.ui.util.extensions.onItemClick
 import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedNameTransitionName
@@ -45,11 +43,8 @@ import kotlinx.android.synthetic.main.fragment_characters.*
 import kotlinx.android.synthetic.main.view_progress_bar_circular.*
 import javax.inject.Inject
 
-class CharactersFragment : BaseFragment<FragmentCharactersBinding, CharactersViewModel>(), CanScrollToTop {
-
-
-    @Inject
-    lateinit var localViewModel : CharactersViewModel
+class CharactersFragment : BaseFragment<FragmentCharactersBinding, CharactersViewModel>(R.layout.fragment_characters), CanScrollToTop {
+    
 
     @Inject
     lateinit var itemResources : CharacterItemResources
@@ -78,10 +73,10 @@ class CharactersFragment : BaseFragment<FragmentCharactersBinding, CharactersVie
     private fun initAdapter() : CharacterItemsRecyclerViewAdapter {
         return CharacterItemsRecyclerViewAdapter(
             context = context!!,
-            items = localViewModel.items,
+            items = viewModel.items,
             resources = itemResources
         ).apply {
-            onItemClickListener = onItemClick { localViewModel.onCharacterClicked(it.itemModel) }
+            onItemClickListener = onItemClick { viewModel.onCharacterClicked(it.itemModel) }
         }.also { adapter = it }
     }
     
@@ -136,9 +131,8 @@ class CharactersFragment : BaseFragment<FragmentCharactersBinding, CharactersVie
         val viewHolder = (getItemViewHolder(character) ?: return)
         
         navigate(
-            R.id.characterInfoFragmentAction,
-            CharacterInfoFragment.newBundle(character),
-            FragmentNavigatorExtras(
+            directions = DashboardFragmentDirections.characterInfoFragmentAction(character),
+            navigationExtras = FragmentNavigatorExtras(
                 viewHolder.imageIv to character.sharedImageTransitionName,
                 viewHolder.nameTv to character.sharedNameTransitionName
             )
@@ -154,21 +148,6 @@ class CharactersFragment : BaseFragment<FragmentCharactersBinding, CharactersVie
         } else {
             null
         }
-    }
-
-
-    override fun getLayoutId() : Int {
-        return R.layout.fragment_characters
-    }
-
-
-    override fun getBindingVariable() : Int {
-        return BR.viewModel
-    }
-
-
-    override fun getViewModel() : CharactersViewModel {
-        return localViewModel
     }
 
 

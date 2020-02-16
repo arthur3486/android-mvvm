@@ -16,22 +16,127 @@
 
 package com.arthurivanets.sample.ui.events.info
 
-import com.arthurivanets.adapster.databinding.TrackableList
-import com.arthurivanets.mvvm.BaseViewModel
+import android.os.Bundle
+import com.arthurivanets.adapster.databinding.ObservableTrackableArrayList
+import com.arthurivanets.commons.data.rx.ktx.resultOrError
+import com.arthurivanets.commons.ktx.extract
+import com.arthurivanets.commons.rx.ktx.applyIOWorkSchedulers
+import com.arthurivanets.commons.rx.ktx.combineResults
+import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
+import com.arthurivanets.mvvm.AbstractViewModel
 import com.arthurivanets.sample.adapters.characters.CharacterItem
+import com.arthurivanets.sample.adapters.characters.SmallCharacterItem
 import com.arthurivanets.sample.adapters.comics.ComicsItem
+import com.arthurivanets.sample.adapters.comics.SmallComicsItem
 import com.arthurivanets.sample.domain.entities.Character
 import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.domain.entities.Event
+import com.arthurivanets.sample.domain.repositories.events.EventsRepository
+import com.arthurivanets.sample.ui.base.GeneralViewStates
+import com.arthurivanets.sample.ui.base.MarvelRoutes
+import com.arthurivanets.sample.ui.events.DEFAULT_EVENT_INFO_CHARACTER_LOADING_LIMIT
+import com.arthurivanets.sample.ui.events.DEFAULT_EVENT_INFO_COMICS_LOADING_LIMIT
+import io.reactivex.Single
 
-interface EventInfoViewModel : BaseViewModel {
+class EventInfoViewModel(
+    private val eventsRepository : EventsRepository,
+    private val schedulerProvider : SchedulerProvider
+) : AbstractViewModel() {
     
-    var event : Event
-    val comicsItems : TrackableList<Long, ComicsItem>
-    val characterItems : TrackableList<Long, CharacterItem>
     
-    fun onComicsClicked(comics : Comics)
+    var event = Event()
+    val comicsItems = ObservableTrackableArrayList<Long, ComicsItem>()
+    val characterItems = ObservableTrackableArrayList<Long, CharacterItem>()
     
-    fun onCharacterClicked(character : Character)
+    private var isDataLoading = false
+    
+    
+    override fun onStart() {
+        super.onStart()
+        
+        loadInitialData()
+    }
+    
+    
+    override fun onRestoreState(bundle : Bundle) {
+        super.onRestoreState(bundle)
+        
+        bundle.extract(stateExtractor).also {
+            event = it.event
+        }
+    }
+    
+    
+    override fun onSaveState(bundle : Bundle) {
+        super.onSaveState(bundle)
+        
+        bundle.saveState(State(event = event))
+    }
+    
+    
+    fun onComicsClicked(comics : Comics) {
+        route(MarvelRoutes.ComicsInfoScreen(comics))
+    }
+    
+    
+    fun onCharacterClicked(character : Character) {
+        route(MarvelRoutes.CharacterInfoScreen(character))
+    }
+    
+    
+    private fun loadInitialData() {
+        if(characterItems.isEmpty()) {
+            loadCharacters()
+        }
+    }
+    
+    
+    private fun loadCharacters() {
+        if(isDataLoading) {
+            return
+        }
+    
+        isDataLoading = true
+        
+        changeViewState(GeneralViewStates.Loading<Unit>())
+        
+        Single.zip(
+            eventsRepository.getEventComics(
+                event = event,
+                offset = 0,
+                limit = DEFAULT_EVENT_INFO_COMICS_LOADING_LIMIT
+            ).resultOrError(),
+            eventsRepository.getEventCharacters(
+                event = event,
+                offset = 0,
+                limit = DEFAULT_EVENT_INFO_CHARACTER_LOADING_LIMIT
+            ).resultOrError(),
+            combineResults()
+        )
+        .applyIOWorkSchedulers(schedulerProvider)
+        .subscribe(::onDataLoadedSuccessfully, ::onDataLoadingFailed)
+        .manageLongLivingDisposable()
+    }
+    
+    
+    private fun onDataLoadedSuccessfully(data : Pair<List<Comics>, List<Character>>) {
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Success<Unit>())
+        
+        data.first.forEach { comicsItems.addOrUpdate(SmallComicsItem(it)) }
+        data.second.forEach { characterItems.addOrUpdate(SmallCharacterItem(it)) }
+    }
+    
+    
+    private fun onDataLoadingFailed(throwable : Throwable) {
+        isDataLoading = false
+        
+        changeViewState(GeneralViewStates.Error<Unit>())
+        
+        // TODO the proper error handling should be done here
+        throwable.printStackTrace()
+    }
+    
     
 }

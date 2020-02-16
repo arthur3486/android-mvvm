@@ -19,28 +19,13 @@
 package com.arthurivanets.sample.ui.characters.info
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import com.arthurivanets.sample.domain.entities.Character
-
-
-internal val extrasExtractor : (Bundle.() -> Extras) = {
-    Extras(
-        character = (this.getParcelable(ExtrasKeys.CHARACTER) ?: Character())
-    )
-}
 
 
 internal val stateExtractor : (Bundle.() -> State) = {
     State(
         character = (this.getParcelable(StateKeys.CHARACTER) ?: Character())
     )
-}
-
-
-internal object ExtrasKeys {
-    
-    const val CHARACTER = "character"
-    
 }
 
 
@@ -51,11 +36,6 @@ internal object StateKeys {
 }
 
 
-internal data class Extras(
-    val character : Character = Character()
-)
-
-
 internal data class State(
     val character : Character
 )
@@ -63,11 +43,4 @@ internal data class State(
 
 internal fun Bundle.saveState(state : State) {
     this.putParcelable(StateKeys.CHARACTER, state.character)
-}
-
-
-fun CharacterInfoFragment.Companion.newBundle(character : Character) : Bundle {
-    return bundleOf(
-        ExtrasKeys.CHARACTER to character
-    )
 }
