@@ -16,48 +16,33 @@
 
 package com.arthurivanets.sample.di.components
 
-import android.app.Application
+import com.arthurivanets.mvvm.commons.CoreComponent
 import com.arthurivanets.sample.di.modules.ActivityBuilder
 import com.arthurivanets.sample.di.modules.FragmentBuilder
 import com.arthurivanets.sample.di.modules.general.AppModule
 import com.arthurivanets.sample.di.modules.general.ItemResourcesModule
 import com.arthurivanets.sample.di.modules.general.UtilitiesModule
-import com.arthurivanets.sample.domain.di.modules.CharactersModule
-import com.arthurivanets.sample.domain.di.modules.ComicsModule
-import com.arthurivanets.sample.domain.di.modules.DomainUtilsModule
-import com.arthurivanets.sample.domain.di.modules.EventsModule
-import dagger.BindsInstance
+import com.arthurivanets.sample.domain.di.DomainComponent
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
-import javax.inject.Singleton
+import javax.inject.Scope
 
-@Singleton
-@Component(modules = [
-    AndroidInjectionModule::class,
-    AndroidSupportInjectionModule::class,
-    AppModule::class,
-    ActivityBuilder::class,
-    FragmentBuilder::class,
-    CharactersModule::class,
-    EventsModule::class,
-    ComicsModule::class,
-    ItemResourcesModule::class,
-    DomainUtilsModule::class,
-    UtilitiesModule::class
-])
-interface AppDependenciesComponent : Injectables {
+@Scope
+@Retention
+internal annotation class AppScope
 
-
-    @Component.Builder
-    interface Builder {
-
-        @BindsInstance
-        fun application(application : Application) : Builder
-
-        fun build() : AppDependenciesComponent
-
-    }
-
-
-}
+@AppScope
+@Component(
+    modules = [
+        AndroidInjectionModule::class,
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        ActivityBuilder::class,
+        FragmentBuilder::class,
+        ItemResourcesModule::class,
+        UtilitiesModule::class
+    ],
+    dependencies = [CoreComponent::class, DomainComponent::class]
+)
+interface AppDependenciesComponent : Injectables

@@ -17,8 +17,10 @@
 package com.arthurivanets.sample
 
 import androidx.multidex.MultiDexApplication
+import com.arthurivanets.mvvm.commons.DaggerCoreComponent
 import com.arthurivanets.sample.di.components.AppDependenciesComponent
 import com.arthurivanets.sample.di.components.DaggerAppDependenciesComponent
+import com.arthurivanets.sample.domain.di.DaggerDomainComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -44,11 +46,20 @@ abstract class BaseApplication : MultiDexApplication(), HasAndroidInjector {
 
 
     private fun initDagger() {
-        dependenciesComponent = DaggerAppDependenciesComponent.builder()
+        val coreComponent = DaggerCoreComponent.builder()
             .application(this)
             .build()
-
-        dependenciesComponent.inject(this)
+        
+        val domainComponent = DaggerDomainComponent.builder()
+            .coreComponent(coreComponent)
+            .build()
+        
+        DaggerAppDependenciesComponent.builder()
+            .coreComponent(coreComponent)
+            .domainComponent(domainComponent)
+            .build()
+            .also { dependenciesComponent = it }
+            .inject(this)
     }
 
 
