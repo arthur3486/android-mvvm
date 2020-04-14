@@ -85,6 +85,7 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
         postInit()
         performDataBinding()
         subscribeViewStateObservers()
+        onBind()
     }
 
 
@@ -177,16 +178,20 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
     protected abstract fun createViewModel() : VM
 
 
-    /**
-     * Executes the pending Data Binding operations.
-     */
-    @CallSuper
-    protected open fun performDataBinding() {
+    private fun performDataBinding() {
         if(isDataBindingEnabled) {
             viewDataBinding?.executePendingBindings()
         } else {
-            Log.e(this::class.java.canonicalName, "The DataBinding is disabled for this Activity.")
+            Log.i(this::class.java.canonicalName, "The DataBinding is disabled for this Activity.")
         }
+    }
+    
+    
+    /**
+     * Override this lifecycle method if you need to perform the manual view-state specific binding.
+     */
+    protected open fun onBind() {
+        // to be overridden.
     }
 
 
@@ -283,8 +288,17 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
 
     final override fun onDestroy() {
         disposeViewStateSubscriptions()
+        onUnbind()
         onRecycle()
         super.onDestroy()
+    }
+    
+    
+    /**
+     * Override this method if you need to manually unbind the previously bound view-state specific observers.
+     */
+    protected open fun onUnbind() {
+        // to be overridden.
     }
 
 

@@ -158,6 +158,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         
         performDataBinding()
         subscribeViewStateObservers()
+        onBind()
     
         // performing the state restoring only in cases when the view was created for the first time
         // (otherwise there's no need to restore the state, as the current view already holds the most recent state)
@@ -232,16 +233,20 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     }
 
 
-    /**
-     * Executes the pending Data Binding operations.
-     */
-    @CallSuper
-    protected open fun performDataBinding() {
+    private fun performDataBinding() {
         if(isDataBindingEnabled) {
             viewDataBinding?.executePendingBindings()
         } else {
-            Log.e(this::class.java.canonicalName, "The DataBinding is disabled for this Fragment.")
+            Log.i(this::class.java.canonicalName, "The DataBinding is disabled for this Fragment.")
         }
+    }
+    
+    
+    /**
+     * Override this lifecycle method if you need to perform the manual view-state specific binding.
+     */
+    protected open fun onBind() {
+        // to be overridden.
     }
     
     
@@ -449,6 +454,15 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         super.onDestroyView()
         
         disposeViewStateSubscriptions()
+        onUnbind()
+    }
+    
+    
+    /**
+     * Override this method if you need to manually unbind the previously bound view-state specific observers.
+     */
+    protected open fun onUnbind() {
+        // to be overridden.
     }
 
 
