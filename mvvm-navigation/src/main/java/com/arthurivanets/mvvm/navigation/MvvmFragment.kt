@@ -21,6 +21,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import com.arthurivanets.mvvm.BaseViewModel
@@ -37,17 +38,19 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRe
      *
      * @param destinationId the id of the destination screen (either the new Activity or Fragment)
      * @param extras the extra arguments to be passed to the destination screen
+     * @param navOptions
      * @param navigationExtras
      */
     protected fun navigate(
         @IdRes destinationId : Int,
         extras : Bundle? = null,
+        navOptions : NavOptions? = null,
         navigationExtras : Navigator.Extras? = null
     ) {
         findNavController().navigate(
             destinationId,
             extras,
-            null,
+            navOptions,
             navigationExtras
         )
     }
@@ -56,15 +59,32 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRe
     /**
      * Navigates to the specified destination screen.
      *
-     * @param directions the direction that leads to the destiantion screen.
+     * @param directions the direction that leads to the destination screen.
+     */
+    protected fun navigate(directions : NavDirections) {
+        findNavController().navigate(directions)
+    }
+    
+    
+    /**
+     * Navigates to the specified destination screen.
+     *
+     * @param directions the direction that leads to the destination screen.
+     * @param navOptions
+     */
+    protected fun navigate(directions : NavDirections, navOptions : NavOptions) {
+        findNavController().navigate(directions, navOptions)
+    }
+    
+    
+    /**
+     * Navigates to the specified destination screen.
+     *
+     * @param directions the direction that leads to the destination screen.
      * @param navigationExtras
      */
-    protected fun navigate(directions : NavDirections, navigationExtras : Navigator.Extras? = null) {
-        navigationExtras?.let { navExtras ->
-            findNavController().navigate(directions, navExtras)
-        } ?: run {
-            findNavController().navigate(directions)
-        }
+    protected fun navigate(directions : NavDirections, navigationExtras : Navigator.Extras) {
+        findNavController().navigate(directions, navigationExtras)
     }
     
     
