@@ -86,7 +86,7 @@ class ComicsInfoViewModel(
     
         isDataLoading = true
         
-        changeViewState(GeneralViewStates.Loading<Unit>())
+        viewState = GeneralViewStates.Loading<Unit>()
     
         comicsRepository.getComicsCharacters(
             comics = comics,
@@ -103,7 +103,7 @@ class ComicsInfoViewModel(
     private fun onCharactersLoadedSuccessfully(characters : List<Character>) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Success<Unit>())
+        viewState = GeneralViewStates.Success<Unit>()
         
         characters.forEach { characterItems.addOrUpdate(SmallCharacterItem(it)) }
     }
@@ -112,7 +112,7 @@ class ComicsInfoViewModel(
     private fun onCharacterLoadingFailed(throwable : Throwable) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Error<Unit>())
+        viewState = GeneralViewStates.Error<Unit>()
     
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

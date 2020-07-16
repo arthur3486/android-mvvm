@@ -21,8 +21,8 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arthurivanets.mvvm.events.Route
-import com.arthurivanets.mvvm.events.ViewState
+import com.arthurivanets.mvvm.markers.Route
+import com.arthurivanets.mvvm.markers.ViewState
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.events.EventItem
 import com.arthurivanets.sample.adapters.events.EventItemResources
@@ -90,12 +90,12 @@ class EventsFragment : BaseMvvmFragment<FragmentEventsBinding, EventsViewModel>(
     }
     
     
-    override fun onViewStateChanged(state : ViewState<*>) {
+    override fun onViewStateChanged(state : ViewState) {
         when(state) {
-            is GeneralViewStates.Idle -> onIdleState()
-            is GeneralViewStates.Loading -> onLoadingState()
-            is GeneralViewStates.Success -> onSuccessState()
-            is GeneralViewStates.Error -> onErrorState()
+            is GeneralViewStates.Idle<*> -> onIdleState()
+            is GeneralViewStates.Loading<*> -> onLoadingState()
+            is GeneralViewStates.Success<*> -> onSuccessState()
+            is GeneralViewStates.Error<*> -> onErrorState()
         }
     }
     
@@ -120,9 +120,9 @@ class EventsFragment : BaseMvvmFragment<FragmentEventsBinding, EventsViewModel>(
     }
     
     
-    override fun onRoute(route : Route<*>) {
+    override fun onRoute(route : Route) {
         when(route) {
-            is MarvelRoutes.EventInfoScreen -> route.payload?.let(::onOpenEventInfoScreen)
+            is MarvelRoutes.EventInfoScreen -> onOpenEventInfoScreen(route.event)
         }
     }
     

@@ -16,17 +16,17 @@
 
 package com.arthurivanets.sample.ui.base
 
-import com.arthurivanets.mvvm.events.Route
+import com.arthurivanets.mvvm.markers.Route
 import com.arthurivanets.sample.domain.entities.Character
 import com.arthurivanets.sample.domain.entities.Comics
 import com.arthurivanets.sample.domain.entities.Event
 
-sealed class MarvelRoutes<T>(payload : T? = null) : Route<T>(payload) {
+sealed class MarvelRoutes : Route {
 
-    class CharacterInfoScreen(character : Character) : MarvelRoutes<Character>(character)
+    class CharacterInfoScreen(val character : Character) : MarvelRoutes()
     
-    class ComicsInfoScreen(comics : Comics) : MarvelRoutes<Comics>(comics)
+    class ComicsInfoScreen(val comics : Comics) : MarvelRoutes()
     
-    class EventInfoScreen(event : Event) : MarvelRoutes<Event>(event)
+    class EventInfoScreen(val event : Event) : MarvelRoutes()
 
 }

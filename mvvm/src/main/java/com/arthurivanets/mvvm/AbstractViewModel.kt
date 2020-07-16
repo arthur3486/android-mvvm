@@ -18,19 +18,18 @@ package com.arthurivanets.mvvm
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.arthurivanets.mvvm.events.Command
-import com.arthurivanets.mvvm.events.Route
-import com.arthurivanets.mvvm.events.ViewState
+import com.arthurivanets.mvvm.markers.Command
+import com.arthurivanets.mvvm.markers.Route
+import com.arthurivanets.mvvm.markers.ViewState
 import com.arthurivanets.mvvm.util.CompositeMapDisposable
 import com.arthurivanets.mvvm.util.adapt
 import com.arthurivanets.rxbus.BusEvent
 import com.arthurivanets.rxbus.EventSource
-import com.arthurivanets.rxbus.RxBusFactory
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 
 /**
  * An abstract implementation of the [BaseViewModel].
@@ -40,13 +39,26 @@ import io.reactivex.subjects.PublishSubject
  * @param defaultViewState the default view state (will be delivered through the corresponding bus)
  */
 abstract class AbstractViewModel(
-    defaultViewState : ViewState<*>? = null
+    defaultViewState : ViewState? = null
 ) : ViewModel(), BaseViewModel {
     
     
-    final override val commandBus = RxBusFactory.create<Command<*>>(PublishSubject.create())
-    final override val viewStateBus = RxBusFactory.create<ViewState<*>>(defaultViewState?.let { BehaviorSubject.createDefault(it) } ?: BehaviorSubject.create())
-    final override val routeBus = RxBusFactory.create<Route<*>>(PublishSubject.create())
+    protected var viewState : ViewState?
+        set(value) { _viewStateHolder.value = value }
+        get() = _viewStateHolder.value
+    
+    final override val commandChannel : Channel<Command>
+        get() = _commandChannel
+    
+    final override val routeChannel : Channel<Route>
+        get() = _routeChannel
+    
+    final override val viewStateHolder : LiveData<ViewState>
+        get() = _viewStateHolder
+    
+    private val _commandChannel = BufferedChannel<Command>().asMainThreadChannel()
+    private val _routeChannel = BufferedChannel<Route>().asMainThreadChannel()
+    private val _viewStateHolder = (defaultViewState?.let { MutableLiveData(it) } ?: MutableLiveData())
 
     private val shortLivingDisposables = CompositeMapDisposable<String>()
     private val longLivingDisposables = CompositeMapDisposable<String>()
@@ -116,8 +128,8 @@ abstract class AbstractViewModel(
      * <br>
      * (The [Command] will be delivered if and only if the owning View has an active subscription to the current ViewModel)
      */
-    protected fun dispatchCommand(command : Command<*>) {
-        commandBus.post(command)
+    protected fun dispatchCommand(command : Command) {
+        _commandChannel.post(command)
     }
     
     
@@ -127,8 +139,8 @@ abstract class AbstractViewModel(
      * <br>
      * (The [ViewState] change event will be delivered if and only if the owning View has an active subscription to the current ViewModel)
      */
-    protected fun changeViewState(newState : ViewState<*>) {
-        viewStateBus.post(newState)
+    protected fun postViewState(newState : ViewState) {
+        _viewStateHolder.postValue(newState)
     }
     
     
@@ -137,8 +149,8 @@ abstract class AbstractViewModel(
      * <br>
      * (The [Route] event will be delivered if and only if the owning View has an active subscription to the current ViewModel)
      */
-    protected fun route(destinationRoute : Route<*>) {
-        routeBus.post(destinationRoute)
+    protected fun route(destinationRoute : Route) {
+        _routeChannel.post(destinationRoute)
     }
 
 

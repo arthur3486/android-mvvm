@@ -28,8 +28,8 @@ import com.arthurivanets.adapster.listeners.DatasetChangeListenerAdapter
 import com.arthurivanets.commons.ktx.getColorCompat
 import com.arthurivanets.commons.ktx.statusBarSize
 import com.arthurivanets.commons.ktx.updateLayoutParams
-import com.arthurivanets.mvvm.events.Route
-import com.arthurivanets.mvvm.events.ViewState
+import com.arthurivanets.mvvm.markers.Route
+import com.arthurivanets.mvvm.markers.ViewState
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.adapters.characters.CharacterItem
 import com.arthurivanets.sample.adapters.characters.CharacterItemResources
@@ -210,12 +210,12 @@ class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoVi
     }
     
     
-    override fun onViewStateChanged(state : ViewState<*>) {
+    override fun onViewStateChanged(state : ViewState) {
         when(state) {
-            is GeneralViewStates.Idle -> onIdleState()
-            is GeneralViewStates.Loading -> onLoadingState()
-            is GeneralViewStates.Success -> onSuccessState()
-            is GeneralViewStates.Error -> onErrorState()
+            is GeneralViewStates.Idle<*> -> onIdleState()
+            is GeneralViewStates.Loading<*> -> onLoadingState()
+            is GeneralViewStates.Success<*> -> onSuccessState()
+            is GeneralViewStates.Error<*> -> onErrorState()
         }
     }
     
@@ -240,10 +240,10 @@ class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoVi
     }
     
     
-    override fun onRoute(route : Route<*>) {
+    override fun onRoute(route : Route) {
         when(route) {
-            is MarvelRoutes.ComicsInfoScreen -> route.payload?.let(::onOpenComicsInfoScreen)
-            is MarvelRoutes.CharacterInfoScreen -> route.payload?.let(::onOpenCharacterInfoScreen)
+            is MarvelRoutes.ComicsInfoScreen -> onOpenComicsInfoScreen(route.comics)
+            is MarvelRoutes.CharacterInfoScreen -> onOpenCharacterInfoScreen(route.character)
         }
     }
     

@@ -8,7 +8,8 @@ ext {
 
     // Android Core
     androidCoreDependencies = dependencies([
-        appCompat: "androidx.appcompat:appcompat:${rootProject.supportVersion}",
+        appCompat: "androidx.appcompat:appcompat:${rootProject.appCompatVersion}",
+        core: "androidx.core:core:${rootProject.coreVersion}",
         coreKtx: "androidx.core:core-ktx:${rootProject.coreVersion}"
     ])
 

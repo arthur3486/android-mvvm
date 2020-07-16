@@ -110,9 +110,12 @@ dependencies {
     implementation project(":imageloading")
     implementation project(":imageloading-glide")
 
-    implementation "com.arthurivanets.mvvm:mvvm-core:1.5.0"
-    implementation "com.arthurivanets.mvvm:mvvm-navigation:1.5.0"
-    implementation "com.arthurivanets.mvvm:mvvm-navigation-dagger:1.5.0"
+    implementation project(":mvvm")
+    implementation project(":mvvm-navigation")
+    implementation project(":mvvm-navigation-dagger")
+//    implementation "com.arthurivanets.mvvm:mvvm-core:1.5.0"
+//    implementation "com.arthurivanets.mvvm:mvvm-navigation:1.5.0"
+//    implementation "com.arthurivanets.mvvm:mvvm-navigation-dagger:1.5.0"
 
     testImplementation unitTestingDependencies
     androidTestImplementation instrumentationTestingDependencies

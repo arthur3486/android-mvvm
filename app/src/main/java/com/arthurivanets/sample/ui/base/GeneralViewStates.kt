@@ -16,9 +16,9 @@
 
 package com.arthurivanets.sample.ui.base
 
-import com.arthurivanets.mvvm.events.ViewState
+import com.arthurivanets.mvvm.markers.ViewState
 
-sealed class GeneralViewStates<T>(payload : T? = null) : ViewState<T>(payload) {
+sealed class GeneralViewStates<T>(val payload : T? = null) : ViewState {
 
     class Idle<T>(payload : T? = null) : GeneralViewStates<T>(payload)
     

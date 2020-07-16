@@ -65,7 +65,7 @@ class ComicsViewModel(
     
         isDataLoading = true
         
-        changeViewState(GeneralViewStates.Loading<Unit>())
+        viewState = GeneralViewStates.Loading<Unit>()
 
         comicsRepository.getComics(0, DEFAULT_COMICS_LOADING_LIMIT)
             .resultOrError()
@@ -78,7 +78,7 @@ class ComicsViewModel(
     private fun onLoadedSuccessfully(comics : List<Comics>) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Success<Unit>())
+        viewState = GeneralViewStates.Success<Unit>()
 
         comics.forEach { items.addOrUpdate(ComicsItem(it)) }
     }
@@ -87,7 +87,7 @@ class ComicsViewModel(
     private fun onLoadingFailed(throwable : Throwable) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Error<Unit>())
+        viewState = GeneralViewStates.Error<Unit>()
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

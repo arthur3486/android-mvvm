@@ -65,7 +65,7 @@ class EventsViewModel(
     
         isDataLoading = true
         
-        changeViewState(GeneralViewStates.Loading<Unit>())
+        viewState = GeneralViewStates.Loading<Unit>()
 
         eventsRepository.getEvents(0, DEFAULT_EVENT_LOADING_LIMIT)
             .resultOrError()
@@ -78,7 +78,7 @@ class EventsViewModel(
     private fun onLoadedSuccessfully(events : List<Event>) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Success<Unit>())
+        viewState = GeneralViewStates.Success<Unit>()
 
         events.forEach { items.addOrUpdate(EventItem(it)) }
     }
@@ -87,7 +87,7 @@ class EventsViewModel(
     private fun onLoadingFailed(throwable : Throwable) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Error<Unit>())
+        viewState = GeneralViewStates.Error<Unit>()
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

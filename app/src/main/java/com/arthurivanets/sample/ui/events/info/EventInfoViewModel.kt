@@ -98,7 +98,7 @@ class EventInfoViewModel(
     
         isDataLoading = true
         
-        changeViewState(GeneralViewStates.Loading<Unit>())
+        viewState = GeneralViewStates.Loading<Unit>()
         
         Single.zip(
             eventsRepository.getEventComics(
@@ -122,7 +122,7 @@ class EventInfoViewModel(
     private fun onDataLoadedSuccessfully(data : Pair<List<Comics>, List<Character>>) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Success<Unit>())
+        viewState = GeneralViewStates.Success<Unit>()
         
         data.first.forEach { comicsItems.addOrUpdate(SmallComicsItem(it)) }
         data.second.forEach { characterItems.addOrUpdate(SmallCharacterItem(it)) }
@@ -132,7 +132,7 @@ class EventInfoViewModel(
     private fun onDataLoadingFailed(throwable : Throwable) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Error<Unit>())
+        viewState = GeneralViewStates.Error<Unit>()
         
         // TODO the proper error handling should be done here
         throwable.printStackTrace()

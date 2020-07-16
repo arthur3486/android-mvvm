@@ -32,18 +32,10 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.arthurivanets.mvvm.events.Command
-import com.arthurivanets.mvvm.events.Route
-import com.arthurivanets.mvvm.events.ViewState
+import androidx.lifecycle.Observer
 import com.arthurivanets.mvvm.listeners.AnimationListenerAdapter
-import com.arthurivanets.mvvm.markers.CanFetchExtras
-import com.arthurivanets.mvvm.markers.CanHandleBackPressEvents
-import com.arthurivanets.mvvm.markers.CanHandleNewIntent
+import com.arthurivanets.mvvm.markers.*
 import com.arthurivanets.mvvm.util.*
-import com.arthurivanets.rxbus.register
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import kotlin.properties.Delegates
 
 /**
@@ -74,8 +66,6 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     private var viewDataBinding : VDB? = null
     private var viewModel : VM? = null
     
-    private val viewStateSubscriptionDisposables = CompositeDisposable()
-    private val subscriptionDisposables = CompositeDisposable()
     private val registeredObservables = HashSet<Pair<Observable.OnPropertyChangedCallback, Observable>>()
     
     /**
@@ -158,6 +148,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         
         performDataBinding()
         subscribeViewStateObservers()
+        onRegisterObservables()
         onBind()
     
         // performing the state restoring only in cases when the view was created for the first time
@@ -374,8 +365,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     override fun onResume() {
         super.onResume()
 
-        subscribeEventConsumers()
-        onRegisterObservables()
+        attachViewModelEventConsumers()
 
         viewModel?.onStart()
     }
@@ -395,8 +385,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
 
         viewModel?.onStop()
 
-        disposeSubscriptions()
-        unregisterFields()
+        detachViewModelEventConsumers()
     }
 
 
@@ -452,8 +441,8 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()
-        
-        disposeViewStateSubscriptions()
+    
+        unregisterFields()
         onUnbind()
     }
     
@@ -499,7 +488,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      * @param command the newly arrived [Command]
      */
     @CallSuper
-    protected open fun onHandleCommand(command : Command<*>) {
+    protected open fun onHandleCommand(command : Command) {
         // to be overridden
     }
     
@@ -512,7 +501,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @param state the new [ViewState]
      */
-    protected open fun onViewStateChanged(state : ViewState<*>) {
+    protected open fun onViewStateChanged(state : ViewState) {
         // to be overridden
     }
     
@@ -525,7 +514,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @param route the newly arrived [Route]
      */
-    protected open fun onRoute(route : Route<*>) {
+    protected open fun onRoute(route : Route) {
         // to be overridden
     }
     
@@ -562,55 +551,29 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     
     
     private fun subscribeViewStateObservers() {
-        viewModel?.viewStateBus
-            ?.register(Consumer(::onViewStateChanged))
-            ?.manageViewStateSubscription()
+        viewModel?.viewStateHolder?.observe(viewLifecycleOwner, Observer(::onViewStateChanged))
     }
     
     
-    private fun disposeViewStateSubscriptions() {
-        viewStateSubscriptionDisposables.clear()
+    private fun attachViewModelEventConsumers() {
+        viewModel?.apply {
+            commandChannel.consumer = ::onHandleCommand
+            routeChannel.consumer = ::onRoute
+        }
     }
     
     
-    private fun subscribeEventConsumers() {
-        subscribeToViewModelCommandBus()
-        subscribeToViewModelRouteBus()
-    }
-    
-    
-    private fun subscribeToViewModelCommandBus() {
-        viewModel?.commandBus
-            ?.register(Consumer(::onHandleCommand))
-            ?.manageLifecycle()
-    }
-    
-    
-    private fun subscribeToViewModelRouteBus() {
-        viewModel?.routeBus
-            ?.register(Consumer(::onRoute))
-            ?.manageLifecycle()
-    }
-    
-    
-    private fun disposeSubscriptions() {
-        subscriptionDisposables.clear()
+    private fun detachViewModelEventConsumers() {
+        viewModel?.apply {
+            commandChannel.consumer = null
+            routeChannel.consumer = null
+        }
     }
 
 
     private fun unregisterFields() {
         registeredObservables.forEach { (callback, field) -> field.removeOnPropertyChangedCallback(callback) }
         registeredObservables.clear()
-    }
-
-    
-    private fun Disposable.manageViewStateSubscription() {
-        viewStateSubscriptionDisposables.add(this)
-    }
-
-
-    private fun Disposable.manageLifecycle() {
-        subscriptionDisposables.add(this)
     }
 
 

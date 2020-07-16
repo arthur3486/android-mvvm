@@ -65,7 +65,7 @@ class CharactersViewModel(
     
         isDataLoading = true
         
-        changeViewState(GeneralViewStates.Loading<Unit>())
+        viewState = GeneralViewStates.Loading<Unit>()
 
         charactersRepository.getCharacters(0, DEFAULT_CHARACTER_LOADING_LIMIT)
             .resultOrError()
@@ -78,7 +78,7 @@ class CharactersViewModel(
     private fun onLoadedSuccessfully(characters : List<Character>) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Success<Unit>())
+        viewState = GeneralViewStates.Success<Unit>()
 
         characters.forEach { items.addOrUpdate(CharacterItem(it)) }
     }
@@ -87,7 +87,7 @@ class CharactersViewModel(
     private fun onLoadingFailed(throwable : Throwable) {
         isDataLoading = false
         
-        changeViewState(GeneralViewStates.Error<Unit>())
+        viewState = GeneralViewStates.Error<Unit>()
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()
