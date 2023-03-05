@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,29 +34,35 @@ internal interface EventsService {
      *
      */
     @GET(EndpointPaths.Events.LIST_SINGLE)
-    fun getEventAsync(@Path(EndpointPaths.Params.ID) id : Long) : Single<EventsResponse>
+    fun getEventAsync(@Path(EndpointPaths.Params.ID) id: Long): Single<EventsResponse>
 
     /**
      *
      */
     @GET(EndpointPaths.Events.BASE)
-    fun getEventsAsync(@Query(EndpointPaths.Params.OFFSET) offset : Int? = null,
-                       @Query(EndpointPaths.Params.LIMIT) limit : Int? = null) : Single<EventsResponse>
+    fun getEventsAsync(
+        @Query(EndpointPaths.Params.OFFSET) offset: Int? = null,
+        @Query(EndpointPaths.Params.LIMIT) limit: Int? = null
+    ): Single<EventsResponse>
 
     /**
      *
      */
     @GET(EndpointPaths.Events.LIST_CHARACTERS)
-    fun getEventCharactersAsync(@Path(EndpointPaths.Params.ID) eventId : Long,
-                                @Query(EndpointPaths.Params.OFFSET) offset : Int? = null,
-                                @Query(EndpointPaths.Params.LIMIT) limit : Int? = null) : Single<CharactersResponse>
-    
+    fun getEventCharactersAsync(
+        @Path(EndpointPaths.Params.ID) eventId: Long,
+        @Query(EndpointPaths.Params.OFFSET) offset: Int? = null,
+        @Query(EndpointPaths.Params.LIMIT) limit: Int? = null
+    ): Single<CharactersResponse>
+
     /**
      *
      */
     @GET(EndpointPaths.Events.LIST_COMICS)
-    fun getEventComicsAsync(@Path(EndpointPaths.Params.ID) eventId : Long,
-                            @Query(EndpointPaths.Params.OFFSET) offset : Int? = null,
-                            @Query(EndpointPaths.Params.LIMIT) limit : Int? = null) : Single<ComicsResponse>
+    fun getEventComicsAsync(
+        @Path(EndpointPaths.Params.ID) eventId: Long,
+        @Query(EndpointPaths.Params.OFFSET) offset: Int? = null,
+        @Query(EndpointPaths.Params.LIMIT) limit: Int? = null
+    ): Single<ComicsResponse>
 
 }

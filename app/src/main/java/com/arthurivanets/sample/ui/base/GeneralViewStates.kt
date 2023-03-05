@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,14 @@ package com.arthurivanets.sample.ui.base
 
 import com.arthurivanets.mvvm.markers.ViewState
 
-sealed class GeneralViewStates<T>(val payload : T? = null) : ViewState {
+sealed class GeneralViewStates<T>(val payload: T? = null) : ViewState {
 
-    class Idle<T>(payload : T? = null) : GeneralViewStates<T>(payload)
-    
-    class Loading<T>(payload : T? = null) : GeneralViewStates<T>(payload)
-    
-    class Success<T>(payload : T? = null) : GeneralViewStates<T>(payload)
-    
-    class Error<T>(payload : T? = null) : GeneralViewStates<T>(payload)
+    class Idle<T>(payload: T? = null) : GeneralViewStates<T>(payload)
+
+    class Loading<T>(payload: T? = null) : GeneralViewStates<T>(payload)
+
+    class Success<T>(payload: T? = null) : GeneralViewStates<T>(payload)
+
+    class Error<T>(payload: T? = null) : GeneralViewStates<T>(payload)
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,13 @@ import com.arthurivanets.marvelapi.endpoints.events.EventsEndpoint
  */
 interface Api {
 
-    val characters : CharactersEndpoint
-    val events : EventsEndpoint
-    val comics : ComicsEndpoint
+    val characters: CharactersEndpoint
+    val events: EventsEndpoint
+    val comics: ComicsEndpoint
 
     /**
      *
      */
-    fun init(publicKey : String, privateKey : String)
+    fun init(publicKey: String, privateKey: String)
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ package com.arthurivanets.marvelapi.endpoints
  */
 object EndpointPaths {
 
-
     object Characters {
 
         const val BASE = "characters"
@@ -29,7 +28,6 @@ object EndpointPaths {
         const val LIST_COMICS = "$BASE/{${EndpointPaths.Params.ID}}/comics"
 
     }
-
 
     object Events {
 
@@ -40,7 +38,6 @@ object EndpointPaths {
 
     }
 
-
     object Comics {
 
         const val BASE = "comics"
@@ -49,7 +46,6 @@ object EndpointPaths {
         const val LIST_EVENTS = "$BASE/{${EndpointPaths.Params.ID}}/events"
 
     }
-
 
     object Params {
 
@@ -61,6 +57,5 @@ object EndpointPaths {
         const val LIMIT = "limit"
 
     }
-
 
 }

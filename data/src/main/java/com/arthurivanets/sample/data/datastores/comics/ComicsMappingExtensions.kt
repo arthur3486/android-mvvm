@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,33 +22,27 @@ import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.sample.data.datastores.util.*
 import com.arthurivanets.sample.data.util.*
 
-
-internal fun com.arthurivanets.marvelapi.responses.ComicsResponse.toSingleItemResponse() : Response<DataComics, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.ComicsResponse.toSingleItemResponse(): Response<DataComics, Throwable> {
     return this.toSingleItemResponse { it.toDataComics() }
 }
 
-
-internal fun com.arthurivanets.marvelapi.responses.ComicsResponse.toResponse() : Response<List<DataComics>, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.ComicsResponse.toResponse(): Response<List<DataComics>, Throwable> {
     return this.toResponse { it.toDataComics() }
 }
 
-
-internal fun Collection<ApiComics>.toDataComics() : List<DataComics> {
+internal fun Collection<ApiComics>.toDataComics(): List<DataComics> {
     return this.map { it.toDataComics() }
 }
 
-
-internal fun Collection<DatabaseComics>.fromDatabaseToDataComics() : List<DataComics> {
+internal fun Collection<DatabaseComics>.fromDatabaseToDataComics(): List<DataComics> {
     return this.map { it.toDataComics() }
 }
 
-
-internal fun Collection<DataComics>.toDatabaseComics() : List<DatabaseComics> {
+internal fun Collection<DataComics>.toDatabaseComics(): List<DatabaseComics> {
     return this.map { it.toDatabaseComics() }
 }
 
-
-internal fun ApiComics.toDataComics() : DataComics {
+internal fun ApiComics.toDataComics(): DataComics {
     return DataComics(
         id = this.id,
         digitalId = this.digitalId,
@@ -71,8 +65,7 @@ internal fun ApiComics.toDataComics() : DataComics {
     )
 }
 
-
-internal fun DatabaseComics.toDataComics() : DataComics {
+internal fun DatabaseComics.toDataComics(): DataComics {
     return DataComics(
         id = this.id,
         digitalId = this.digitalId,
@@ -95,8 +88,7 @@ internal fun DatabaseComics.toDataComics() : DataComics {
     )
 }
 
-
-internal fun DataComics.toDatabaseComics() : DatabaseComics {
+internal fun DataComics.toDatabaseComics(): DatabaseComics {
     return DatabaseComics(
         id = this.id,
         digitalId = this.digitalId,

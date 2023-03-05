@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,27 +23,25 @@ import com.arthurivanets.adapster.listeners.OnItemClickListener
 import com.arthurivanets.adapster.markers.ItemResources
 
 class CharacterItemsRecyclerViewAdapter(
-    context : Context,
-    items : TrackableList<Long, CharacterItem>,
-    private val resources : CharacterItemResources
+    context: Context,
+    items: TrackableList<Long, CharacterItem>,
+    private val resources: CharacterItemResources
 ) : ObservableTrackableRecyclerViewAdapter<Long, CharacterItem, CharacterItemViewHolder>(context, items) {
 
+    var onItemClickListener: OnItemClickListener<CharacterItem>? = null
 
-    var onItemClickListener : OnItemClickListener<CharacterItem>? = null
-
-
-    override fun assignListeners(holder : CharacterItemViewHolder,
-                                 position : Int,
-                                 item : CharacterItem) {
+    override fun assignListeners(
+        holder: CharacterItemViewHolder,
+        position: Int,
+        item: CharacterItem
+    ) {
         super.assignListeners(holder, position, item)
 
         onItemClickListener?.let { item.setOnItemClickListener(holder, it) }
     }
 
-
-    override fun getResources() : ItemResources? {
+    override fun getResources(): ItemResources? {
         return resources
     }
-
 
 }

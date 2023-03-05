@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,24 +26,21 @@ import okhttp3.Response
  *
  */
 internal class RequestAuthorizer(
-    val publicKey : String,
-    val privateKey : String
+    val publicKey: String,
+    val privateKey: String
 ) : Interceptor {
 
-
-    override fun intercept(chain : Interceptor.Chain) : Response {
+    override fun intercept(chain: Interceptor.Chain): Response {
         return chain.proceed(chain.request().authorize())
     }
 
-
-    private fun Request.authorize() : Request {
+    private fun Request.authorize(): Request {
         return this.newBuilder()
             .url(this.createAuthorizedUrl())
             .build()
     }
 
-
-    private fun Request.createAuthorizedUrl() : HttpUrl {
+    private fun Request.createAuthorizedUrl(): HttpUrl {
         val timestampInMillis = System.currentTimeMillis()
 
         return this.url
@@ -53,6 +50,5 @@ internal class RequestAuthorizer(
             .addQueryParameter(EndpointPaths.Params.TIMESTAMP, timestampInMillis.toString())
             .build()
     }
-
 
 }

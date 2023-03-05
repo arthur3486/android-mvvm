@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,13 @@ package com.arthurivanets.sample.data.datastores.util
 
 import com.arthurivanets.commons.ktx.clamp
 
-
 /**
  * A "safer" alternative to [List.subList].
  */
-internal fun <T> List<T>.take(offset : Int, limit : Int) : List<T> {
+internal fun <T> List<T>.take(offset: Int, limit: Int): List<T> {
     require(offset >= 0) { "The Offset cannot be a negative number." }
 
-    if(this.isEmpty() || (limit == 0)) {
+    if (this.isEmpty() || (limit == 0)) {
         return emptyList()
     }
 
@@ -35,6 +34,6 @@ internal fun <T> List<T>.take(offset : Int, limit : Int) : List<T> {
 
     return this.subList(
         fromIndex = offset,
-        toIndex = (if(limit > 0) (offset + limit - 1).clamp(0, this.size) else this.size)
+        toIndex = (if (limit > 0) (offset + limit - 1).clamp(0, this.size) else this.size)
     )
 }

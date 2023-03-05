@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,26 +23,25 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Comics(
-    @JsonProperty(Properties.ID) var id : Long = -1L,
-    @JsonProperty(Properties.DIGITAL_ID) var digitalId : Long = -1L,
-    @JsonProperty(Properties.TITLE) var title : String = "",
-    @JsonProperty(Properties.ISSUE_NUMBER) var issueNumber : Double = 0.0,
-    @JsonProperty(Properties.VARIANT_DESCRIPTION) var variantDescription : String = "",
-    @JsonProperty(Properties.DESCRIPTION) var description : String? = "",
-    @JsonProperty(Properties.MODIFICATION_TIME) var modificationTime : String = "",
-    @JsonProperty(Properties.ISBN) var isbn : String = "",
-    @JsonProperty(Properties.UPC) var upc : String = "",
-    @JsonProperty(Properties.DIAMOND_CODE) var diamondCode : String = "",
-    @JsonProperty(Properties.EAN) var ean : String = "",
-    @JsonProperty(Properties.ISSN) var issn : String = "",
-    @JsonProperty(Properties.FORMAT) var format : String = "",
-    @JsonProperty(Properties.PAGE_COUNT) var pageCount : Int = 0,
-    @JsonProperty(Properties.URLS) var urls : List<Url> = emptyList(),
-    @JsonProperty(Properties.THUMBNAIL) var thumbnail : Image = Image(),
-    @JsonProperty(Properties.IMAGES) var images : List<Image> = emptyList(),
-    @JsonProperty(Properties.CREATORS) var creators : CreatorList = CreatorList()
+    @JsonProperty(Properties.ID) var id: Long = -1L,
+    @JsonProperty(Properties.DIGITAL_ID) var digitalId: Long = -1L,
+    @JsonProperty(Properties.TITLE) var title: String = "",
+    @JsonProperty(Properties.ISSUE_NUMBER) var issueNumber: Double = 0.0,
+    @JsonProperty(Properties.VARIANT_DESCRIPTION) var variantDescription: String = "",
+    @JsonProperty(Properties.DESCRIPTION) var description: String? = "",
+    @JsonProperty(Properties.MODIFICATION_TIME) var modificationTime: String = "",
+    @JsonProperty(Properties.ISBN) var isbn: String = "",
+    @JsonProperty(Properties.UPC) var upc: String = "",
+    @JsonProperty(Properties.DIAMOND_CODE) var diamondCode: String = "",
+    @JsonProperty(Properties.EAN) var ean: String = "",
+    @JsonProperty(Properties.ISSN) var issn: String = "",
+    @JsonProperty(Properties.FORMAT) var format: String = "",
+    @JsonProperty(Properties.PAGE_COUNT) var pageCount: Int = 0,
+    @JsonProperty(Properties.URLS) var urls: List<Url> = emptyList(),
+    @JsonProperty(Properties.THUMBNAIL) var thumbnail: Image = Image(),
+    @JsonProperty(Properties.IMAGES) var images: List<Image> = emptyList(),
+    @JsonProperty(Properties.CREATORS) var creators: CreatorList = CreatorList()
 ) {
-
 
     object Properties {
 
@@ -66,6 +65,5 @@ data class Comics(
         const val CREATORS = "creators"
 
     }
-
 
 }

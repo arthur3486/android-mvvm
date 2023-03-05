@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,98 +36,88 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 
 internal class ComicsRepositoryImpl(
-    private val cacheDataStore : ComicsDataStore,
-    private val databaseDataStore : ComicsDataStore,
-    private val serverDataStore : ComicsDataStore,
-    private val networkStateProvider : NetworkStateProvider,
-    schedulerProvider : SchedulerProvider
+    private val cacheDataStore: ComicsDataStore,
+    private val databaseDataStore: ComicsDataStore,
+    private val serverDataStore: ComicsDataStore,
+    private val networkStateProvider: NetworkStateProvider,
+    schedulerProvider: SchedulerProvider
 ) : AbstractRepository<BusEvent<*>>(schedulerProvider), ComicsRepository {
 
-
-    override fun getSingleComics(id : Long) : Single<Response<DomainComics, Throwable>> {
+    override fun getSingleComics(id: Long): Single<Response<DomainComics, Throwable>> {
         return Single.concat(
             getCacheSingleComics(id),
             getDatabaseSingleComics(id),
             getServerSingleComics(id)
         )
-        .withResult()
-        .first(Response.error(NoResultError("No Result found.")))
-        .flatMapOrError(::createCacheComics)
-        .convertResponse { it.toDomainSingleComicsResponse() }
-        .withAppropriateSchedulers()
+            .withResult()
+            .first(Response.error(NoResultError("No Result found.")))
+            .flatMapOrError(::createCacheComics)
+            .convertResponse { it.toDomainSingleComicsResponse() }
+            .withAppropriateSchedulers()
     }
 
-
-    private fun getCacheSingleComics(id : Long) : Single<Response<DataComics, Throwable>> {
+    private fun getCacheSingleComics(id: Long): Single<Response<DataComics, Throwable>> {
         return this.cacheDataStore.getSingleComics(id)
     }
 
-
-    private fun getDatabaseSingleComics(id : Long) : Single<Response<DataComics, Throwable>> {
+    private fun getDatabaseSingleComics(id: Long): Single<Response<DataComics, Throwable>> {
         return this.databaseDataStore.getSingleComics(id)
             .successfulResponseOrError()
     }
 
-
-    private fun getServerSingleComics(id : Long) : Single<Response<DataComics, Throwable>> {
+    private fun getServerSingleComics(id: Long): Single<Response<DataComics, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
             this.serverDataStore.getSingleComics(id)
                 .flatMapOrError(::createDatabaseComics)
         ).successfulResponseOrError()
     }
 
-
-    override fun getComics(offset : Int, limit : Int) : Single<Response<List<DomainComics>, Throwable>> {
+    override fun getComics(offset: Int, limit: Int): Single<Response<List<DomainComics>, Throwable>> {
         return Single.concat(
             getCacheComics(offset, limit),
             getDatabaseComics(offset, limit),
             getServerComics(offset, limit)
         )
-        .withNonEmptyResult()
-        .first(Response.result(emptyList()))
-        .flatMapOrError(::createCacheComics)
-        .convertResponse { it.toDomainComicsResponse() }
-        .withAppropriateSchedulers()
+            .withNonEmptyResult()
+            .first(Response.result(emptyList()))
+            .flatMapOrError(::createCacheComics)
+            .convertResponse { it.toDomainComicsResponse() }
+            .withAppropriateSchedulers()
     }
 
-
-    private fun getCacheComics(offset : Int, limit : Int) : Single<Response<List<DataComics>, Throwable>> {
+    private fun getCacheComics(offset: Int, limit: Int): Single<Response<List<DataComics>, Throwable>> {
         return this.cacheDataStore.getComics(offset, limit)
     }
 
-
-    private fun getDatabaseComics(offset : Int, limit : Int) : Single<Response<List<DataComics>, Throwable>> {
+    private fun getDatabaseComics(offset: Int, limit: Int): Single<Response<List<DataComics>, Throwable>> {
         return this.databaseDataStore.getComics(offset, limit)
             .successfulResponseOrError()
     }
 
-
-    private fun getServerComics(offset : Int, limit : Int) : Single<Response<List<DataComics>, Throwable>> {
+    private fun getServerComics(offset: Int, limit: Int): Single<Response<List<DataComics>, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
             this.serverDataStore.getComics(offset, limit)
                 .flatMapOrError(::createDatabaseComics)
         ).successfulResponseOrError()
     }
 
-
-    override fun getAllComics(offset : Int, limit : Int) : Flowable<Response<List<DomainComics>, Throwable>> {
+    override fun getAllComics(offset: Int, limit: Int): Flowable<Response<List<DomainComics>, Throwable>> {
         return Flowable.concat(
             getCacheComics(offset, limit).toFlowable(),
             getDatabaseComics(offset, limit).toFlowable(),
             getServerComics(offset, limit).toFlowable()
         )
-        .withResult()
-        .flatMapOrError { createCacheComics(it).toFlowable() }
-        .convertResponse { it.toDomainComicsResponse() }
-        .withAppropriateSchedulers()
+            .withResult()
+            .flatMapOrError { createCacheComics(it).toFlowable() }
+            .convertResponse { it.toDomainComicsResponse() }
+            .withAppropriateSchedulers()
     }
 
-
     override fun getComicsCharacters(
-        comics : DomainComics,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DomainCharacter>, Throwable>> {
+        comics: DomainComics,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DomainCharacter>, Throwable>> {
         return Single.concat(
             getCacheComicsCharacters(
                 comicsId = comics.id,
@@ -140,19 +130,18 @@ internal class ComicsRepositoryImpl(
                 limit = limit
             )
         )
-        .withNonEmptyResult()
-        .first(Response.result(emptyList()))
-        .flatMapOrError { createCacheCharacters(comics.id, it) }
-        .convertResponse { it.toDomainCharactersResponse() }
-        .withAppropriateSchedulers()
+            .withNonEmptyResult()
+            .first(Response.result(emptyList()))
+            .flatMapOrError { createCacheCharacters(comics.id, it) }
+            .convertResponse { it.toDomainCharactersResponse() }
+            .withAppropriateSchedulers()
     }
 
-
     private fun getCacheComicsCharacters(
-        comicsId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataCharacter>, Throwable>> {
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataCharacter>, Throwable>> {
         return this.cacheDataStore.getComicsCharacters(
             comicsId = comicsId,
             offset = offset,
@@ -160,12 +149,11 @@ internal class ComicsRepositoryImpl(
         )
     }
 
-
     private fun getServerComicsCharacters(
-        comicsId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataCharacter>, Throwable>> {
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataCharacter>, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
             this.serverDataStore.getComicsCharacters(
                 comicsId = comicsId,
@@ -175,12 +163,11 @@ internal class ComicsRepositoryImpl(
         ).successfulResponseOrError()
     }
 
-
     override fun getComicsEvents(
-        comics : DomainComics,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DomainEvent>, Throwable>> {
+        comics: DomainComics,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DomainEvent>, Throwable>> {
         return Single.concat(
             getCacheComicsEvents(
                 comicsId = comics.id,
@@ -193,19 +180,18 @@ internal class ComicsRepositoryImpl(
                 limit = limit
             )
         )
-        .withNonEmptyResult()
-        .first(Response.result(emptyList()))
-        .flatMapOrError { createCacheEvents(comics.id, it) }
-        .convertResponse { it.toDomainEventsResponse() }
-        .withAppropriateSchedulers()
+            .withNonEmptyResult()
+            .first(Response.result(emptyList()))
+            .flatMapOrError { createCacheEvents(comics.id, it) }
+            .convertResponse { it.toDomainEventsResponse() }
+            .withAppropriateSchedulers()
     }
 
-
     private fun getCacheComicsEvents(
-        comicsId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataEvent>, Throwable>> {
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataEvent>, Throwable>> {
         return this.cacheDataStore.getComicsEvents(
             comicsId = comicsId,
             offset = offset,
@@ -213,12 +199,11 @@ internal class ComicsRepositoryImpl(
         )
     }
 
-
     private fun getServerComicsEvents(
-        comicsId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataEvent>, Throwable>> {
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataEvent>, Throwable>> {
         return this.networkStateProvider.ifNetworkAvailable(
             this.serverDataStore.getComicsEvents(
                 comicsId = comicsId,
@@ -227,38 +212,34 @@ internal class ComicsRepositoryImpl(
             )
         ).successfulResponseOrError()
     }
-    
-    
-    private fun createDatabaseComics(comics : DataComics) : Single<Response<DataComics, Throwable>> {
+
+    private fun createDatabaseComics(comics: DataComics): Single<Response<DataComics, Throwable>> {
         return this.databaseDataStore.saveComics(comics)
             .successfulResponseOrError()
-    }
-    
-    
-    private fun createDatabaseComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
-        return this.databaseDataStore.saveComics(comics)
-            .successfulResponseOrError()
-    }
-    
-    
-    private fun createCacheComics(comics : DataComics) : Single<Response<DataComics, Throwable>> {
-        return this.cacheDataStore.saveComics(comics)
-    }
-    
-    
-    private fun createCacheComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
-        return this.cacheDataStore.saveComics(comics)
-    }
-    
-    
-    private fun createCacheEvents(comicsId : Long, events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
-        return this.cacheDataStore.saveComicsEvents(comicsId, events)
-    }
-    
-    
-    private fun createCacheCharacters(comicsId : Long, characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
-        return this.cacheDataStore.saveComicsCharacters(comicsId, characters)
     }
 
+    private fun createDatabaseComics(comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
+        return this.databaseDataStore.saveComics(comics)
+            .successfulResponseOrError()
+    }
+
+    private fun createCacheComics(comics: DataComics): Single<Response<DataComics, Throwable>> {
+        return this.cacheDataStore.saveComics(comics)
+    }
+
+    private fun createCacheComics(comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
+        return this.cacheDataStore.saveComics(comics)
+    }
+
+    private fun createCacheEvents(comicsId: Long, events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
+        return this.cacheDataStore.saveComicsEvents(comicsId, events)
+    }
+
+    private fun createCacheCharacters(
+        comicsId: Long,
+        characters: List<DataCharacter>
+    ): Single<Response<List<DataCharacter>, Throwable>> {
+        return this.cacheDataStore.saveComicsCharacters(comicsId, characters)
+    }
 
 }

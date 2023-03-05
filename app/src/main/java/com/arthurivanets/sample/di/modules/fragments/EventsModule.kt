@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,13 +29,12 @@ import dagger.Provides
 @Module
 class EventsModule {
 
-
     @Provides
     fun provideEventsViewModel(
-        fragment : EventsFragment,
-        eventsRepository : EventsRepository,
-        schedulerProvider : SchedulerProvider
-    ) : EventsViewModel {
+        fragment: EventsFragment,
+        eventsRepository: EventsRepository,
+        schedulerProvider: SchedulerProvider
+    ): EventsViewModel {
         return fragment.provideViewModel {
             EventsViewModel(
                 eventsRepository = eventsRepository,
@@ -44,13 +43,12 @@ class EventsModule {
         }
     }
 
-
     @Provides
     fun provideEventInfoViewModel(
-        fragment : EventInfoFragment,
-        eventsRepository : EventsRepository,
-        schedulerProvider : SchedulerProvider
-    ) : EventInfoViewModel {
+        fragment: EventInfoFragment,
+        eventsRepository: EventsRepository,
+        schedulerProvider: SchedulerProvider
+    ): EventInfoViewModel {
         return fragment.provideViewModel {
             EventInfoViewModel(
                 eventsRepository = eventsRepository,
@@ -58,6 +56,5 @@ class EventsModule {
             )
         }
     }
-
 
 }

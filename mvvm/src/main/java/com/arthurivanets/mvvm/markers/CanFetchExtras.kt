@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,6 @@ interface CanFetchExtras {
      *
      * @param extras a bundle of arguments
      */
-    fun fetchExtras(extras : Bundle)
+    fun fetchExtras(extras: Bundle)
 
 }

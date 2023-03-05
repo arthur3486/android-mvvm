@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,18 +22,16 @@ import java.util.*
 
 class TimeFormattingUtil : BaseSynchronized() {
 
-
-    private val locale : Locale = Locale.getDefault()
+    private val locale: Locale = Locale.getDefault()
     private val generalTimeFormatter = SimpleDateFormat(Formats.GENERAL, locale)
     private val timePeriodTimeFormatter = SimpleDateFormat(Formats.TIME_PERIOD, locale)
 
-
     companion object {
 
-        @JvmStatic val INSTANCE = TimeFormattingUtil()
+        @JvmStatic
+        val INSTANCE = TimeFormattingUtil()
 
     }
-
 
     object Formats {
 
@@ -49,37 +47,32 @@ class TimeFormattingUtil : BaseSynchronized() {
 
     }
 
-
     /**
      * Formats the specified time (in milliseconds) according to [Formats.GENERAL].
      */
-    fun formatGeneral(timeInMillis : Long) : String = withLock {
+    fun formatGeneral(timeInMillis: Long): String = withLock {
         generalTimeFormatter.format(timeInMillis)
     }
-
 
     /**
      * Extracts the exact time in milliseconds from the time formatted according to [Formats.GENERAL].
      */
-    fun parseGeneral(formattedTime : String) : Long = withLock {
+    fun parseGeneral(formattedTime: String): Long = withLock {
         generalTimeFormatter.parse(formattedTime).time
     }
-
 
     /**
      * Formats the specified time (in milliseconds) according to [Formats.TIME_PERIOD].
      */
-    fun formatTimePeriod(timeInMillis : Long) : String = withLock {
+    fun formatTimePeriod(timeInMillis: Long): String = withLock {
         timePeriodTimeFormatter.format(timeInMillis)
     }
-
 
     /**
      * Extracts the exact time in milliseconds from the time formatted according to [Formats.TIME_PERIOD].
      */
-    fun parseTimePeriod(formattedTime : String) : Long = withLock {
+    fun parseTimePeriod(formattedTime: String): Long = withLock {
         timePeriodTimeFormatter.parse(formattedTime).time
     }
-
 
 }

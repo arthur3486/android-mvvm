@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,36 +23,36 @@ import com.arthurivanets.sample.data.db.entities.Character
 interface CharactersTable {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(character : Character)
+    fun save(character: Character)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(vararg characters : Character)
+    fun save(vararg characters: Character)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(characters : List<Character>)
+    fun save(characters: List<Character>)
 
     @Update
-    fun update(character : Character)
+    fun update(character: Character)
 
     @Update
-    fun update(vararg characters : Character)
+    fun update(vararg characters: Character)
 
     @Update
-    fun update(characters : List<Character>)
+    fun update(characters: List<Character>)
 
     @Delete
-    fun delete(character : Character)
+    fun delete(character: Character)
 
     @Delete
-    fun delete(vararg characters : Character)
+    fun delete(vararg characters: Character)
 
     @Delete
-    fun delete(characters : List<Character>)
+    fun delete(characters: List<Character>)
 
     @Query("SELECT * FROM ${Character.Properties.TABLE_NAME} WHERE ${Character.Properties.ID} = :id")
-    fun getById(id : Long) : Character?
+    fun getById(id: Long): Character?
 
     @Query("SELECT * FROM ${Character.Properties.TABLE_NAME} ORDER BY ${Character.Properties.ID} LIMIT :offset, :limit")
-    fun get(offset : Int = 0, limit : Int = -1) : List<Character>
+    fun get(offset: Int = 0, limit: Int = -1): List<Character>
 
 }

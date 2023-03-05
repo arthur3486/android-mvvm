@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,36 +23,36 @@ import com.arthurivanets.sample.data.db.entities.Event
 interface EventsTable {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(event : Event)
+    fun save(event: Event)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(vararg events : Event)
+    fun save(vararg events: Event)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(events : List<Event>)
+    fun save(events: List<Event>)
 
     @Update
-    fun update(event : Event)
+    fun update(event: Event)
 
     @Update
-    fun update(vararg event : Event)
+    fun update(vararg event: Event)
 
     @Update
-    fun update(events : List<Event>)
+    fun update(events: List<Event>)
 
     @Delete
-    fun delete(event : Event)
+    fun delete(event: Event)
 
     @Delete
-    fun delete(vararg events : Event)
+    fun delete(vararg events: Event)
 
     @Delete
-    fun delete(events : List<Event>)
+    fun delete(events: List<Event>)
 
     @Query("SELECT * FROM ${Event.Properties.TABLE_NAME} WHERE ${Event.Properties.ID} = :id")
-    fun getById(id : Long) : Event?
+    fun getById(id: Long): Event?
 
     @Query("SELECT * FROM ${Event.Properties.TABLE_NAME} ORDER BY ${Event.Properties.ID} LIMIT :offset, :limit")
-    fun get(offset : Int = 0, limit : Int = -1) : List<Event>
+    fun get(offset: Int = 0, limit: Int = -1): List<Event>
 
 }

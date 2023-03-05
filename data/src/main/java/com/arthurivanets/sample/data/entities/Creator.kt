@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Creator(
-    @JsonProperty(Properties.NAME) val name : String = "",
-    @JsonProperty(Properties.ROLE) val role : String = ""
+    @JsonProperty(Properties.NAME) val name: String = "",
+    @JsonProperty(Properties.ROLE) val role: String = ""
 ) {
-
 
     object Properties {
 
@@ -34,6 +33,5 @@ data class Creator(
         const val ROLE = "role"
 
     }
-
 
 }

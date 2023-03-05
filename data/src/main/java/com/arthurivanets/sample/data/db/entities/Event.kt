@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,17 +24,16 @@ import androidx.room.Entity
     primaryKeys = [Event.Properties.ID]
 )
 class Event(
-    @ColumnInfo(name = Properties.ID) val id : Long,
-    @ColumnInfo(name = Properties.TITLE) val title : String,
-    @ColumnInfo(name = Properties.DESCRIPTION) val description : String,
-    @ColumnInfo(name = Properties.MODIFICATION_TIME) val modificationTimeInMillis : Long,
-    @ColumnInfo(name = Properties.START_DATE) val startDateInMillis : Long,
-    @ColumnInfo(name = Properties.END_DATE) val endDateInMillis : Long,
-    @ColumnInfo(name = Properties.THUMBNAIL) val thumbnail : String,
-    @ColumnInfo(name = Properties.URLS) val urls : String,
-    @ColumnInfo(name = Properties.CREATORS) val creators : String
+    @ColumnInfo(name = Properties.ID) val id: Long,
+    @ColumnInfo(name = Properties.TITLE) val title: String,
+    @ColumnInfo(name = Properties.DESCRIPTION) val description: String,
+    @ColumnInfo(name = Properties.MODIFICATION_TIME) val modificationTimeInMillis: Long,
+    @ColumnInfo(name = Properties.START_DATE) val startDateInMillis: Long,
+    @ColumnInfo(name = Properties.END_DATE) val endDateInMillis: Long,
+    @ColumnInfo(name = Properties.THUMBNAIL) val thumbnail: String,
+    @ColumnInfo(name = Properties.URLS) val urls: String,
+    @ColumnInfo(name = Properties.CREATORS) val creators: String
 ) {
-
 
     object Properties {
 
@@ -50,6 +49,5 @@ class Event(
         const val CREATORS = "creators"
 
     }
-
 
 }

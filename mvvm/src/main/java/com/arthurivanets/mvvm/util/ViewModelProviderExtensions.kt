@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,26 +24,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import com.arthurivanets.mvvm.ViewModelProviderFactory
 
-
 /**
  * Provides the [ViewModel] of the specified class using the [ViewModelProviders] and a custom [ViewModelProviderFactory],
  * thus allowing you to construct a [ViewModel] according to your requirements (e.g. inject the dependencies into it, etc.).
  * The creation of a new [ViewModel] instance using the [creator] will happen only if the [ViewModelProviders] doesn't have
  * a retained version of the corresponding [ViewModel] instance, otherwise the existing (retained) [ViewModel] will be reused.
  */
-inline fun <reified T : ViewModel> FragmentActivity.provideViewModel(noinline creator : () -> T) : T {
+inline fun <reified T : ViewModel> FragmentActivity.provideViewModel(noinline creator: () -> T): T {
     val viewModelFactory = ViewModelProviderFactory(T::class.java, creator)
     return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
 }
 
-
 /**
  * Provides the [ViewModel] of the specified class using the [ViewModelProviders] and a custom [ViewModelProviderFactory],
  * thus allowing you to construct a [ViewModel] according to your requirements (e.g. inject the dependencies into it, etc.).
  * The creation of a new [ViewModel] instance using the [creator] will happen only if the [ViewModelProviders] doesn't have
  * a retained version of the corresponding [ViewModel] instance, otherwise the existing (retained) [ViewModel] will be reused.
  */
-inline fun <reified T : ViewModel> Fragment.provideViewModel(noinline creator : () -> T) : T {
+inline fun <reified T : ViewModel> Fragment.provideViewModel(noinline creator: () -> T): T {
     val viewModelFactory = ViewModelProviderFactory(T::class.java, creator)
     return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
 }

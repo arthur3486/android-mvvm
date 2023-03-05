@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,26 +24,25 @@ import androidx.room.Entity
     primaryKeys = [Comics.Properties.ID]
 )
 class Comics(
-    @ColumnInfo(name = Properties.ID) val id : Long,
-    @ColumnInfo(name = Properties.DIGITAL_ID) val digitalId : Long,
-    @ColumnInfo(name = Properties.TITLE) val title : String,
-    @ColumnInfo(name = Properties.ISSUE_NUMBER) val issueNumber : Double,
-    @ColumnInfo(name = Properties.VARIANT_DESCRIPTION) val variantDescription : String,
-    @ColumnInfo(name = Properties.DESCRIPTION) val description : String,
-    @ColumnInfo(name = Properties.MODIFICATION_TIME) val modificationTimeInMillis : Long,
-    @ColumnInfo(name = Properties.ISBN) val isbn : String,
-    @ColumnInfo(name = Properties.UPC) val upc : String,
-    @ColumnInfo(name = Properties.DIAMOND_CODE) val diamondCode : String,
-    @ColumnInfo(name = Properties.EAN) val ean : String,
-    @ColumnInfo(name = Properties.ISSN) val issn : String,
-    @ColumnInfo(name = Properties.FORMAT) val format : String,
-    @ColumnInfo(name = Properties.PAGE_COUNT) val pageCount : Int,
-    @ColumnInfo(name = Properties.THUMBNAIL) val thumbnail : String,
-    @ColumnInfo(name = Properties.IMAGES) val images : String,
-    @ColumnInfo(name = Properties.CREATORS) val creators : String,
-    @ColumnInfo(name = Properties.URLS) val urls : String
+    @ColumnInfo(name = Properties.ID) val id: Long,
+    @ColumnInfo(name = Properties.DIGITAL_ID) val digitalId: Long,
+    @ColumnInfo(name = Properties.TITLE) val title: String,
+    @ColumnInfo(name = Properties.ISSUE_NUMBER) val issueNumber: Double,
+    @ColumnInfo(name = Properties.VARIANT_DESCRIPTION) val variantDescription: String,
+    @ColumnInfo(name = Properties.DESCRIPTION) val description: String,
+    @ColumnInfo(name = Properties.MODIFICATION_TIME) val modificationTimeInMillis: Long,
+    @ColumnInfo(name = Properties.ISBN) val isbn: String,
+    @ColumnInfo(name = Properties.UPC) val upc: String,
+    @ColumnInfo(name = Properties.DIAMOND_CODE) val diamondCode: String,
+    @ColumnInfo(name = Properties.EAN) val ean: String,
+    @ColumnInfo(name = Properties.ISSN) val issn: String,
+    @ColumnInfo(name = Properties.FORMAT) val format: String,
+    @ColumnInfo(name = Properties.PAGE_COUNT) val pageCount: Int,
+    @ColumnInfo(name = Properties.THUMBNAIL) val thumbnail: String,
+    @ColumnInfo(name = Properties.IMAGES) val images: String,
+    @ColumnInfo(name = Properties.CREATORS) val creators: String,
+    @ColumnInfo(name = Properties.URLS) val urls: String
 ) {
-
 
     object Properties {
 
@@ -68,6 +67,5 @@ class Comics(
         const val URLS = "urls"
 
     }
-
 
 }

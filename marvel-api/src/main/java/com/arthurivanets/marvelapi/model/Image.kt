@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Image(
-    @JsonProperty(Properties.PATH) val path : String = "",
-    @JsonProperty(Properties.EXTENSION) val extension : String = ""
+    @JsonProperty(Properties.PATH) val path: String = "",
+    @JsonProperty(Properties.EXTENSION) val extension: String = ""
 ) {
-
 
     @JsonIgnore
     val imageUrl = "$path.$extension"
@@ -35,13 +34,11 @@ data class Image(
     @JsonIgnore
     val isDefaultImage = path.endsWith("image_not_available", ignoreCase = true)
 
-
     object Properties {
 
         const val PATH = "path"
         const val EXTENSION = "extension"
 
     }
-
 
 }

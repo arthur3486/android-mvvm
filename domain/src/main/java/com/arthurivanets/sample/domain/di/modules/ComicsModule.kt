@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,40 +32,36 @@ import javax.inject.Singleton
 @Module
 internal class ComicsModule {
 
-
     @Source(Source.Type.CACHE)
     @Provides
     @Singleton
-    fun provideCacheDataStore(context : Context) : ComicsDataStore {
+    fun provideCacheDataStore(context: Context): ComicsDataStore {
         return ComicsDataStoreFactory(context).create(DataStoreFactory.Type.CACHE)
     }
-
 
     @Source(Source.Type.DATABASE)
     @Provides
     @Singleton
-    fun provideDatabaseDataStore(context : Context) : ComicsDataStore {
+    fun provideDatabaseDataStore(context: Context): ComicsDataStore {
         return ComicsDataStoreFactory(context).create(DataStoreFactory.Type.DATABASE)
     }
-
 
     @Source(Source.Type.SERVER)
     @Provides
     @Singleton
-    fun provideServerDataStore(context : Context) : ComicsDataStore {
+    fun provideServerDataStore(context: Context): ComicsDataStore {
         return ComicsDataStoreFactory(context).create(DataStoreFactory.Type.SERVER)
     }
-
 
     @Provides
     @Singleton
     fun provideRepository(
-        @Source(Source.Type.CACHE) cacheDataStore : ComicsDataStore,
-        @Source(Source.Type.DATABASE) databaseDataStore : ComicsDataStore,
-        @Source(Source.Type.SERVER) serverDataStore : ComicsDataStore,
-        networkStateProvider : NetworkStateProvider,
-        schedulerProvider : SchedulerProvider
-    ) : ComicsRepository {
+        @Source(Source.Type.CACHE) cacheDataStore: ComicsDataStore,
+        @Source(Source.Type.DATABASE) databaseDataStore: ComicsDataStore,
+        @Source(Source.Type.SERVER) serverDataStore: ComicsDataStore,
+        networkStateProvider: NetworkStateProvider,
+        schedulerProvider: SchedulerProvider
+    ): ComicsRepository {
         return ComicsRepositoryImpl(
             cacheDataStore = cacheDataStore,
             databaseDataStore = databaseDataStore,
@@ -74,6 +70,5 @@ internal class ComicsModule {
             schedulerProvider = schedulerProvider
         )
     }
-
 
 }

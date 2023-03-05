@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,17 +25,15 @@ import com.arthurivanets.sample.ui.util.extensions.detachFromParent
 import com.arthurivanets.sample.ui.util.extensions.forEachFragment
 
 class NavigationViewPager @JvmOverloads constructor(
-    context : Context,
-    attrs : AttributeSet? = null
+    context: Context,
+    attrs: AttributeSet? = null
 ) : ViewPager(context, attrs) {
 
-
     var isSwipeable = true
-    
-    
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-   
+
         // Due to the fact that the Navigation Library (as of version 2.1.0) doesn't provide a way
         // to specify the Fragment View Handling Mode [RECREATE/RETAIN] (for the fragments put into stack),
         // certain steps need to be taken on our side in order to achieve the Fragment View retention;
@@ -51,23 +49,19 @@ class NavigationViewPager @JvmOverloads constructor(
         // in conjunction with the Navigation Library.
         detachFragmentViewsIfNecessary()
     }
-    
-    
+
     private fun detachFragmentViewsIfNecessary() {
-        if(adapter is FragmentPagerAdapter) {
+        if (adapter is FragmentPagerAdapter) {
             (adapter as FragmentPagerAdapter).forEachFragment { it.view?.detachFromParent() }
         }
     }
-    
-    
-    override fun onInterceptTouchEvent(ev : MotionEvent?) : Boolean {
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         return (isSwipeable && super.onInterceptTouchEvent(ev))
     }
 
-
-    override fun onTouchEvent(ev : MotionEvent?) : Boolean {
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
         return (isSwipeable && super.onTouchEvent(ev))
     }
-
 
 }

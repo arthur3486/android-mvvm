@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit
 
 class CompositeMapDisposableTests {
 
-
     @Test
     fun testItemAdditionAndRetrieval() {
         val disposableMap = CompositeMapDisposable<String>()
@@ -29,7 +28,6 @@ class CompositeMapDisposableTests {
 
         disposableMap.clear()
     }
-
 
     @Test
     fun testItemRemoval() {
@@ -68,7 +66,6 @@ class CompositeMapDisposableTests {
         assertEquals(disposableMap.size, 0)
     }
 
-
     @Test
     fun testMapClearing() {
         val disposableMap = CompositeMapDisposable<String>()
@@ -95,7 +92,6 @@ class CompositeMapDisposableTests {
         assertTrue(subscription2.isDisposed)
         assertTrue(subscription3.isDisposed)
     }
-
 
     @Test
     fun testMapDisposal() {
@@ -124,21 +120,17 @@ class CompositeMapDisposableTests {
         assertTrue(subscription3.isDisposed)
     }
 
-
-    private fun newDummyObservable() : Observable<Long> {
+    private fun newDummyObservable(): Observable<Long> {
         return Observable.timer(10, TimeUnit.SECONDS)
     }
 
-
-    private fun Observable<*>.executeOnBgThread() : Disposable {
+    private fun Observable<*>.executeOnBgThread(): Disposable {
         return this.subscribeOn(Schedulers.io())
             .subscribe()
     }
 
-
-    private fun Disposable?.isActuallyDisposed() : Boolean {
+    private fun Disposable?.isActuallyDisposed(): Boolean {
         return (this?.isDisposed ?: false)
     }
-
 
 }

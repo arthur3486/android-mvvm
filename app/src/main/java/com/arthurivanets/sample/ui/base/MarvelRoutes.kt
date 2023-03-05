@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,10 @@ import com.arthurivanets.sample.domain.entities.Event
 
 sealed class MarvelRoutes : Route {
 
-    class CharacterInfoScreen(val character : Character) : MarvelRoutes()
-    
-    class ComicsInfoScreen(val comics : Comics) : MarvelRoutes()
-    
-    class EventInfoScreen(val event : Event) : MarvelRoutes()
+    class CharacterInfoScreen(val character: Character) : MarvelRoutes()
+
+    class ComicsInfoScreen(val comics: Comics) : MarvelRoutes()
+
+    class EventInfoScreen(val event: Event) : MarvelRoutes()
 
 }

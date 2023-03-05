@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,54 +40,50 @@ import java.util.concurrent.TimeUnit
  */
 class MarvelApi : Api {
 
-
     // Retrofit
-    private lateinit var retrofit : Retrofit
+    private lateinit var retrofit: Retrofit
 
     // Services
-    private lateinit var charactersService : CharactersService
-    private lateinit var eventsService : EventsService
-    private lateinit var comicsService : ComicsService
+    private lateinit var charactersService: CharactersService
+    private lateinit var eventsService: EventsService
+    private lateinit var comicsService: ComicsService
 
     // Endpoints
-    private lateinit var charactersEndpoint : CharactersEndpoint
-    private lateinit var eventsEndpoint : EventsEndpoint
-    private lateinit var comicsEndpoint : ComicsEndpoint
+    private lateinit var charactersEndpoint: CharactersEndpoint
+    private lateinit var eventsEndpoint: EventsEndpoint
+    private lateinit var comicsEndpoint: ComicsEndpoint
 
     // Auth
     private var publicKey = ""
     private var privateKey = ""
-    private var requestAuthorizer : Interceptor? = null
+    private var requestAuthorizer: Interceptor? = null
 
     //
-    override val characters : CharactersEndpoint
+    override val characters: CharactersEndpoint
         get() = charactersEndpoint
 
-    override val events : EventsEndpoint
+    override val events: EventsEndpoint
         get() = eventsEndpoint
 
-    override val comics : ComicsEndpoint
+    override val comics: ComicsEndpoint
         get() = comicsEndpoint
-
 
     companion object {
 
-        @JvmStatic val INSTANCE by lazy { MarvelApi() }
+        @JvmStatic
+        val INSTANCE by lazy { MarvelApi() }
 
     }
-
 
     init {
         init()
     }
-
 
     private fun init() {
         initRetrofit()
         initServices()
         initEndpoints()
     }
-
 
     private fun initRetrofit() {
         retrofit = Retrofit.Builder()
@@ -98,8 +94,7 @@ class MarvelApi : Api {
             .build()
     }
 
-
-    private fun initOkHttpClient() : OkHttpClient {
+    private fun initOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(Timeouts.CONNECT, TimeUnit.SECONDS)
             .readTimeout(Timeouts.READ, TimeUnit.SECONDS)
@@ -108,15 +103,13 @@ class MarvelApi : Api {
             .build()
     }
 
-
-    private fun addExtraClientConfig(builder : OkHttpClient.Builder) {
-        if(BuildConfig.API_DEBUG_MODE) {
+    private fun addExtraClientConfig(builder: OkHttpClient.Builder) {
+        if (BuildConfig.API_DEBUG_MODE) {
             builder.addInterceptor(HttpLoggingInterceptor().also { it.level = HttpLoggingInterceptor.Level.BODY })
         }
 
         requestAuthorizer?.let { builder.addInterceptor(it) }
     }
-
 
     private fun initServices() {
         charactersService = retrofit.create(CharactersService::class.java)
@@ -124,36 +117,31 @@ class MarvelApi : Api {
         comicsService = retrofit.create(ComicsService::class.java)
     }
 
-
     private fun initEndpoints() {
         charactersEndpoint = CharactersEndpointImpl(charactersService)
         eventsEndpoint = EventsEndpointImpl(eventsService)
         comicsEndpoint = ComicsEndpointImpl(comicsService)
     }
 
-
-    override fun init(publicKey : String, privateKey : String) {
-        if(isInitializationRequired(publicKey = publicKey, privateKey = privateKey)) {
+    override fun init(publicKey: String, privateKey: String) {
+        if (isInitializationRequired(publicKey = publicKey, privateKey = privateKey)) {
             initAuthorizer(publicKey = publicKey, privateKey = privateKey)
             init()
         }
     }
-    
-    
-    private fun initAuthorizer(publicKey : String, privateKey : String) {
+
+    private fun initAuthorizer(publicKey: String, privateKey: String) {
         this.publicKey = publicKey
         this.privateKey = privateKey
-        
+
         requestAuthorizer = RequestAuthorizer(
             publicKey = publicKey,
             privateKey = privateKey
         )
     }
-    
-    
-    private fun isInitializationRequired(publicKey : String, privateKey : String) : Boolean {
+
+    private fun isInitializationRequired(publicKey: String, privateKey: String): Boolean {
         return ((this.publicKey != publicKey) || (this.privateKey != privateKey))
     }
-
 
 }

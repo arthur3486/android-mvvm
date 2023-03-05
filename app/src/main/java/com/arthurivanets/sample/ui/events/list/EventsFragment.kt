@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,18 +44,15 @@ import kotlinx.android.synthetic.main.view_progress_bar_circular.*
 import javax.inject.Inject
 
 class EventsFragment : BaseMvvmFragment<FragmentEventsBinding, EventsViewModel>(R.layout.fragment_events), CanScrollToTop {
-    
 
     @Inject
-    lateinit var itemResources : EventItemResources
+    lateinit var itemResources: EventItemResources
 
-    private lateinit var adapter : EventItemsRecyclerViewAdapter
+    private lateinit var adapter: EventItemsRecyclerViewAdapter
 
-
-    override fun init(savedInstanceState : Bundle?) {
+    override fun init(savedInstanceState: Bundle?) {
         initRecyclerView()
     }
-
 
     private fun initRecyclerView() {
         with(recyclerView) {
@@ -64,13 +61,11 @@ class EventsFragment : BaseMvvmFragment<FragmentEventsBinding, EventsViewModel>(
         }
     }
 
-
-    private fun initLayoutManager() : RecyclerView.LayoutManager {
+    private fun initLayoutManager(): RecyclerView.LayoutManager {
         return LinearLayoutManager(context)
     }
 
-
-    private fun initAdapter() : EventItemsRecyclerViewAdapter {
+    private fun initAdapter(): EventItemsRecyclerViewAdapter {
         return EventItemsRecyclerViewAdapter(
             context = context!!,
             items = viewModel.items,
@@ -79,57 +74,49 @@ class EventsFragment : BaseMvvmFragment<FragmentEventsBinding, EventsViewModel>(
             onItemClickListener = onItemClick { viewModel.onEventClicked(it.itemModel) }
         }.also { adapter = it }
     }
-    
-    
-    override fun scrollToTop(animate : Boolean) {
-        if(animate) {
+
+    override fun scrollToTop(animate: Boolean) {
+        if (animate) {
             recyclerView?.smoothScrollToPosition(0)
         } else {
             recyclerView?.scrollToPosition(0)
         }
     }
-    
-    
-    override fun onViewStateChanged(state : ViewState) {
-        when(state) {
+
+    override fun onViewStateChanged(state: ViewState) {
+        when (state) {
             is GeneralViewStates.Idle<*> -> onIdleState()
             is GeneralViewStates.Loading<*> -> onLoadingState()
             is GeneralViewStates.Success<*> -> onSuccessState()
             is GeneralViewStates.Error<*> -> onErrorState()
         }
     }
-    
-    
+
     private fun onIdleState() {
         progress_bar.isVisible = false
     }
-    
-    
+
     private fun onLoadingState() {
         progress_bar.isVisible = true
     }
-    
-    
+
     private fun onSuccessState() {
         progress_bar.isVisible = false
     }
-    
-    
+
     private fun onErrorState() {
         progress_bar.isVisible = false
     }
-    
-    
-    override fun onRoute(route : Route) {
-        when(route) {
+
+    override fun onRoute(route: Route) {
+        when (route) {
             is MarvelRoutes.EventInfoScreen -> onOpenEventInfoScreen(route.event)
         }
     }
-    
-    
-    private fun onOpenEventInfoScreen(event : Event) {
+
+    private fun onOpenEventInfoScreen(event: Event) {
         val viewHolder = (getItemViewHolder(event) ?: return)
-        
+
         navigate(
             directions = DashboardFragmentDirections.eventInfoFragmentAction(event),
             navigationExtras = FragmentNavigatorExtras(
@@ -139,17 +126,15 @@ class EventsFragment : BaseMvvmFragment<FragmentEventsBinding, EventsViewModel>(
             )
         )
     }
-    
-    
-    private fun getItemViewHolder(event : Event) : EventItemViewHolder? {
+
+    private fun getItemViewHolder(event: Event): EventItemViewHolder? {
         val index = adapter.indexOf(EventItem(event))
-        
-        return if(index != -1) {
+
+        return if (index != -1) {
             (recyclerView.findViewHolderForAdapterPosition(index) as EventItemViewHolder)
         } else {
             null
         }
     }
-
 
 }

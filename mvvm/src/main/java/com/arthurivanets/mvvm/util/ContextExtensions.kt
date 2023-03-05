@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,18 +22,16 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
-
 /**
  * Shows the software keyboard (if possible).
  */
-fun Context.showKeyboard(view : View) {
+fun Context.showKeyboard(view: View) {
     (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?)?.showSoftInput(view, 0)
 }
-
 
 /**
  * Hides the software keyboard (if possible)
  */
-fun Context.hideKeyboard(view : View) {
+fun Context.hideKeyboard(view: View) {
     (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?)?.hideSoftInputFromWindow(view.windowToken, 0)
 }

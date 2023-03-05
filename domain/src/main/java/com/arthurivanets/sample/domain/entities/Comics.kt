@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,32 +21,30 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Comics(
-    val id : Long = -1L,
-    val digitalId : Long = -1L,
-    val title : String = "",
-    val issueNumber : Double = 0.0,
-    val variantDescription : String = "",
-    val description : String = "",
-    val modificationTimeInMillis : Long = 0L,
-    val isbn : String = "",
-    val upc : String = "",
-    val diamondCode : String = "",
-    val ean : String = "",
-    val issn : String = "",
-    val format : String = "",
-    val pageCount : Int = 0,
-    val thumbnail : Image = Image(),
-    val images : List<Image> = emptyList(),
-    val creators : List<Creator> = emptyList(),
-    val urls : List<Url> = emptyList()
+    val id: Long = -1L,
+    val digitalId: Long = -1L,
+    val title: String = "",
+    val issueNumber: Double = 0.0,
+    val variantDescription: String = "",
+    val description: String = "",
+    val modificationTimeInMillis: Long = 0L,
+    val isbn: String = "",
+    val upc: String = "",
+    val diamondCode: String = "",
+    val ean: String = "",
+    val issn: String = "",
+    val format: String = "",
+    val pageCount: Int = 0,
+    val thumbnail: Image = Image(),
+    val images: List<Image> = emptyList(),
+    val creators: List<Creator> = emptyList(),
+    val urls: List<Url> = emptyList()
 ) : Parcelable {
-
 
     val hasValidId = (id > 0L)
     val hasValidDigitalId = (digitalId > 0L)
     val hasTitle = title.isNotBlank()
     val hasDescription = description.isNotBlank()
     val hasIsbn = isbn.isNotBlank()
-
 
 }

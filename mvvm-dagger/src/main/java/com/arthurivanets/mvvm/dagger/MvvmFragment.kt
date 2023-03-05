@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,21 +26,17 @@ import javax.inject.Inject
 /**
  * A base MVVM Fragment with built-in support for the Dagger2-based dependency injection.
  */
-abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmFragment<VDB, VM>(layoutId) {
-    
-    
-    @Inject
-    lateinit var viewModel : VM
+abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId: Int) : MvvmFragment<VDB, VM>(layoutId) {
 
+    @Inject
+    lateinit var viewModel: VM
 
     final override fun injectDependencies() {
         AndroidSupportInjection.inject(this)
     }
-    
-    
-    final override fun createViewModel() : VM {
+
+    final override fun createViewModel(): VM {
         return viewModel
     }
-    
-    
+
 }

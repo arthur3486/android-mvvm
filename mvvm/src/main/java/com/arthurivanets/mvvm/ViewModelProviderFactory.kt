@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,19 +25,17 @@ import androidx.lifecycle.ViewModelProvider
  * Allows you to construct the [ViewModel] that meets your requirements (e.g. perform the dependency injection into your [ViewModel]).
  */
 class ViewModelProviderFactory<V : ViewModel>(
-    private val viewModelClass : Class<V>,
-    private val creator : () -> V
+    private val viewModelClass: Class<V>,
+    private val creator: () -> V
 ) : ViewModelProvider.Factory {
-    
-    
+
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass : Class<T>) : T {
-        if(!modelClass.isAssignableFrom(viewModelClass)) {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (!modelClass.isAssignableFrom(viewModelClass)) {
             throw IllegalArgumentException("Unsupported class name.")
         }
-        
+
         return (creator() as T)
     }
-    
-    
+
 }

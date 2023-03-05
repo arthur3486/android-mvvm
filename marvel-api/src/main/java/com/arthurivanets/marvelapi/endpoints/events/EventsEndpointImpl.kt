@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,43 +23,42 @@ import com.arthurivanets.marvelapi.responses.EventsResponse
 import com.arthurivanets.marvelapi.services.EventsService
 import io.reactivex.Single
 
-internal class EventsEndpointImpl(eventsService : EventsService) : AbstractEndpoint<EventsService>(eventsService),
+internal class EventsEndpointImpl(eventsService: EventsService) : AbstractEndpoint<EventsService>(eventsService),
     EventsEndpoint {
 
-
-    override fun getEvent(id : Long) : Single<EventsResponse> {
+    override fun getEvent(id: Long): Single<EventsResponse> {
         return service.getEventAsync(id)
     }
 
-
-    override fun getEvents(offset : Int, limit : Int) : Single<EventsResponse> {
+    override fun getEvents(offset: Int, limit: Int): Single<EventsResponse> {
         return service.getEventsAsync(
             offset = offset,
             limit = limit
         )
     }
 
-
-    override fun getEventCharacters(eventId : Long,
-                                    offset : Int,
-                                    limit : Int) : Single<CharactersResponse> {
+    override fun getEventCharacters(
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<CharactersResponse> {
         return service.getEventCharactersAsync(
             eventId = eventId,
             offset = offset,
             limit = limit
         )
     }
-    
-    
-    override fun getEventComics(eventId : Long,
-                                offset : Int,
-                                limit : Int) : Single<ComicsResponse> {
+
+    override fun getEventComics(
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<ComicsResponse> {
         return service.getEventComicsAsync(
             eventId = eventId,
             offset = offset,
             limit = limit
         )
     }
-    
-    
+
 }

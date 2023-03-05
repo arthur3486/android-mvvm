@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,8 @@ package com.arthurivanets.sample.ui.util.extensions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 
-
-inline fun FragmentPagerAdapter.forEachFragment(consumer : (Fragment) -> Unit) {
-    for(i in 0 until this.count) {
+inline fun FragmentPagerAdapter.forEachFragment(consumer: (Fragment) -> Unit) {
+    for (i in 0 until this.count) {
         consumer(this.getItem(i))
     }
 }

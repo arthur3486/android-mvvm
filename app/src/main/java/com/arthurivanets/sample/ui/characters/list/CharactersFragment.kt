@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,18 +44,15 @@ import kotlinx.android.synthetic.main.view_progress_bar_circular.*
 import javax.inject.Inject
 
 class CharactersFragment : BaseMvvmFragment<FragmentCharactersBinding, CharactersViewModel>(R.layout.fragment_characters), CanScrollToTop {
-    
 
     @Inject
-    lateinit var itemResources : CharacterItemResources
+    lateinit var itemResources: CharacterItemResources
 
-    private lateinit var adapter : CharacterItemsRecyclerViewAdapter
+    private lateinit var adapter: CharacterItemsRecyclerViewAdapter
 
-
-    override fun init(savedInstanceState : Bundle?) {
+    override fun init(savedInstanceState: Bundle?) {
         initRecyclerView()
     }
-
 
     private fun initRecyclerView() {
         with(recyclerView) {
@@ -64,13 +61,11 @@ class CharactersFragment : BaseMvvmFragment<FragmentCharactersBinding, Character
         }
     }
 
-
-    private fun initLayoutManager() : RecyclerView.LayoutManager {
+    private fun initLayoutManager(): RecyclerView.LayoutManager {
         return GridLayoutManager(context, CHARACTERS_COLUMN_COUNT)
     }
 
-
-    private fun initAdapter() : CharacterItemsRecyclerViewAdapter {
+    private fun initAdapter(): CharacterItemsRecyclerViewAdapter {
         return CharacterItemsRecyclerViewAdapter(
             context = context!!,
             items = viewModel.items,
@@ -79,57 +74,49 @@ class CharactersFragment : BaseMvvmFragment<FragmentCharactersBinding, Character
             onItemClickListener = onItemClick { viewModel.onCharacterClicked(it.itemModel) }
         }.also { adapter = it }
     }
-    
-    
-    override fun scrollToTop(animate : Boolean) {
-        if(animate) {
+
+    override fun scrollToTop(animate: Boolean) {
+        if (animate) {
             recyclerView?.smoothScrollToPosition(0)
         } else {
             recyclerView?.scrollToPosition(0)
         }
     }
-    
-    
-    override fun onViewStateChanged(state : ViewState) {
-        when(state) {
+
+    override fun onViewStateChanged(state: ViewState) {
+        when (state) {
             is GeneralViewStates.Idle<*> -> onIdleState()
             is GeneralViewStates.Loading<*> -> onLoadingState()
             is GeneralViewStates.Success<*> -> onSuccessState()
             is GeneralViewStates.Error<*> -> onErrorState()
         }
     }
-    
-    
+
     private fun onIdleState() {
         progress_bar.isVisible = false
     }
-    
-    
+
     private fun onLoadingState() {
         progress_bar.isVisible = true
     }
-    
-    
+
     private fun onSuccessState() {
         progress_bar.isVisible = false
     }
-    
-    
+
     private fun onErrorState() {
         progress_bar.isVisible = false
     }
-    
-    
-    override fun onRoute(route : Route) {
-        when(route) {
+
+    override fun onRoute(route: Route) {
+        when (route) {
             is MarvelRoutes.CharacterInfoScreen -> onOpenCharacterInfoScreen(route.character)
         }
     }
-    
-    
-    private fun onOpenCharacterInfoScreen(character : Character) {
+
+    private fun onOpenCharacterInfoScreen(character: Character) {
         val viewHolder = (getItemViewHolder(character) ?: return)
-        
+
         navigate(
             directions = DashboardFragmentDirections.characterInfoFragmentAction(character),
             navigationExtras = FragmentNavigatorExtras(
@@ -138,17 +125,15 @@ class CharactersFragment : BaseMvvmFragment<FragmentCharactersBinding, Character
             )
         )
     }
-    
-    
-    private fun getItemViewHolder(character : Character) : CharacterItemViewHolder? {
+
+    private fun getItemViewHolder(character: Character): CharacterItemViewHolder? {
         val index = adapter.indexOf(CharacterItem(character))
-        
-        return if(index != -1) {
+
+        return if (index != -1) {
             (recyclerView.findViewHolderForAdapterPosition(index) as CharacterItemViewHolder)
         } else {
             null
         }
     }
-
 
 }

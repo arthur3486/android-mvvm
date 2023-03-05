@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,5 +20,5 @@ import com.arthurivanets.adapster.markers.ItemResources
 import com.arthurivanets.sample.imageloading.ImageLoader
 
 class EventItemResources(
-    val imageLoader : ImageLoader
+    val imageLoader: ImageLoader
 ) : ItemResources

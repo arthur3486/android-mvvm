@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,36 +23,36 @@ import com.arthurivanets.sample.data.db.entities.Comics
 interface ComicsTable {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(comics : Comics)
+    fun save(comics: Comics)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(vararg comics : Comics)
+    fun save(vararg comics: Comics)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(comics : List<Comics>)
+    fun save(comics: List<Comics>)
 
     @Update
-    fun update(comics : Comics)
+    fun update(comics: Comics)
 
     @Update
-    fun update(vararg comics : Comics)
+    fun update(vararg comics: Comics)
 
     @Update
-    fun update(comics : List<Comics>)
+    fun update(comics: List<Comics>)
 
     @Delete
-    fun delete(comics : Comics)
+    fun delete(comics: Comics)
 
     @Delete
-    fun delete(vararg comics : Comics)
+    fun delete(vararg comics: Comics)
 
     @Delete
-    fun delete(comics : List<Comics>)
+    fun delete(comics: List<Comics>)
 
     @Query("SELECT * FROM ${Comics.Properties.TABLE_NAME} WHERE ${Comics.Properties.ID} = :id")
-    fun getById(id : Long) : Comics?
+    fun getById(id: Long): Comics?
 
     @Query("SELECT * FROM ${Comics.Properties.TABLE_NAME} ORDER BY ${Comics.Properties.ID} LIMIT :offset, :limit")
-    fun get(offset : Int = 0, limit : Int = -1) : List<Comics>
+    fun get(offset: Int = 0, limit: Int = -1): List<Comics>
 
 }

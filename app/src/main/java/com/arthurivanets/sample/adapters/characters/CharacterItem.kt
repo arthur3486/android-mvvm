@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,13 +29,15 @@ import com.arthurivanets.adapster.model.markers.Trackable
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.domain.entities.Character
 
-open class CharacterItem(itemModel : Character) : BaseItem<Character, CharacterItemViewHolder, CharacterItemResources>(itemModel), Trackable<Long> {
+open class CharacterItem(itemModel: Character) : BaseItem<Character, CharacterItemViewHolder, CharacterItemResources>(itemModel),
+    Trackable<Long> {
 
-
-    override fun init(adapter : Adapter<out Item<RecyclerView.ViewHolder, ItemResources>>?,
-                      parent : ViewGroup,
-                      inflater : LayoutInflater,
-                      resources : CharacterItemResources?) : CharacterItemViewHolder {
+    override fun init(
+        adapter: Adapter<out Item<RecyclerView.ViewHolder, ItemResources>>?,
+        parent: ViewGroup,
+        inflater: LayoutInflater,
+        resources: CharacterItemResources?
+    ): CharacterItemViewHolder {
         return CharacterItemViewHolder(
             itemView = inflater.inflate(
                 layout,
@@ -46,20 +48,16 @@ open class CharacterItem(itemModel : Character) : BaseItem<Character, CharacterI
         )
     }
 
-
-    fun setOnItemClickListener(viewHolder : CharacterItemViewHolder, onItemClickListener : OnItemClickListener<CharacterItem>) {
+    fun setOnItemClickListener(viewHolder: CharacterItemViewHolder, onItemClickListener: OnItemClickListener<CharacterItem>) {
         viewHolder.overlayView.setOnItemClickListener(this, 0, onItemClickListener)
     }
 
-
-    override fun getLayout() : Int {
+    override fun getLayout(): Int {
         return R.layout.item_character
     }
 
-
-    override fun getTrackKey() : Long {
+    override fun getTrackKey(): Long {
         return itemModel.id
     }
-
 
 }

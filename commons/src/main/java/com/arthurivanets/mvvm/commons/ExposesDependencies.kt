@@ -4,9 +4,9 @@ import android.content.Context
 import com.arthurivanets.commons.rx.schedulers.SchedulerProvider
 
 interface ExposesDependencies {
-    
-    fun exposeContext() : Context
-    
-    fun exposeSchedulerProvider() : SchedulerProvider
-    
+
+    fun exposeContext(): Context
+
+    fun exposeSchedulerProvider(): SchedulerProvider
+
 }

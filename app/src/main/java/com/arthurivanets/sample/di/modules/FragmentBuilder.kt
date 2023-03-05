@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,33 +32,25 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class FragmentBuilder {
 
-
     @ContributesAndroidInjector
-    abstract fun buildDashboardFragment() : DashboardFragment
-
+    abstract fun buildDashboardFragment(): DashboardFragment
 
     @ContributesAndroidInjector(modules = [ComicsModule::class])
-    abstract fun buildComicsFragment() : ComicsFragment
-    
-    
+    abstract fun buildComicsFragment(): ComicsFragment
+
     @ContributesAndroidInjector(modules = [ComicsModule::class])
-    abstract fun buildComicsInfoFragment() : ComicsInfoFragment
-
+    abstract fun buildComicsInfoFragment(): ComicsInfoFragment
 
     @ContributesAndroidInjector(modules = [EventsModule::class])
-    abstract fun buildEventsFragment() : EventsFragment
-    
-    
+    abstract fun buildEventsFragment(): EventsFragment
+
     @ContributesAndroidInjector(modules = [EventsModule::class])
-    abstract fun buildEventInfoFragment() : EventInfoFragment
-
+    abstract fun buildEventInfoFragment(): EventInfoFragment
 
     @ContributesAndroidInjector(modules = [CharactersModule::class])
-    abstract fun buildCharactersFragment() : CharactersFragment
-    
-    
-    @ContributesAndroidInjector(modules = [CharactersModule::class])
-    abstract fun buildCharacterInfoFragment() : CharacterInfoFragment
+    abstract fun buildCharactersFragment(): CharactersFragment
 
+    @ContributesAndroidInjector(modules = [CharactersModule::class])
+    abstract fun buildCharacterInfoFragment(): CharacterInfoFragment
 
 }

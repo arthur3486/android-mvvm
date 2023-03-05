@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,8 @@ import com.arthurivanets.sample.data.datastores.base.DataStore
 /**
  *
  */
-abstract class AbstractDataStoreFactory<T : DataStore> internal constructor(context : Context) : DataStoreFactory<T> {
-
+abstract class AbstractDataStoreFactory<T : DataStore> internal constructor(context: Context) : DataStoreFactory<T> {
 
     protected val internalContext = context.applicationContext
-
 
 }

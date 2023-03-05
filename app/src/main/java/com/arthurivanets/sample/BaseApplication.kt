@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,13 +28,11 @@ import javax.inject.Inject
 
 abstract class BaseApplication : MultiDexApplication(), HasAndroidInjector {
 
-
-    lateinit var dependenciesComponent : AppDependenciesComponent
+    lateinit var dependenciesComponent: AppDependenciesComponent
         private set
-    
-    @Inject
-    lateinit var activityDispatchingAndroidInjector : DispatchingAndroidInjector<Any>
 
+    @Inject
+    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     final override fun onCreate() {
         super.onCreate()
@@ -44,16 +42,15 @@ abstract class BaseApplication : MultiDexApplication(), HasAndroidInjector {
         onInit()
     }
 
-
     private fun initDagger() {
         val coreComponent = DaggerCoreComponent.builder()
             .application(this)
             .build()
-        
+
         val domainComponent = DaggerDomainComponent.builder()
             .coreComponent(coreComponent)
             .build()
-        
+
         DaggerAppDependenciesComponent.builder()
             .coreComponent(coreComponent)
             .domainComponent(domainComponent)
@@ -62,30 +59,25 @@ abstract class BaseApplication : MultiDexApplication(), HasAndroidInjector {
             .inject(this)
     }
 
-
-    protected open fun onInjectDependencies(injector : AppDependenciesComponent) {
+    protected open fun onInjectDependencies(injector: AppDependenciesComponent) {
         //
     }
-
 
     protected open fun onInit() {
         //
     }
-    
-    
-    final override fun androidInjector() : AndroidInjector<Any> {
+
+    final override fun androidInjector(): AndroidInjector<Any> {
         return activityDispatchingAndroidInjector
     }
 
-
-    final override fun onTrimMemory(level : Int) {
+    final override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
 
-        if(level >= TRIM_MEMORY_BACKGROUND) {
+        if (level >= TRIM_MEMORY_BACKGROUND) {
             onCleanUpResources()
         }
     }
-
 
     /**
      *
@@ -93,6 +85,5 @@ abstract class BaseApplication : MultiDexApplication(), HasAndroidInjector {
     protected open fun onCleanUpResources() {
         //
     }
-
 
 }

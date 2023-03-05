@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,7 @@ package com.arthurivanets.sample.data.datastores.util
 import com.arthurivanets.commons.data.exceptions.NoResultError
 import com.arthurivanets.commons.data.util.Response
 
-
-internal fun <T, R> com.arthurivanets.marvelapi.responses.base.BaseDataResponse<T>.toSingleItemResponse(resultMapper : (T) -> R) : Response<R, Throwable> {
+internal fun <T, R> com.arthurivanets.marvelapi.responses.base.BaseDataResponse<T>.toSingleItemResponse(resultMapper: (T) -> R): Response<R, Throwable> {
     val hasDataItems = (this.hasData && (this.data?.results?.isNotEmpty() ?: false))
 
     return when {
@@ -32,9 +31,8 @@ internal fun <T, R> com.arthurivanets.marvelapi.responses.base.BaseDataResponse<
     }
 }
 
-
-internal fun <T, R> com.arthurivanets.marvelapi.responses.base.BaseDataResponse<T>.toResponse(resultMapper : (List<T>) -> R) : Response<R, Throwable> {
-    return if(this.isErroneous) {
+internal fun <T, R> com.arthurivanets.marvelapi.responses.base.BaseDataResponse<T>.toResponse(resultMapper: (List<T>) -> R): Response<R, Throwable> {
+    return if (this.isErroneous) {
         Response.error(this.message ?: "")
     } else {
         Response.result(resultMapper(this.data?.results ?: emptyList()))

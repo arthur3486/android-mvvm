@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,16 +26,16 @@ import io.reactivex.Single
 
 interface CharactersRepository : Repository<BusEvent<*>> {
 
-    fun getCharacter(id : Long) : Single<Response<DomainCharacter, Throwable>>
+    fun getCharacter(id: Long): Single<Response<DomainCharacter, Throwable>>
 
-    fun getCharacters(offset : Int, limit : Int) : Single<Response<List<DomainCharacter>, Throwable>>
+    fun getCharacters(offset: Int, limit: Int): Single<Response<List<DomainCharacter>, Throwable>>
 
-    fun getAllCharacters(offset : Int, limit : Int) : Flowable<Response<List<DomainCharacter>, Throwable>>
-    
+    fun getAllCharacters(offset: Int, limit: Int): Flowable<Response<List<DomainCharacter>, Throwable>>
+
     fun getCharacterComics(
-        character : DomainCharacter,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DomainComics>, Throwable>>
+        character: DomainCharacter,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DomainComics>, Throwable>>
 
 }

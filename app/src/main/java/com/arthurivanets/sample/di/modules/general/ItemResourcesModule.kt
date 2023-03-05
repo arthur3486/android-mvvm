@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,29 +26,25 @@ import dagger.Provides
 @Module
 class ItemResourcesModule {
 
-
     @Provides
-    fun provideComicsItemResources(imageLoader : ImageLoader) : ComicsItemResources {
+    fun provideComicsItemResources(imageLoader: ImageLoader): ComicsItemResources {
         return ComicsItemResources(
             imageLoader = imageLoader
         )
     }
 
-
     @Provides
-    fun provideEventItemResources(imageLoader : ImageLoader) : EventItemResources {
+    fun provideEventItemResources(imageLoader: ImageLoader): EventItemResources {
         return EventItemResources(
             imageLoader = imageLoader
         )
     }
 
-
     @Provides
-    fun provideCharacterItemResources(imageLoader : ImageLoader) : CharacterItemResources {
+    fun provideCharacterItemResources(imageLoader: ImageLoader): CharacterItemResources {
         return CharacterItemResources(
             imageLoader = imageLoader
         )
     }
-
 
 }

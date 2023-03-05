@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,20 +26,18 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 abstract class BaseResponse(
-    @JsonProperty(Properties.CODE) var code : Int = 0,
-    @JsonProperty(Properties.STATUS) var status : String? = null,
-    @JsonProperty(Properties.MESSAGE) var message : String? = null
+    @JsonProperty(Properties.CODE) var code: Int = 0,
+    @JsonProperty(Properties.STATUS) var status: String? = null,
+    @JsonProperty(Properties.MESSAGE) var message: String? = null
 ) {
 
-
     @get:JsonIgnore
-    val hasStatus : Boolean
+    val hasStatus: Boolean
         get() = !TextUtils.isEmpty(status)
 
     @get:JsonIgnore
-    val isErroneous : Boolean
+    val isErroneous: Boolean
         get() = !Statuses.OK.equals(status, ignoreCase = true)
-
 
     object Properties {
 
@@ -48,6 +46,5 @@ abstract class BaseResponse(
         const val MESSAGE = "message"
 
     }
-
 
 }

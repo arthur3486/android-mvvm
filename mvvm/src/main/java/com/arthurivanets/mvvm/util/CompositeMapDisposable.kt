@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,54 +23,46 @@ import io.reactivex.disposables.Disposable
  */
 internal class CompositeMapDisposable<K : Any> : Disposable {
 
-
     private val disposablesMap = HashMap<K, Disposable>()
 
-    val size : Int
+    val size: Int
         get() = synchronized(this) { disposablesMap.size }
 
     @Volatile
     private var isDisposed = false
 
-
-    operator fun set(key : K, disposable : Disposable) = synchronized(this) {
-        if(!isDisposed) {
+    operator fun set(key: K, disposable: Disposable) = synchronized(this) {
+        if (!isDisposed) {
             disposablesMap[key] = disposable
         }
     }
 
-
-    operator fun get(key : K) : Disposable? = synchronized(this) {
+    operator fun get(key: K): Disposable? = synchronized(this) {
         return disposablesMap[key]
     }
 
-
-    fun remove(key : K) : Disposable? = synchronized(this) {
+    fun remove(key: K): Disposable? = synchronized(this) {
         return disposablesMap.remove(key)
             ?.also(Disposable::dispose)
     }
 
-
     fun clear() = synchronized(this) {
-        if(!isDisposed) {
+        if (!isDisposed) {
             disposablesMap.values.forEach(Disposable::dispose)
             disposablesMap.clear()
         }
     }
 
-
     override fun dispose() = synchronized(this) {
-        if(!isDisposed) {
+        if (!isDisposed) {
             clear()
 
             isDisposed = true
         }
     }
 
-
-    override fun isDisposed() : Boolean {
+    override fun isDisposed(): Boolean {
         return isDisposed
     }
-
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,12 @@
 package com.arthurivanets.sample.imageloading
 
 data class Config(
-    val width : Int = -1,
-    val height : Int = -1,
-    val centerCrop : Boolean = true,
-    val animate : Boolean = true
+    val width: Int = -1,
+    val height: Int = -1,
+    val centerCrop: Boolean = true,
+    val animate: Boolean = true
 ) {
 
-
     val isSizeSet = ((width > 0) && (height > 0))
-
 
 }

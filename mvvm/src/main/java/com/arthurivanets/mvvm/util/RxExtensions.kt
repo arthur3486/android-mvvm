@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,12 @@ package com.arthurivanets.mvvm.util
 
 import io.reactivex.functions.Consumer
 
-
 /**
  * Converts the specified [Consumer] of the items of type [T] into a
  * [Consumer] of the items of type [R], provided that the type [R] inherits the type [T].
  *
  * @return the new [Consumer]
  */
-internal fun <T, R : T> Consumer<T>.adapt() : Consumer<R> {
+internal fun <T, R : T> Consumer<T>.adapt(): Consumer<R> {
     return Consumer(::accept)
 }

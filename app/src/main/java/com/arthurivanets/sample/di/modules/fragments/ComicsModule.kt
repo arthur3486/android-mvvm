@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,13 +29,12 @@ import dagger.Provides
 @Module
 class ComicsModule {
 
-
     @Provides
     fun provideComicsViewModel(
-        fragment : ComicsFragment,
-        comicsRepository : ComicsRepository,
-        schedulerProvider : SchedulerProvider
-    ) : ComicsViewModel {
+        fragment: ComicsFragment,
+        comicsRepository: ComicsRepository,
+        schedulerProvider: SchedulerProvider
+    ): ComicsViewModel {
         return fragment.provideViewModel {
             ComicsViewModel(
                 comicsRepository = comicsRepository,
@@ -44,13 +43,12 @@ class ComicsModule {
         }
     }
 
-
     @Provides
     fun provideComicsInfoViewModel(
-        fragment : ComicsInfoFragment,
-        comicsRepository : ComicsRepository,
-        schedulerProvider : SchedulerProvider
-    ) : ComicsInfoViewModel {
+        fragment: ComicsInfoFragment,
+        comicsRepository: ComicsRepository,
+        schedulerProvider: SchedulerProvider
+    ): ComicsInfoViewModel {
         return fragment.provideViewModel {
             ComicsInfoViewModel(
                 comicsRepository = comicsRepository,
@@ -58,6 +56,5 @@ class ComicsModule {
             )
         }
     }
-
 
 }

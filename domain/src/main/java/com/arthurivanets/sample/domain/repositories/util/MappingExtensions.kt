@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,20 +24,17 @@ import com.arthurivanets.commons.rx.ktx.asSingle
 import io.reactivex.Flowable
 import io.reactivex.Single
 
-
-internal inline fun <T, R> Response<T, Throwable>.toResponse(resultMapper : (T) -> R) : Response<R, Throwable> {
+internal inline fun <T, R> Response<T, Throwable>.toResponse(resultMapper: (T) -> R): Response<R, Throwable> {
     return Response(
         result = this.result?.let { resultMapper(it) },
         error = this.error
     )
 }
 
-
-internal inline fun <T, R> Single<Response<T, Throwable>>.convertResponse(crossinline resultMapper : (Response<T, Throwable>) -> Response<R, Throwable>) : Single<Response<R, Throwable>> {
+internal inline fun <T, R> Single<Response<T, Throwable>>.convertResponse(crossinline resultMapper: (Response<T, Throwable>) -> Response<R, Throwable>): Single<Response<R, Throwable>> {
     return this.flatMap { resultMapper(it).asSingle() }
 }
 
-
-internal inline fun <T, R> Flowable<Response<T, Throwable>>.convertResponse(crossinline resultMapper : (Response<T, Throwable>) -> Response<R, Throwable>) : Flowable<Response<R, Throwable>> {
+internal inline fun <T, R> Flowable<Response<T, Throwable>>.convertResponse(crossinline resultMapper: (Response<T, Throwable>) -> Response<R, Throwable>): Flowable<Response<R, Throwable>> {
     return this.flatMap { resultMapper(it).asFlowable() }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,10 +43,9 @@ import kotlin.properties.Delegates
  */
 abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     @LayoutRes
-    private val layoutId : Int
+    private val layoutId: Int
 ) : Fragment(), CanFetchExtras, CanHandleNewIntent, CanHandleBackPressEvents {
-    
-    
+
     /**
      * Retrieves the id of the Data Binding variable.
      * (This id should correspond to the id of the ViewModel
@@ -54,110 +53,106 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @return the binding variable id
      */
-    protected open val bindingVariable : Int = 0
-    
+    protected open val bindingVariable: Int = 0
+
     /**
      * The content [View] of the current [MvvmFragment].
      * (might be null if the current [MvvmFragment] hasn't been initialized yet.)
      */
-    var rootView : View? = null
+    var rootView: View? = null
         private set
 
-    private var viewDataBinding : VDB? = null
-    private var viewModel : VM? = null
-    
+    private var viewDataBinding: VDB? = null
+    private var viewModel: VM? = null
+
     private val registeredObservables = HashSet<Pair<Observable.OnPropertyChangedCallback, Observable>>()
-    
+
     /**
      * Indicates whether the current [MvvmFragment]'s content view is initialized or not.
      */
     var isViewCreated = false
         private set
-    
+
     /**
      * Indicates whether the current [MvvmFragment] is being animated or not.
      */
     var isViewAnimating = false
         private set
-    
+
     /**
      * Hint provided by the app that this fragment is currently visible to the user, as well as "active".
      * (This is usually set manually (e.g. when using the [androidx.viewpager.widget.ViewPager]) to indicate that the "Page" is active
      * and ready to load data or do something useful)
      */
     var isActive by Delegates.observable(true) { _, oldValue, newValue -> onActiveStateChange(oldValue, newValue) }
-    
+
     /**
      * Override this property in order to enable/disable
      * the DataBinding for the Fragment.
      */
     protected open val isDataBindingEnabled = true
 
-
-    final override fun onCreate(savedInstanceState : Bundle?) {
+    final override fun onCreate(savedInstanceState: Bundle?) {
         // dependencies will be injected only once (based on the state of the content view)
-        if(!isViewCreated) {
+        if (!isViewCreated) {
             injectDependencies()
         }
-        
+
         super.onCreate(savedInstanceState)
-        
+
         // the overall initialization, extras fetching and post initialization will be performed only once, too
-        if(!isViewCreated) {
+        if (!isViewCreated) {
             initViewModel()
             arguments?.let(::fetchExtras)
             preInit()
         }
     }
 
-
     override fun onCreateView(
-        inflater : LayoutInflater,
-        container : ViewGroup?,
-        savedInstanceState : Bundle?
-    ) : View? {
-        if(!isViewCreated) {
-            if(isDataBindingEnabled) {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if (!isViewCreated) {
+            if (isDataBindingEnabled) {
                 viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
                 rootView = viewDataBinding?.root
             } else {
                 rootView = inflater.inflate(layoutId, container, false)
             }
         }
-        
-        if(isDataBindingEnabled) {
+
+        if (isDataBindingEnabled) {
             viewDataBinding?.setVariable(bindingVariable, viewModel)
             viewDataBinding?.lifecycleOwner = this
         }
-        
+
         return rootView
     }
 
-
-    final override fun onViewCreated(view : View, savedInstanceState : Bundle?) {
+    final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val wasViewCreated = isViewCreated
         isViewCreated = true
-    
+
         // performing the initialization only in cases when the view was created for the first time
-        if(!wasViewCreated) {
+        if (!wasViewCreated) {
             init(savedInstanceState)
             postInit()
         }
-        
+
         performDataBinding()
         subscribeViewStateObservers()
         onRegisterObservables()
         onBind()
-    
+
         // performing the state restoring only in cases when the view was created for the first time
         // (otherwise there's no need to restore the state, as the current view already holds the most recent state)
-        if(!wasViewCreated) {
+        if (!wasViewCreated) {
             savedInstanceState?.let(::onRestoreStateInternal)
         }
     }
-
 
     /**
      * Gets called when it's the right time for you to inject the dependencies.
@@ -166,7 +161,6 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         //
     }
 
-
     /**
      * Gets called right before the pre-initialization stage ([preInit] method call),
      * if the [Bundle] received from the [onViewCreated] is not null.
@@ -174,16 +168,14 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      * @param extras the bundle of arguments
      */
     @CallSuper
-    override fun fetchExtras(extras : Bundle) {
+    override fun fetchExtras(extras: Bundle) {
         //
     }
-
 
     @CallSuper
-    override fun handleNewIntent(intent : Intent) {
+    override fun handleNewIntent(intent: Intent) {
         //
     }
-
 
     /**
      * Gets called right before the UI initialization.
@@ -192,29 +184,25 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         //
     }
 
-
     private fun initViewModel() {
         viewModel = createViewModel()
     }
-    
-    
+
     /**
      * Creates the concrete version of the [BaseViewModel].
      *
      * @return the created concrete version of the [BaseViewModel]
      */
-    protected abstract fun createViewModel() : VM
-
+    protected abstract fun createViewModel(): VM
 
     /**
      * Get's called when it's the right time for you to initialize the UI elements.
      *
      * @param savedInstanceState the state bundle brought from the [Fragment.onViewCreated]
      */
-    protected open fun init(savedInstanceState : Bundle?) {
+    protected open fun init(savedInstanceState: Bundle?) {
         //
     }
-
 
     /**
      * Gets called right after the UI initialization.
@@ -223,43 +211,38 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         //
     }
 
-
     private fun performDataBinding() {
-        if(isDataBindingEnabled) {
+        if (isDataBindingEnabled) {
             viewDataBinding?.executePendingBindings()
         } else {
             Log.i(this::class.java.canonicalName, "The DataBinding is disabled for this Fragment.")
         }
     }
-    
-    
+
     /**
      * Override this lifecycle method if you need to perform the manual view-state specific binding.
      */
     protected open fun onBind() {
         // to be overridden.
     }
-    
-    
+
     /**
      * Looks up the [View] for the specified viewId within the current view hierarchy.
      *
      * @throws IllegalStateException if the [MvvmFragment]'s root [View] hasn't been created yet.
      */
-    protected fun <T : View> findViewById(@IdRes viewId : Int) : T {
+    protected fun <T : View> findViewById(@IdRes viewId: Int): T {
         return (rootView?.findViewById(viewId) ?: throw IllegalStateException("The Fragment View hasn't been created yet."))
     }
-    
-    
+
     /**
      * Shows the system software keyboard.
      *
      * @param requestFocus whether the target view should request the focus or not
      */
-    protected fun showKeyboard(requestFocus : Boolean = true) {
+    protected fun showKeyboard(requestFocus: Boolean = true) {
         rootView?.let { showKeyboard(it, requestFocus) }
     }
-
 
     /**
      * Shows the system software keyboard.
@@ -267,20 +250,18 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      * @param targetView the view that's requesting the keyboard to be shown
      * @param requestFocus whether the target view should request the focus or not
      */
-    protected fun showKeyboard(targetView : View, requestFocus : Boolean = true) {
+    protected fun showKeyboard(targetView: View, requestFocus: Boolean = true) {
         targetView.showKeyboard(requestFocus)
     }
-    
-    
+
     /**
      * Hides the system software keyboard.
      *
      * @param clearFocus whether the focus should be cleared from the target view or not
      */
-    protected fun hideKeyboard(clearFocus : Boolean = true) {
+    protected fun hideKeyboard(clearFocus: Boolean = true) {
         rootView?.let { hideKeyboard(it, clearFocus) }
     }
-
 
     /**
      * Hides the system software keyboard.
@@ -288,10 +269,9 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      * @param targetView the view that's requesting the keyboard to be hidden
      * @param clearFocus whether the focus should be cleared from the target view or not
      */
-    protected fun hideKeyboard(targetView : View, clearFocus : Boolean = true) {
+    protected fun hideKeyboard(targetView: View, clearFocus: Boolean = true) {
         targetView.hideKeyboard(clearFocus)
     }
-
 
     /**
      * Performs the Back Press Action (see: [android.app.Activity.onBackPressed]).
@@ -300,14 +280,12 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         activity?.onBackPressed()
     }
 
-
     /**
      * Finishes the host [android.app.Activity] (see: [android.app.Activity.finish]).
      */
     protected fun finishActivity() {
         activity?.finish()
     }
-
 
     /**
      * Finishes the host [android.app.Activity] affinity (see: [android.app.Activity.finishAffinity]).
@@ -316,9 +294,8 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         activity?.finishAffinity()
     }
 
-
-    override fun onCreateAnimation(transit : Int, enter : Boolean, nextAnim : Int) : Animation {
-        if(nextAnim == 0) {
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
+        if (nextAnim == 0) {
             return AnimationUtils.loadAnimation(context!!, R.anim.no_animation)
         }
 
@@ -329,11 +306,11 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         return AnimationUtils.loadAnimation(context!!, nextAnim).apply {
             setAnimationListener(object : AnimationListenerAdapter() {
 
-                override fun onAnimationStart(animation : Animation?) {
+                override fun onAnimationStart(animation: Animation?) {
                     onAnimationStarted()
                 }
 
-                override fun onAnimationEnd(animation : Animation?) {
+                override fun onAnimationEnd(animation: Animation?) {
                     view?.useNoLayer()
                     onAnimationEnded()
                 }
@@ -341,7 +318,6 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
             })
         }
     }
-
 
     /**
      * Gets called whenever the [Fragment]-related transition animation starts.
@@ -351,7 +327,6 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         isViewAnimating = true
     }
 
-
     /**
      * Gets called whenever the [Fragment]-related transition animation ends.
      */
@@ -359,7 +334,6 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     protected open fun onAnimationEnded() {
         isViewAnimating = false
     }
-
 
     @CallSuper
     override fun onResume() {
@@ -370,14 +344,12 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         viewModel?.onStart()
     }
 
-
     /**
      * Gets called when it's the right time to register the [ObservableField]s of your [androidx.lifecycle.ViewModel].
      */
     protected open fun onRegisterObservables() {
         //
     }
-
 
     @CallSuper
     override fun onPause() {
@@ -388,9 +360,8 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         detachViewModelEventConsumers()
     }
 
-
     @CallSuper
-    override fun onBackPressed() : Boolean {
+    override fun onBackPressed(): Boolean {
         hideKeyboard()
 
         val isConsumedByViewModel = (viewModel?.onBackPressed() ?: false)
@@ -398,55 +369,48 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         return (handleBackPressEvent() || isConsumedByViewModel)
     }
 
-
-    private fun handleBackPressEvent() : Boolean {
+    private fun handleBackPressEvent(): Boolean {
         return childFragmentManager.fragments.handleBackPressEvent()
     }
 
-
-    private fun onRestoreStateInternal(stateBundle : Bundle) {
+    private fun onRestoreStateInternal(stateBundle: Bundle) {
         viewModel?.onRestoreState(stateBundle)
         onRestoreState(stateBundle)
     }
-
 
     /**
      * Gets called whenever it's the right time to restore the previously stored state.
      *
      * @param stateBundle the previously store state
      */
-    open fun onRestoreState(stateBundle : Bundle) {
+    open fun onRestoreState(stateBundle: Bundle) {
         //
     }
 
-
-    final override fun onSaveInstanceState(outState : Bundle) {
+    final override fun onSaveInstanceState(outState: Bundle) {
         viewModel?.onSaveState(outState)
         onSaveState(outState)
 
         super.onSaveInstanceState(outState)
     }
 
-
     /**
      * Gets called whenever it's the right time to save the state.
      *
      * @param stateBundle the bundle the state is to be saved into
      */
-    open fun onSaveState(stateBundle : Bundle) {
+    open fun onSaveState(stateBundle: Bundle) {
         //
     }
-    
-    
+
     @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()
-    
+
         unregisterFields()
         onUnbind()
     }
-    
-    
+
     /**
      * Override this method if you need to manually unbind the previously bound view-state specific observers.
      */
@@ -454,23 +418,20 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         // to be overridden.
     }
 
-
     final override fun onDestroy() {
         onRecycle()
         recycleInternal()
         super.onDestroy()
     }
-    
-    
+
     private fun recycleInternal() {
         rootView = null
         viewDataBinding = null
         viewModel = null
-        
+
         isViewAnimating = false
         isViewCreated = false
     }
-
 
     /**
      * Gets called right before the destruction of the [Fragment] (see: [Fragment.onDestroy]).
@@ -478,8 +439,7 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     protected open fun onRecycle() {
         //
     }
-    
-    
+
     /**
      * Gets called whenever the new [Command] arrives from the [BaseViewModel].
      *
@@ -488,11 +448,10 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      * @param command the newly arrived [Command]
      */
     @CallSuper
-    protected open fun onHandleCommand(command : Command) {
+    protected open fun onHandleCommand(command: Command) {
         // to be overridden
     }
-    
-    
+
     /**
      * Gets called whenever the [ViewState] change event arrives from the [BaseViewModel].
      *
@@ -501,11 +460,10 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @param state the new [ViewState]
      */
-    protected open fun onViewStateChanged(state : ViewState) {
+    protected open fun onViewStateChanged(state: ViewState) {
         // to be overridden
     }
-    
-    
+
     /**
      * Gets called whenever the new [Route] event arrives from the [BaseViewModel].
      *
@@ -514,23 +472,21 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @param route the newly arrived [Route]
      */
-    protected open fun onRoute(route : Route) {
+    protected open fun onRoute(route: Route) {
         // to be overridden
     }
-    
-    
-    private fun onActiveStateChange(oldState : Boolean, newState : Boolean) {
-        if(oldState == newState) {
+
+    private fun onActiveStateChange(oldState: Boolean, newState: Boolean) {
+        if (oldState == newState) {
             return
         }
-        
-        if(newState) {
+
+        if (newState) {
             onBecameActive()
         } else {
             onBecameInactive()
         }
     }
-
 
     /**
      * Gets called whenever the [MvvmFragment] becomes "active".
@@ -540,7 +496,6 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         //
     }
 
-
     /**
      * Gets called whenever the [MvvmFragment] becomes "inactive".
      * (see: [MvvmFragment.isActive])
@@ -548,21 +503,18 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
     protected open fun onBecameInactive() {
         //
     }
-    
-    
+
     private fun subscribeViewStateObservers() {
         viewModel?.viewStateHolder?.observe(viewLifecycleOwner, Observer(::onViewStateChanged))
     }
-    
-    
+
     private fun attachViewModelEventConsumers() {
         viewModel?.apply {
             commandChannel.consumer = ::onHandleCommand
             routeChannel.consumer = ::onRoute
         }
     }
-    
-    
+
     private fun detachViewModelEventConsumers() {
         viewModel?.apply {
             commandChannel.consumer = null
@@ -570,12 +522,10 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
-
     private fun unregisterFields() {
         registeredObservables.forEach { (callback, field) -> field.removeOnPropertyChangedCallback(callback) }
         registeredObservables.clear()
     }
-
 
     /**
      * Adds the specified [Observable.OnPropertyChangedCallback] to the registry of Lifecycle-aware Callbacks.
@@ -585,10 +535,9 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @param observable the [Observable] the [Observable.OnPropertyChangedCallback] is registered to
      */
-    protected fun Observable.OnPropertyChangedCallback.manageLifecycle(observable : Observable) {
+    protected fun Observable.OnPropertyChangedCallback.manageLifecycle(observable: Observable) {
         registeredObservables.add(Pair(this, observable))
     }
-
 
     /**
      * Registers the value change callback to the specified [ObservableField].
@@ -598,9 +547,8 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(
      *
      * @param callback value change callback
      */
-    protected inline fun <T : ObservableField<R>, R : Any> T.register(crossinline callback : (R) -> Unit) {
+    protected inline fun <T : ObservableField<R>, R : Any> T.register(crossinline callback: (R) -> Unit) {
         this.onPropertyChanged { it.get()?.let(callback) }.manageLifecycle(this)
     }
-
 
 }

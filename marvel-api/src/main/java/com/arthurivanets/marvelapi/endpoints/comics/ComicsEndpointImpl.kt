@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,26 +23,25 @@ import com.arthurivanets.marvelapi.responses.EventsResponse
 import com.arthurivanets.marvelapi.services.ComicsService
 import io.reactivex.Single
 
-internal class ComicsEndpointImpl(comicsService : ComicsService) : AbstractEndpoint<ComicsService>(comicsService),
+internal class ComicsEndpointImpl(comicsService: ComicsService) : AbstractEndpoint<ComicsService>(comicsService),
     ComicsEndpoint {
 
-
-    override fun getSingleComics(id : Long) : Single<ComicsResponse> {
+    override fun getSingleComics(id: Long): Single<ComicsResponse> {
         return service.getSingleComicsAsync(id)
     }
 
-
-    override fun getComics(offset : Int, limit : Int) : Single<ComicsResponse> {
+    override fun getComics(offset: Int, limit: Int): Single<ComicsResponse> {
         return service.getComicsAsync(
             offset = offset,
             limit = limit
         )
     }
 
-
-    override fun getComicsCharacters(comicsId : Long,
-                                     offset : Int,
-                                     limit : Int) : Single<CharactersResponse> {
+    override fun getComicsCharacters(
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<CharactersResponse> {
         return service.getComicsCharactersAsync(
             comicsId = comicsId,
             offset = offset,
@@ -50,16 +49,16 @@ internal class ComicsEndpointImpl(comicsService : ComicsService) : AbstractEndpo
         )
     }
 
-
-    override fun getComicsEvents(comicsId : Long,
-                                 offset : Int,
-                                 limit : Int) : Single<EventsResponse> {
+    override fun getComicsEvents(
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<EventsResponse> {
         return service.getComicsEventsAsync(
             comicsId = comicsId,
             offset = offset,
             limit = limit
         )
     }
-
 
 }

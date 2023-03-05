@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,24 +26,20 @@ import com.arthurivanets.sample.domain.repositories.util.toResponse
 import com.arthurivanets.sample.domain.util.DataEvent
 import com.arthurivanets.sample.domain.util.DomainEvent
 
-
-internal fun Response<DataEvent, Throwable>.toDomainEventResponse() : Response<DomainEvent, Throwable> {
+internal fun Response<DataEvent, Throwable>.toDomainEventResponse(): Response<DomainEvent, Throwable> {
     return this.toResponse { it.toDomainEvent() }
 }
 
-
-internal fun Response<List<DataEvent>, Throwable>.toDomainEventsResponse(sortItems : Boolean = false) : Response<List<DomainEvent>, Throwable> {
+internal fun Response<List<DataEvent>, Throwable>.toDomainEventsResponse(sortItems: Boolean = false): Response<List<DomainEvent>, Throwable> {
     return this.toResponse { it.toDomainEvents(sortItems) }
 }
 
-
-internal fun Collection<DataEvent>.toDomainEvents(sort : Boolean = false) : List<DomainEvent> {
+internal fun Collection<DataEvent>.toDomainEvents(sort: Boolean = false): List<DomainEvent> {
     return this.map { it.toDomainEvent() }
-        .let { events -> (if(sort) events.sortedBy { it.id } else events) }
+        .let { events -> (if (sort) events.sortedBy { it.id } else events) }
 }
 
-
-internal fun DataEvent.toDomainEvent() : DomainEvent {
+internal fun DataEvent.toDomainEvent(): DomainEvent {
     return DomainEvent(
         id = this.id,
         title = this.title,

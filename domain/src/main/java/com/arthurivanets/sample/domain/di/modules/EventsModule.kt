@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,40 +32,36 @@ import javax.inject.Singleton
 @Module
 internal class EventsModule {
 
-
     @Source(Source.Type.CACHE)
     @Provides
     @Singleton
-    fun provideCacheDataStore(context : Context) : EventsDataStore {
+    fun provideCacheDataStore(context: Context): EventsDataStore {
         return EventsDataStoreFactory(context).create(DataStoreFactory.Type.CACHE)
     }
-
 
     @Source(Source.Type.DATABASE)
     @Provides
     @Singleton
-    fun provideDatabaseDataStore(context : Context) : EventsDataStore {
+    fun provideDatabaseDataStore(context: Context): EventsDataStore {
         return EventsDataStoreFactory(context).create(DataStoreFactory.Type.DATABASE)
     }
-
 
     @Source(Source.Type.SERVER)
     @Provides
     @Singleton
-    fun provideServerDataStore(context : Context) : EventsDataStore {
+    fun provideServerDataStore(context: Context): EventsDataStore {
         return EventsDataStoreFactory(context).create(DataStoreFactory.Type.SERVER)
     }
-
 
     @Provides
     @Singleton
     fun provideRepository(
-        @Source(Source.Type.CACHE) cacheDataStore : EventsDataStore,
-        @Source(Source.Type.DATABASE) databaseDataStore : EventsDataStore,
-        @Source(Source.Type.SERVER) serverDataStore : EventsDataStore,
-        networkStateProvider : NetworkStateProvider,
-        schedulerProvider : SchedulerProvider
-    ) : EventsRepository {
+        @Source(Source.Type.CACHE) cacheDataStore: EventsDataStore,
+        @Source(Source.Type.DATABASE) databaseDataStore: EventsDataStore,
+        @Source(Source.Type.SERVER) serverDataStore: EventsDataStore,
+        networkStateProvider: NetworkStateProvider,
+        schedulerProvider: SchedulerProvider
+    ): EventsRepository {
         return EventsRepositoryImpl(
             cacheDataStore = cacheDataStore,
             databaseDataStore = databaseDataStore,
@@ -74,6 +70,5 @@ internal class EventsModule {
             schedulerProvider = schedulerProvider
         )
     }
-
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,22 +18,22 @@ package com.arthurivanets.sample.ui.widget.markers
 
 interface Roundable {
 
-    fun setCornerRadius(cornerRadius : Float)
+    fun setCornerRadius(cornerRadius: Float)
 
-    fun setTopLeftCornerRadius(topLeftCornerRadius : Float)
+    fun setTopLeftCornerRadius(topLeftCornerRadius: Float)
 
-    fun getTopLeftCornerRadius() : Float
+    fun getTopLeftCornerRadius(): Float
 
-    fun setTopRightCornerRadius(topRightCornerRadius : Float)
+    fun setTopRightCornerRadius(topRightCornerRadius: Float)
 
-    fun getTopRightCornerRadius() : Float
+    fun getTopRightCornerRadius(): Float
 
-    fun setBottomLeftCornerRadius(bottomLeftCornerRadius : Float)
+    fun setBottomLeftCornerRadius(bottomLeftCornerRadius: Float)
 
-    fun getBottomLeftCornerRadius() : Float
+    fun getBottomLeftCornerRadius(): Float
 
-    fun setBottomRightCornerRadius(bottomRightCornerRadius : Float)
+    fun setBottomRightCornerRadius(bottomRightCornerRadius: Float)
 
-    fun getBottomRightCornerRadius() : Float
+    fun getBottomRightCornerRadius(): Float
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,15 +29,13 @@ import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.comics.DEFAULT_COMICS_LOADING_LIMIT
 
 class ComicsViewModel(
-    private val comicsRepository : ComicsRepository,
-    private val schedulerProvider : SchedulerProvider
+    private val comicsRepository: ComicsRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : AbstractViewModel() {
 
-
     val items = ObservableTrackableArrayList<Long, ComicsItem>()
-    
-    private var isDataLoading = false
 
+    private var isDataLoading = false
 
     override fun onStart() {
         super.onStart()
@@ -45,26 +43,23 @@ class ComicsViewModel(
         loadInitialData()
     }
 
-
-    fun onComicsClicked(comics : Comics) {
+    fun onComicsClicked(comics: Comics) {
         route(MarvelRoutes.ComicsInfoScreen(comics))
     }
 
-
     private fun loadInitialData() {
-        if(items.isEmpty()) {
+        if (items.isEmpty()) {
             loadData()
         }
     }
 
-
     private fun loadData() {
-        if(isDataLoading) {
+        if (isDataLoading) {
             return
         }
-    
+
         isDataLoading = true
-        
+
         viewState = GeneralViewStates.Loading<Unit>()
 
         comicsRepository.getComics(0, DEFAULT_COMICS_LOADING_LIMIT)
@@ -74,24 +69,21 @@ class ComicsViewModel(
             .manageLongLivingDisposable()
     }
 
-
-    private fun onLoadedSuccessfully(comics : List<Comics>) {
+    private fun onLoadedSuccessfully(comics: List<Comics>) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Success<Unit>()
 
         comics.forEach { items.addOrUpdate(ComicsItem(it)) }
     }
 
-
-    private fun onLoadingFailed(throwable : Throwable) {
+    private fun onLoadingFailed(throwable: Throwable) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Error<Unit>()
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()
     }
-
 
 }

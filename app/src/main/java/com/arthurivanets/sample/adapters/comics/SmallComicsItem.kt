@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,10 @@ package com.arthurivanets.sample.adapters.comics
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.domain.entities.Comics
 
-class SmallComicsItem(itemModel : Comics) : ComicsItem(itemModel) {
-    
-    
-    override fun getLayout() : Int {
+class SmallComicsItem(itemModel: Comics) : ComicsItem(itemModel) {
+
+    override fun getLayout(): Int {
         return R.layout.item_comics_small
     }
-    
-    
+
 }

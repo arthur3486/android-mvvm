@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ package com.arthurivanets.sample.ui.util.extensions
 
 import android.view.View
 import android.view.ViewGroup
-
 
 fun View.detachFromParent() {
     (this.parent as ViewGroup?)?.removeView(this)

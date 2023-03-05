@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,36 +25,36 @@ import io.reactivex.Single
 
 interface ComicsDataStore : DataStore {
 
-    fun saveComics(comics : DataComics) : Single<Response<DataComics, Throwable>>
+    fun saveComics(comics: DataComics): Single<Response<DataComics, Throwable>>
 
-    fun saveComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>>
+    fun saveComics(comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>>
 
-    fun updateComics(comics : DataComics) : Single<Response<DataComics, Throwable>>
+    fun updateComics(comics: DataComics): Single<Response<DataComics, Throwable>>
 
-    fun updateComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>>
+    fun updateComics(comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>>
 
-    fun deleteComics(comics : DataComics) : Single<Response<DataComics, Throwable>>
+    fun deleteComics(comics: DataComics): Single<Response<DataComics, Throwable>>
 
-    fun deleteComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>>
+    fun deleteComics(comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>>
 
-    fun getSingleComics(id : Long) : Single<Response<DataComics, Throwable>>
+    fun getSingleComics(id: Long): Single<Response<DataComics, Throwable>>
 
-    fun getComics(offset : Int, limit : Int) : Single<Response<List<DataComics>, Throwable>>
+    fun getComics(offset: Int, limit: Int): Single<Response<List<DataComics>, Throwable>>
 
-    fun saveComicsCharacters(comicsId : Long, characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>>
+    fun saveComicsCharacters(comicsId: Long, characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>>
 
     fun getComicsCharacters(
-        comicsId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataCharacter>, Throwable>>
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataCharacter>, Throwable>>
 
-    fun saveComicsEvents(comicsId : Long, events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>>
+    fun saveComicsEvents(comicsId: Long, events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>>
 
     fun getComicsEvents(
-        comicsId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataEvent>, Throwable>>
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataEvent>, Throwable>>
 
 }

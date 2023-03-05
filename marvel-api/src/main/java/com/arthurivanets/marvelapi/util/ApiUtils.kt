@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@ package com.arthurivanets.marvelapi.util
 
 import java.security.MessageDigest
 
-
-internal fun Long.createRequestHash(publicKey : String, privateKey : String) : String {
+internal fun Long.createRequestHash(publicKey: String, privateKey: String): String {
     val inputString = (this.toString() + privateKey + publicKey)
 
     return MessageDigest.getInstance("MD5")
@@ -29,7 +28,6 @@ internal fun Long.createRequestHash(publicKey : String, privateKey : String) : S
         .toHexString()
 }
 
-
-internal fun ByteArray.toHexString() : String {
+internal fun ByteArray.toHexString(): String {
     return TypeConversionUtils.toHexString(this)
 }

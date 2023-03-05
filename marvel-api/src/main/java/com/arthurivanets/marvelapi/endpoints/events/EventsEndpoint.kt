@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,20 @@ import io.reactivex.Single
 
 interface EventsEndpoint : Endpoint {
 
-    fun getEvent(id : Long) : Single<EventsResponse>
+    fun getEvent(id: Long): Single<EventsResponse>
 
-    fun getEvents(offset : Int = 0, limit : Int) : Single<EventsResponse>
+    fun getEvents(offset: Int = 0, limit: Int): Single<EventsResponse>
 
-    fun getEventCharacters(eventId : Long,
-                           offset : Int = 0,
-                           limit : Int) : Single<CharactersResponse>
-    
-    fun getEventComics(eventId : Long,
-                       offset : Int = 0,
-                       limit : Int) : Single<ComicsResponse>
+    fun getEventCharacters(
+        eventId: Long,
+        offset: Int = 0,
+        limit: Int
+    ): Single<CharactersResponse>
+
+    fun getEventComics(
+        eventId: Long,
+        offset: Int = 0,
+        limit: Int
+    ): Single<ComicsResponse>
 
 }

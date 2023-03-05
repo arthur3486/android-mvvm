@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 @file:JvmName("Constants")
 
 package com.arthurivanets.sample.util.glide
-
 
 internal const val CONNECTION_TIMEOUT_IN_SECONDS = 30L
 internal const val READ_TIMEOUT_IN_SECONDS = 30L

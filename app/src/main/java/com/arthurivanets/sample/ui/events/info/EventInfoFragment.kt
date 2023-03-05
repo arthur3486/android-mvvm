@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,27 +57,25 @@ import kotlinx.android.synthetic.main.view_progress_bar_horizontal.*
 import javax.inject.Inject
 
 class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoViewModel>(R.layout.fragment_event_info) {
-    
-    
+
     private val args by navArgs<EventInfoFragmentArgs>()
-    
+
     @Inject
-    lateinit var imageLoader : ImageLoader
-    
+    lateinit var imageLoader: ImageLoader
+
     @Inject
-    lateinit var comicsItemResources : ComicsItemResources
-    
+    lateinit var comicsItemResources: ComicsItemResources
+
     @Inject
-    lateinit var characterItemResources : CharacterItemResources
-    
-    private lateinit var comicsItemsAdapter : ComicsItemsRecyclerViewAdapter
-    private lateinit var characterItemsAdapter : CharacterItemsRecyclerViewAdapter
-    
-    
-    override fun init(savedInstanceState : Bundle?) {
+    lateinit var characterItemResources: CharacterItemResources
+
+    private lateinit var comicsItemsAdapter: ComicsItemsRecyclerViewAdapter
+    private lateinit var characterItemsAdapter: CharacterItemsRecyclerViewAdapter
+
+    override fun init(savedInstanceState: Bundle?) {
         val event = args.event
         viewModel.event = args.event
-    
+
         initAppBar(event)
         initComicsRecyclerView()
         initCharactersRecyclerView()
@@ -85,15 +83,13 @@ class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoVi
         updateComicsContainer()
         updateCharactersContainer()
     }
-    
-    
-    private fun initAppBar(event : Event) {
+
+    private fun initAppBar(event: Event) {
         initCollapsingToolbar()
         initToolbar()
         loadHeaderImage(event.thumbnail)
     }
-    
-    
+
     private fun initCollapsingToolbar() {
         with(collapsingToolbar) {
             setContentScrimColor(getColorCompat(R.color.colorPrimary))
@@ -101,34 +97,30 @@ class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoVi
             setExpandedTitleColor(getColorCompat(R.color.toolbar_title_color))
         }
     }
-    
-    
+
     private fun initToolbar() {
         toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
             topMargin = context!!.statusBarSize
         }
         toolbar.setNavigationOnClickListener { navigateBack() }
     }
-    
-    
+
     private fun initComicsRecyclerView() {
         with(comicsRecyclerView) {
             layoutManager = initComicsLayoutManager()
             adapter = initComicsAdapter()
         }
     }
-    
-    
-    private fun initComicsLayoutManager() : RecyclerView.LayoutManager {
+
+    private fun initComicsLayoutManager(): RecyclerView.LayoutManager {
         return LinearLayoutManager(
             context,
             RecyclerView.HORIZONTAL,
             false
         )
     }
-    
-    
-    private fun initComicsAdapter() : ComicsItemsRecyclerViewAdapter {
+
+    private fun initComicsAdapter(): ComicsItemsRecyclerViewAdapter {
         return ComicsItemsRecyclerViewAdapter(
             context = context!!,
             items = viewModel.comicsItems,
@@ -138,26 +130,23 @@ class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoVi
             onItemClickListener = onItemClick { viewModel.onComicsClicked(it.itemModel) }
         }.also { comicsItemsAdapter = it }
     }
-    
-    
+
     private fun initCharactersRecyclerView() {
         with(charactersRecyclerView) {
             layoutManager = initCharactersLayoutManager()
             adapter = initCharactersAdapter()
         }
     }
-    
-    
-    private fun initCharactersLayoutManager() : RecyclerView.LayoutManager {
+
+    private fun initCharactersLayoutManager(): RecyclerView.LayoutManager {
         return LinearLayoutManager(
             context,
             RecyclerView.HORIZONTAL,
             false
         )
     }
-    
-    
-    private fun initCharactersAdapter() : CharacterItemsRecyclerViewAdapter {
+
+    private fun initCharactersAdapter(): CharacterItemsRecyclerViewAdapter {
         return CharacterItemsRecyclerViewAdapter(
             context = context!!,
             items = viewModel.characterItems,
@@ -167,90 +156,78 @@ class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoVi
             onItemClickListener = onItemClick { viewModel.onCharacterClicked(it.itemModel) }
         }.also { characterItemsAdapter = it }
     }
-    
-    
-    private fun initTransitionViews(event : Event) {
+
+    private fun initTransitionViews(event: Event) {
         imageContainer.transitionName = event.sharedImageTransitionName
         titleTv.transitionName = event.sharedTitleTransitionName
         descriptionTv.transitionName = event.sharedDescriptionTransitionName
     }
-    
-    
+
     private fun updateComicsContainer() {
         val isComicsContainerVisible = !comicsItemsAdapter.isEmpty()
-        
+
         comicsLabelTv.isVisible = isComicsContainerVisible
         comicsRecyclerView.isVisible = isComicsContainerVisible
     }
-    
-    
+
     private fun updateCharactersContainer() {
         val isCharactersContainerVisible = !characterItemsAdapter.isEmpty()
-        
+
         charactersLabelTv.isVisible = isCharactersContainerVisible
         charactersRecyclerView.isVisible = isCharactersContainerVisible
     }
-    
-    
+
     override fun postInit() {
         super.postInit()
-        
+
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
-    
-    
-    private fun loadHeaderImage(image : Image) {
+
+    private fun loadHeaderImage(image: Image) {
         emptyViewTv.isVisible = !image.hasImage
-        
-        if(image.hasImage) {
+
+        if (image.hasImage) {
             imageLoader.load(imageIv, image.imageUrl)
         } else {
             imageLoader.load(imageIv, R.drawable.marvel_comics_placeholder)
         }
     }
-    
-    
-    override fun onViewStateChanged(state : ViewState) {
-        when(state) {
+
+    override fun onViewStateChanged(state: ViewState) {
+        when (state) {
             is GeneralViewStates.Idle<*> -> onIdleState()
             is GeneralViewStates.Loading<*> -> onLoadingState()
             is GeneralViewStates.Success<*> -> onSuccessState()
             is GeneralViewStates.Error<*> -> onErrorState()
         }
     }
-    
-    
+
     private fun onIdleState() {
         progress_bar.isVisible = false
     }
-    
-    
+
     private fun onLoadingState() {
         progress_bar.isVisible = true
     }
-    
-    
+
     private fun onSuccessState() {
         progress_bar.isVisible = false
     }
-    
-    
+
     private fun onErrorState() {
         progress_bar.isVisible = false
     }
-    
-    
-    override fun onRoute(route : Route) {
-        when(route) {
+
+    override fun onRoute(route: Route) {
+        when (route) {
             is MarvelRoutes.ComicsInfoScreen -> onOpenComicsInfoScreen(route.comics)
             is MarvelRoutes.CharacterInfoScreen -> onOpenCharacterInfoScreen(route.character)
         }
     }
-    
-    
-    private fun onOpenComicsInfoScreen(comics : Comics) {
+
+    private fun onOpenComicsInfoScreen(comics: Comics) {
         val viewHolder = (getComicsItemViewHolder(comics) ?: return)
-        
+
         navigate(
             directions = EventInfoFragmentDirections.comicsInfoFragmentAction(comics),
             navigationExtras = FragmentNavigatorExtras(
@@ -259,11 +236,10 @@ class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoVi
             )
         )
     }
-    
-    
-    private fun onOpenCharacterInfoScreen(character : Character) {
+
+    private fun onOpenCharacterInfoScreen(character: Character) {
         val viewHolder = (getCharacterItemViewHolder(character) ?: return)
-        
+
         navigate(
             directions = EventInfoFragmentDirections.characterInfoFragmentAction(character),
             navigationExtras = FragmentNavigatorExtras(
@@ -272,46 +248,41 @@ class EventInfoFragment : BaseMvvmFragment<FragmentEventInfoBinding, EventInfoVi
             )
         )
     }
-    
-    
-    private fun getComicsItemViewHolder(comics : Comics) : ComicsItemViewHolder? {
+
+    private fun getComicsItemViewHolder(comics: Comics): ComicsItemViewHolder? {
         val index = comicsItemsAdapter.indexOf(ComicsItem(comics))
-        
-        return if(index != -1) {
+
+        return if (index != -1) {
             (comicsRecyclerView.findViewHolderForAdapterPosition(index) as ComicsItemViewHolder)
         } else {
             null
         }
     }
-    
-    
-    private fun getCharacterItemViewHolder(character : Character) : CharacterItemViewHolder? {
+
+    private fun getCharacterItemViewHolder(character: Character): CharacterItemViewHolder? {
         val index = characterItemsAdapter.indexOf(CharacterItem(character))
-        
-        return if(index != -1) {
+
+        return if (index != -1) {
             (charactersRecyclerView.findViewHolderForAdapterPosition(index) as CharacterItemViewHolder)
         } else {
             null
         }
     }
-    
-    
+
     private val onComicsDataSetChangeListener = object : DatasetChangeListenerAdapter<MutableList<ComicsItem>, ComicsItem>() {
-        
-        override fun onDatasetSizeChanged(oldSize : Int, newSize : Int) {
+
+        override fun onDatasetSizeChanged(oldSize: Int, newSize: Int) {
             updateComicsContainer()
         }
-        
-    }
-    
-    
-    private val onCharactersDataSetChangeListener = object : DatasetChangeListenerAdapter<MutableList<CharacterItem>, CharacterItem>() {
-        
-        override fun onDatasetSizeChanged(oldSize : Int, newSize : Int) {
-            updateCharactersContainer()
-        }
-        
+
     }
 
+    private val onCharactersDataSetChangeListener = object : DatasetChangeListenerAdapter<MutableList<CharacterItem>, CharacterItem>() {
+
+        override fun onDatasetSizeChanged(oldSize: Int, newSize: Int) {
+            updateCharactersContainer()
+        }
+
+    }
 
 }

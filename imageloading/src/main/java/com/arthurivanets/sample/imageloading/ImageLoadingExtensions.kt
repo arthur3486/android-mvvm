@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,11 @@ package com.arthurivanets.sample.imageloading
 import android.content.Context
 import java.io.File
 
-
 internal const val IMAGE_CACHE = "image-cache"
 
-
-fun getDefaultCacheDir(context : Context) : File {
+fun getDefaultCacheDir(context: Context): File {
     return File(context.applicationContext.cacheDir, IMAGE_CACHE).let {
-        if(!it.exists()) {
+        if (!it.exists()) {
             it.mkdirs()
         }
 

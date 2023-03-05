@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,50 +26,50 @@ import com.bumptech.glide.request.RequestOptions
 
 class GlideImageLoader : ImageLoader {
 
-
-    override fun load(target : ImageView,
-                      drawableId : Int,
-                      config : Config) {
+    override fun load(
+        target: ImageView,
+        drawableId: Int,
+        config: Config
+    ) {
         Glide.with(target)
             .load(drawableId)
             .apply(getRequestOptions(config))
             .apply {
-                if(config.animate) {
+                if (config.animate) {
                     transition(DrawableTransitionOptions.withCrossFade())
                 }
             }
             .into(target)
     }
 
-
-    override fun load(target : ImageView,
-                      imageUrl : String,
-                      config : Config) {
+    override fun load(
+        target: ImageView,
+        imageUrl: String,
+        config: Config
+    ) {
         Glide.with(target)
             .load(imageUrl)
             .apply(getRequestOptions(config))
             .apply {
-                if(config.animate) {
+                if (config.animate) {
                     transition(DrawableTransitionOptions.withCrossFade())
                 }
             }
             .into(target)
     }
 
-
-    private fun getRequestOptions(config : Config) : RequestOptions {
+    private fun getRequestOptions(config: Config): RequestOptions {
         return RequestOptions().apply {
             diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 
-            if(config.isSizeSet) {
+            if (config.isSizeSet) {
                 override(config.width, config.height)
             }
 
-            if(config.centerCrop) {
+            if (config.centerCrop) {
                 centerCrop()
             }
         }
     }
-
 
 }

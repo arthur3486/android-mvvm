@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,20 +21,18 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Event(
-    val id : Long = -1L,
-    val title : String = "",
-    val description : String = "",
-    val modificationTimeInMillis : Long = 0L,
-    val startDateInMillis : Long = 0L,
-    val endDateInMillis : Long = 0L,
-    val thumbnail : Image = Image(),
-    val urls : List<Url> = emptyList(),
-    val creators : List<Creator> = emptyList()
+    val id: Long = -1L,
+    val title: String = "",
+    val description: String = "",
+    val modificationTimeInMillis: Long = 0L,
+    val startDateInMillis: Long = 0L,
+    val endDateInMillis: Long = 0L,
+    val thumbnail: Image = Image(),
+    val urls: List<Url> = emptyList(),
+    val creators: List<Creator> = emptyList()
 ) : Parcelable {
-
 
     val hasValidId = (id > 0L)
     val hasDescription = description.isNotBlank()
-
 
 }

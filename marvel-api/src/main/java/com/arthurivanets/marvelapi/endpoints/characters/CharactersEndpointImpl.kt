@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,32 +22,30 @@ import com.arthurivanets.marvelapi.responses.ComicsResponse
 import com.arthurivanets.marvelapi.services.CharactersService
 import io.reactivex.Single
 
-internal class CharactersEndpointImpl(charactersService : CharactersService) : AbstractEndpoint<CharactersService>(charactersService),
+internal class CharactersEndpointImpl(charactersService: CharactersService) : AbstractEndpoint<CharactersService>(charactersService),
     CharactersEndpoint {
 
-
-    override fun getCharacter(id : Long) : Single<CharactersResponse> {
+    override fun getCharacter(id: Long): Single<CharactersResponse> {
         return service.getCharacterAsync(id)
     }
 
-
-    override fun getCharacters(offset : Int, limit : Int) : Single<CharactersResponse> {
+    override fun getCharacters(offset: Int, limit: Int): Single<CharactersResponse> {
         return service.getCharactersAsync(
             offset = offset,
             limit = limit
         )
     }
 
-
-    override fun getCharacterComics(characterId : Long,
-                                    offset : Int,
-                                    limit : Int) : Single<ComicsResponse> {
+    override fun getCharacterComics(
+        characterId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<ComicsResponse> {
         return service.getCharacterComicsAsync(
             characterId = characterId,
             offset = offset,
             limit = limit
         )
     }
-
 
 }

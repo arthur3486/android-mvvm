@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Arthur Ivanets, arthur.ivanets.l@gmail.com
+ * Copyright 2018 Arthur Ivanets, arthur.ivanets.work@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,26 +21,22 @@ package com.arthurivanets.sample.ui.characters.info
 import android.os.Bundle
 import com.arthurivanets.sample.domain.entities.Character
 
-
-internal val stateExtractor : (Bundle.() -> State) = {
+internal val stateExtractor: (Bundle.() -> State) = {
     State(
         character = (this.getParcelable(StateKeys.CHARACTER) ?: Character())
     )
 }
 
-
 internal object StateKeys {
 
     const val CHARACTER = "character"
-    
+
 }
 
-
 internal data class State(
-    val character : Character
+    val character: Character
 )
 
-
-internal fun Bundle.saveState(state : State) {
+internal fun Bundle.saveState(state: State) {
     this.putParcelable(StateKeys.CHARACTER, state.character)
 }
