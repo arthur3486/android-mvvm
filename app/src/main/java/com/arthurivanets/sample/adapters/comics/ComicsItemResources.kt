@@ -20,5 +20,5 @@ import com.arthurivanets.adapster.markers.ItemResources
 import com.arthurivanets.sample.imageloading.ImageLoader
 
 class ComicsItemResources(
-    val imageLoader : ImageLoader
+    val imageLoader: ImageLoader
 ) : ItemResources

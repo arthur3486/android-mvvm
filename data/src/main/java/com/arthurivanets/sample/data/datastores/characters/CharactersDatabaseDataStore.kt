@@ -29,16 +29,14 @@ import io.reactivex.Single
 /**
  *
  */
-internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStore(context), CharactersDataStore {
+internal class CharactersDatabaseDataStore(context: Context) : AbstractDataStore(context), CharactersDataStore {
 
-
-    override fun saveCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
+    override fun saveCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>> {
         return Single.fromCallable { saveCharacterInternal(character) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun saveCharacterInternal(character : DataCharacter) : Response<DataCharacter, Throwable> = resultOrError {
+    private fun saveCharacterInternal(character: DataCharacter): Response<DataCharacter, Throwable> = resultOrError {
         Database.getInstance(context)
             .charactersTable()
             .save(character.toDatabaseCharacter())
@@ -46,14 +44,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
         return@resultOrError character
     }
 
-
-    override fun saveCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun saveCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { saveCharactersInternal(characters) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun saveCharactersInternal(characters : List<DataCharacter>) : Response<List<DataCharacter>, Throwable> = resultOrError {
+    private fun saveCharactersInternal(characters: List<DataCharacter>): Response<List<DataCharacter>, Throwable> = resultOrError {
         Database.getInstance(context)
             .charactersTable()
             .save(characters.toDatabaseCharacters())
@@ -61,14 +57,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
         return@resultOrError characters
     }
 
-
-    override fun updateCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
+    override fun updateCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>> {
         return Single.fromCallable { updateCharacterInternal(character) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun updateCharacterInternal(character : DataCharacter) : Response<DataCharacter, Throwable> = resultOrError {
+    private fun updateCharacterInternal(character: DataCharacter): Response<DataCharacter, Throwable> = resultOrError {
         Database.getInstance(context)
             .charactersTable()
             .update(character.toDatabaseCharacter())
@@ -76,14 +70,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
         return@resultOrError character
     }
 
-
-    override fun updateCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun updateCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { updateCharacterInternal(characters) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun updateCharacterInternal(characters : List<DataCharacter>) : Response<List<DataCharacter>, Throwable> = resultOrError {
+    private fun updateCharacterInternal(characters: List<DataCharacter>): Response<List<DataCharacter>, Throwable> = resultOrError {
         Database.getInstance(context)
             .charactersTable()
             .update(characters.toDatabaseCharacters())
@@ -91,14 +83,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
         return@resultOrError characters
     }
 
-
-    override fun deleteCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
+    override fun deleteCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>> {
         return Single.fromCallable { deleteCharacterInternal(character) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun deleteCharacterInternal(character : DataCharacter) : Response<DataCharacter, Throwable> = resultOrError {
+    private fun deleteCharacterInternal(character: DataCharacter): Response<DataCharacter, Throwable> = resultOrError {
         Database.getInstance(context)
             .charactersTable()
             .delete(character.toDatabaseCharacter())
@@ -106,14 +96,12 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
         return@resultOrError character
     }
 
-
-    override fun deleteCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun deleteCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { deleteCharactersInternal(characters) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun deleteCharactersInternal(characters : List<DataCharacter>) : Response<List<DataCharacter>, Throwable> = resultOrError {
+    private fun deleteCharactersInternal(characters: List<DataCharacter>): Response<List<DataCharacter>, Throwable> = resultOrError {
         Database.getInstance(context)
             .charactersTable()
             .delete(characters.toDatabaseCharacters())
@@ -121,47 +109,40 @@ internal class CharactersDatabaseDataStore(context : Context) : AbstractDataStor
         return@resultOrError characters
     }
 
-
-    override fun getCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
+    override fun getCharacter(id: Long): Single<Response<DataCharacter, Throwable>> {
         return Single.fromCallable { getCharacterInternal(id) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun getCharacterInternal(id : Long) : Response<DataCharacter, Throwable> = resultOrError {
+    private fun getCharacterInternal(id: Long): Response<DataCharacter, Throwable> = resultOrError {
         Database.getInstance(context)
             .charactersTable()
             .getById(id)
             ?.toDataCharacter()
     }
 
-
-    override fun getCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun getCharacters(offset: Int, limit: Int): Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { getCharactersInternal(offset, limit) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun getCharactersInternal(offset : Int, limit : Int) : Response<List<DataCharacter>, Throwable> = resultOrError {
+    private fun getCharactersInternal(offset: Int, limit: Int): Response<List<DataCharacter>, Throwable> = resultOrError {
         Database.getInstance(context)
             .charactersTable()
             .get(offset = offset, limit = limit)
             .fromDatabaseToDataCharacters()
     }
-    
-    
-    override fun saveCharacterComics(characterId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+
+    override fun saveCharacterComics(characterId: Long, comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Character Comics cannot be saved into the Database.")
     }
-    
-    
+
     override fun getCharacterComics(
-        characterId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataComics>, Throwable>> {
+        characterId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Character Comics cannot be fetched from the Database.")
     }
-    
-    
+
 }

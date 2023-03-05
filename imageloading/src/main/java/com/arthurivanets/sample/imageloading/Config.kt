@@ -17,14 +17,12 @@
 package com.arthurivanets.sample.imageloading
 
 data class Config(
-    val width : Int = -1,
-    val height : Int = -1,
-    val centerCrop : Boolean = true,
-    val animate : Boolean = true
+    val width: Int = -1,
+    val height: Int = -1,
+    val centerCrop: Boolean = true,
+    val animate: Boolean = true
 ) {
 
-
     val isSizeSet = ((width > 0) && (height > 0))
-
 
 }

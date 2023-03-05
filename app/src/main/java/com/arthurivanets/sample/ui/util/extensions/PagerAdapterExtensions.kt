@@ -21,9 +21,8 @@ package com.arthurivanets.sample.ui.util.extensions
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 
-
-val PagerAdapter.isEmpty : Boolean
+val PagerAdapter.isEmpty: Boolean
     get() = (this.count == 0)
 
-val RecyclerView.Adapter<*>.isEmpty : Boolean
+val RecyclerView.Adapter<*>.isEmpty: Boolean
     get() = (this.itemCount == 0)

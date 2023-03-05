@@ -21,17 +21,15 @@ package com.arthurivanets.mvvm.util
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 
-
 /**
  * Retrieves the value held by the [ObservableField].
  *
  * @param default the default value to be returned if the field value is not present
  * @return the associated field value if it's present, or the default one otherwise.
  */
-fun <T : ObservableField<out R>, R : Any> T.get(default : R) : R {
+fun <T : ObservableField<out R>, R : Any> T.get(default: R): R {
     return (get() ?: default)
 }
-
 
 /**
  * Registers a new [Observable.OnPropertyChangedCallback] on a specified [Observable].
@@ -39,9 +37,9 @@ fun <T : ObservableField<out R>, R : Any> T.get(default : R) : R {
  * @param callback property change callback
  * @return the registered [Observable.OnPropertyChangedCallback] callback.
  */
-inline fun <T : Observable> T.onPropertyChanged(crossinline callback : (T) -> Unit) : Observable.OnPropertyChangedCallback {
+inline fun <T : Observable> T.onPropertyChanged(crossinline callback: (T) -> Unit): Observable.OnPropertyChangedCallback {
     return object : Observable.OnPropertyChangedCallback() {
-        override fun onPropertyChanged(sender : Observable?, propertyId : Int) {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             callback(sender as T)
         }
     }.also(::addOnPropertyChangedCallback)

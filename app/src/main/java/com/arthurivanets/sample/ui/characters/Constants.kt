@@ -18,7 +18,6 @@
 
 package com.arthurivanets.sample.ui.characters
 
-
 internal const val DEFAULT_CHARACTER_LOADING_LIMIT = 100
 internal const val DEFAULT_CHARACTER_INFO_COMICS_LOADING_LIMIT = 30
 internal const val CHARACTERS_COLUMN_COUNT = 2

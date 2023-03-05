@@ -22,13 +22,10 @@ import com.arthurivanets.sample.ui.base.BaseActivity
 
 class HostActivity : BaseActivity(R.layout.activity_host) {
 
-
     override val navigationGraphId = R.navigation.navigation_host_activity
-    
-    
+
     override fun preInit() {
         requestPortraitScreenOrientation()
     }
-
 
 }

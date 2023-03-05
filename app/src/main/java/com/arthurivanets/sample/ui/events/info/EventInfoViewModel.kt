@@ -39,67 +39,59 @@ import com.arthurivanets.sample.ui.events.DEFAULT_EVENT_INFO_COMICS_LOADING_LIMI
 import io.reactivex.Single
 
 class EventInfoViewModel(
-    private val eventsRepository : EventsRepository,
-    private val schedulerProvider : SchedulerProvider
+    private val eventsRepository: EventsRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : AbstractViewModel() {
-    
-    
+
     var event = Event()
     val comicsItems = ObservableTrackableArrayList<Long, ComicsItem>()
     val characterItems = ObservableTrackableArrayList<Long, CharacterItem>()
-    
+
     private var isDataLoading = false
-    
-    
+
     override fun onStart() {
         super.onStart()
-        
+
         loadInitialData()
     }
-    
-    
-    override fun onRestoreState(bundle : Bundle) {
+
+    override fun onRestoreState(bundle: Bundle) {
         super.onRestoreState(bundle)
-        
+
         bundle.extract(stateExtractor).also {
             event = it.event
         }
     }
-    
-    
-    override fun onSaveState(bundle : Bundle) {
+
+    override fun onSaveState(bundle: Bundle) {
         super.onSaveState(bundle)
-        
+
         bundle.saveState(State(event = event))
     }
-    
-    
-    fun onComicsClicked(comics : Comics) {
+
+    fun onComicsClicked(comics: Comics) {
         route(MarvelRoutes.ComicsInfoScreen(comics))
     }
-    
-    
-    fun onCharacterClicked(character : Character) {
+
+    fun onCharacterClicked(character: Character) {
         route(MarvelRoutes.CharacterInfoScreen(character))
     }
-    
-    
+
     private fun loadInitialData() {
-        if(characterItems.isEmpty()) {
+        if (characterItems.isEmpty()) {
             loadCharacters()
         }
     }
-    
-    
+
     private fun loadCharacters() {
-        if(isDataLoading) {
+        if (isDataLoading) {
             return
         }
-    
+
         isDataLoading = true
-        
+
         viewState = GeneralViewStates.Loading<Unit>()
-        
+
         Single.zip(
             eventsRepository.getEventComics(
                 event = event,
@@ -113,30 +105,27 @@ class EventInfoViewModel(
             ).resultOrError(),
             combineResults()
         )
-        .applyIOWorkSchedulers(schedulerProvider)
-        .subscribe(::onDataLoadedSuccessfully, ::onDataLoadingFailed)
-        .manageLongLivingDisposable()
+            .applyIOWorkSchedulers(schedulerProvider)
+            .subscribe(::onDataLoadedSuccessfully, ::onDataLoadingFailed)
+            .manageLongLivingDisposable()
     }
-    
-    
-    private fun onDataLoadedSuccessfully(data : Pair<List<Comics>, List<Character>>) {
+
+    private fun onDataLoadedSuccessfully(data: Pair<List<Comics>, List<Character>>) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Success<Unit>()
-        
+
         data.first.forEach { comicsItems.addOrUpdate(SmallComicsItem(it)) }
         data.second.forEach { characterItems.addOrUpdate(SmallCharacterItem(it)) }
     }
-    
-    
-    private fun onDataLoadingFailed(throwable : Throwable) {
+
+    private fun onDataLoadingFailed(throwable: Throwable) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Error<Unit>()
-        
+
         // TODO the proper error handling should be done here
         throwable.printStackTrace()
     }
-    
-    
+
 }

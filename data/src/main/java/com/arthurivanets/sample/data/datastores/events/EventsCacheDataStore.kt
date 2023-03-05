@@ -30,101 +30,84 @@ import java.util.concurrent.ConcurrentHashMap
 /**
  *
  */
-internal class EventsCacheDataStore(context : Context) : AbstractDataStore(context), EventsDataStore {
-
+internal class EventsCacheDataStore(context: Context) : AbstractDataStore(context), EventsDataStore {
 
     private val eventsCache = ConcurrentHashMap<Long, DataEvent>()
     private val charactersCache = ConcurrentHashMap<Long, MutableMap<Long, DataCharacter>>()
     private val comicsCache = ConcurrentHashMap<Long, MutableMap<Long, DataComics>>()
 
-
-    override fun saveEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun saveEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { saveEventInternal(event) }
     }
 
-
-    private fun saveEventInternal(event : DataEvent) : Response<DataEvent, Throwable> {
+    private fun saveEventInternal(event: DataEvent): Response<DataEvent, Throwable> {
         eventsCache[event.id] = event
         return Response.result(event)
     }
 
-
-    override fun saveEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun saveEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { saveEventsInternal(events) }
     }
 
-
-    private fun saveEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> {
+    private fun saveEventsInternal(events: List<DataEvent>): Response<List<DataEvent>, Throwable> {
         events.forEach { eventsCache[it.id] = it }
         return Response.result(events)
     }
 
-
-    override fun updateEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun updateEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         return saveEvent(event)
     }
 
-
-    override fun updateEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun updateEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         return saveEvents(events)
     }
 
-
-    override fun deleteEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun deleteEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { deleteEventInternal(event) }
     }
 
-
-    private fun deleteEventInternal(event : DataEvent) : Response<DataEvent, Throwable> {
+    private fun deleteEventInternal(event: DataEvent): Response<DataEvent, Throwable> {
         return Response.result(eventsCache.remove(event.id))
     }
 
-
-    override fun deleteEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun deleteEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { deleteEventsInternal(events) }
     }
 
-
-    private fun deleteEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> {
+    private fun deleteEventsInternal(events: List<DataEvent>): Response<List<DataEvent>, Throwable> {
         val deletedEvents = ArrayList<DataEvent>()
 
-        for(event in events) {
+        for (event in events) {
             eventsCache.remove(event.id)?.let { deletedEvents.add(it) }
         }
 
         return Response.result(deletedEvents)
     }
 
-
-    override fun getEvent(id : Long) : Single<Response<DataEvent, Throwable>> {
+    override fun getEvent(id: Long): Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { getEventInternal(id) }
     }
 
-
-    private fun getEventInternal(id : Long) : Response<DataEvent, Throwable> {
+    private fun getEventInternal(id: Long): Response<DataEvent, Throwable> {
         return Response.result(eventsCache[id])
     }
 
-
-    override fun getEvents(offset : Int, limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun getEvents(offset: Int, limit: Int): Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { getEventsInternal(offset, limit) }
     }
 
-
-    private fun getEventsInternal(offset : Int, limit : Int) : Response<List<DataEvent>, Throwable> {
+    private fun getEventsInternal(offset: Int, limit: Int): Response<List<DataEvent>, Throwable> {
         return eventsCache.values
             .sortedBy { it.id }
             .take(offset, limit)
             .asResult()
     }
 
-
-    override fun saveEventCharacters(eventId : Long, characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun saveEventCharacters(eventId: Long, characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable { saveEventCharactersInternal(eventId, characters) }
     }
 
-
-    private fun saveEventCharactersInternal(eventId : Long, characters : List<DataCharacter>) : Response<List<DataCharacter>, Throwable> {
+    private fun saveEventCharactersInternal(eventId: Long, characters: List<DataCharacter>): Response<List<DataCharacter>, Throwable> {
         val cachedCharacters = (charactersCache[eventId] ?: ConcurrentHashMap())
 
         characters.forEach { cachedCharacters[it.id] = it }
@@ -134,12 +117,11 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
         return Response.result(characters)
     }
 
-
     override fun getEventCharacters(
-        eventId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataCharacter>, Throwable>> {
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataCharacter>, Throwable>> {
         return Single.fromCallable {
             getEventCharactersInternal(
                 eventId = eventId,
@@ -149,40 +131,36 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
         }
     }
 
-
     private fun getEventCharactersInternal(
-        eventId : Long,
-        offset : Int,
-        limit : Int
-    ) : Response<List<DataCharacter>, Throwable> {
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Response<List<DataCharacter>, Throwable> {
         return (charactersCache[eventId]?.values ?: emptyList<DataCharacter>())
             .sortedBy { it.id }
             .take(offset, limit)
             .asResult()
     }
-    
-    
-    override fun saveEventComics(eventId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+
+    override fun saveEventComics(eventId: Long, comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
         return Single.fromCallable { saveEventComicsInternal(eventId, comics) }
     }
-    
-    
-    private fun saveEventComicsInternal(eventId : Long, comics : List<DataComics>) : Response<List<DataComics>, Throwable> {
+
+    private fun saveEventComicsInternal(eventId: Long, comics: List<DataComics>): Response<List<DataComics>, Throwable> {
         val cachedComics = (comicsCache[eventId] ?: ConcurrentHashMap())
-    
+
         comics.forEach { cachedComics[it.id] = it }
-    
+
         comicsCache[eventId] = cachedComics
-    
+
         return Response.result(comics)
     }
-    
-    
+
     override fun getEventComics(
-        eventId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataComics>, Throwable>> {
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataComics>, Throwable>> {
         return Single.fromCallable {
             getEventComicsInternal(
                 eventId = eventId,
@@ -191,18 +169,16 @@ internal class EventsCacheDataStore(context : Context) : AbstractDataStore(conte
             )
         }
     }
-    
-    
+
     private fun getEventComicsInternal(
-        eventId : Long,
-        offset : Int,
-        limit : Int
-    ) : Response<List<DataComics>, Throwable> {
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Response<List<DataComics>, Throwable> {
         return (comicsCache[eventId]?.values ?: emptyList<DataComics>())
             .sortedBy { it.id }
             .take(offset, limit)
             .asResult()
     }
-    
-    
+
 }

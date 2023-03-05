@@ -21,26 +21,22 @@ package com.arthurivanets.sample.ui.characters.info
 import android.os.Bundle
 import com.arthurivanets.sample.domain.entities.Character
 
-
-internal val stateExtractor : (Bundle.() -> State) = {
+internal val stateExtractor: (Bundle.() -> State) = {
     State(
         character = (this.getParcelable(StateKeys.CHARACTER) ?: Character())
     )
 }
 
-
 internal object StateKeys {
 
     const val CHARACTER = "character"
-    
+
 }
 
-
 internal data class State(
-    val character : Character
+    val character: Character
 )
 
-
-internal fun Bundle.saveState(state : State) {
+internal fun Bundle.saveState(state: State) {
     this.putParcelable(StateKeys.CHARACTER, state.character)
 }

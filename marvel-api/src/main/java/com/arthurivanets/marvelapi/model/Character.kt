@@ -23,14 +23,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Character(
-    @JsonProperty(Properties.ID) var id : Long = -1L,
-    @JsonProperty(Properties.NAME) var name : String = "",
-    @JsonProperty(Properties.DESCRIPTION) var description : String = "",
-    @JsonProperty(Properties.MODIFICATION_TIME) var modificationTime : String = "",
-    @JsonProperty(Properties.THUMBNAIL) var thumbnail : Image = Image(),
-    @JsonProperty(Properties.URLS) var urls : List<Url> = ArrayList()
+    @JsonProperty(Properties.ID) var id: Long = -1L,
+    @JsonProperty(Properties.NAME) var name: String = "",
+    @JsonProperty(Properties.DESCRIPTION) var description: String = "",
+    @JsonProperty(Properties.MODIFICATION_TIME) var modificationTime: String = "",
+    @JsonProperty(Properties.THUMBNAIL) var thumbnail: Image = Image(),
+    @JsonProperty(Properties.URLS) var urls: List<Url> = ArrayList()
 ) {
-
 
     object Properties {
 
@@ -42,6 +41,5 @@ data class Character(
         const val THUMBNAIL = "thumbnail"
 
     }
-
 
 }

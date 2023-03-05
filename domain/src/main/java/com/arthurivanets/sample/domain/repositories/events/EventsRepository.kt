@@ -27,22 +27,22 @@ import io.reactivex.Single
 
 interface EventsRepository : Repository<BusEvent<*>> {
 
-    fun getEvent(id : Long) : Single<Response<DomainEvent, Throwable>>
+    fun getEvent(id: Long): Single<Response<DomainEvent, Throwable>>
 
-    fun getEvents(offset : Int, limit : Int) : Single<Response<List<DomainEvent>, Throwable>>
+    fun getEvents(offset: Int, limit: Int): Single<Response<List<DomainEvent>, Throwable>>
 
-    fun getAllEvents(offset : Int, limit : Int) : Flowable<Response<List<DomainEvent>, Throwable>>
+    fun getAllEvents(offset: Int, limit: Int): Flowable<Response<List<DomainEvent>, Throwable>>
 
     fun getEventCharacters(
-        event : DomainEvent,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DomainCharacter>, Throwable>>
-    
+        event: DomainEvent,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DomainCharacter>, Throwable>>
+
     fun getEventComics(
-        event : DomainEvent,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DomainComics>, Throwable>>
+        event: DomainEvent,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DomainComics>, Throwable>>
 
 }

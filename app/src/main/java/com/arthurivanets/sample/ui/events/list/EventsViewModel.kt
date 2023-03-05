@@ -29,15 +29,13 @@ import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.events.DEFAULT_EVENT_LOADING_LIMIT
 
 class EventsViewModel(
-    private val eventsRepository : EventsRepository,
-    private val schedulerProvider : SchedulerProvider
+    private val eventsRepository: EventsRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : AbstractViewModel() {
 
-
     val items = ObservableTrackableArrayList<Long, EventItem>()
-    
-    private var isDataLoading = false
 
+    private var isDataLoading = false
 
     override fun onStart() {
         super.onStart()
@@ -45,26 +43,23 @@ class EventsViewModel(
         loadInitialData()
     }
 
-
-    fun onEventClicked(event : Event) {
+    fun onEventClicked(event: Event) {
         route(MarvelRoutes.EventInfoScreen(event))
     }
 
-
     private fun loadInitialData() {
-        if(items.isEmpty()) {
+        if (items.isEmpty()) {
             loadData()
         }
     }
 
-
     private fun loadData() {
-        if(isDataLoading) {
+        if (isDataLoading) {
             return
         }
-    
+
         isDataLoading = true
-        
+
         viewState = GeneralViewStates.Loading<Unit>()
 
         eventsRepository.getEvents(0, DEFAULT_EVENT_LOADING_LIMIT)
@@ -74,24 +69,21 @@ class EventsViewModel(
             .manageLongLivingDisposable()
     }
 
-
-    private fun onLoadedSuccessfully(events : List<Event>) {
+    private fun onLoadedSuccessfully(events: List<Event>) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Success<Unit>()
 
         events.forEach { items.addOrUpdate(EventItem(it)) }
     }
 
-
-    private fun onLoadingFailed(throwable : Throwable) {
+    private fun onLoadingFailed(throwable: Throwable) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Error<Unit>()
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()
     }
-
 
 }

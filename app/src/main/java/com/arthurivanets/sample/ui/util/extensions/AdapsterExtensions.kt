@@ -21,12 +21,10 @@ package com.arthurivanets.sample.ui.util.extensions
 import com.arthurivanets.adapster.listeners.OnItemClickListener
 import com.arthurivanets.adapster.listeners.OnItemLongClickListener
 
-
-inline fun <T> onItemClick(crossinline action : (T) -> Unit) : OnItemClickListener<T> {
+inline fun <T> onItemClick(crossinline action: (T) -> Unit): OnItemClickListener<T> {
     return OnItemClickListener { _, item, _ -> action(item) }
 }
 
-
-inline fun <T> onItemLongClick(crossinline action : (T) -> Boolean) : OnItemLongClickListener<T> {
+inline fun <T> onItemLongClick(crossinline action: (T) -> Boolean): OnItemLongClickListener<T> {
     return OnItemLongClickListener { _, item, _ -> action(item) }
 }

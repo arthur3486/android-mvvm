@@ -23,6 +23,7 @@ internal object Constants {
     const val DATABASE_VERSION = 1
     const val DATABASE_NAME = "marvel.db"
 
-    @JvmStatic val MIGRATIONS : Array<Migration> = arrayOf()
+    @JvmStatic
+    val MIGRATIONS: Array<Migration> = arrayOf()
 
 }

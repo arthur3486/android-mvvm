@@ -28,6 +28,6 @@ interface CanHandleNewIntent {
      *
      * @param intent the message intent
      */
-    fun handleNewIntent(intent : Intent)
+    fun handleNewIntent(intent: Intent)
 
 }

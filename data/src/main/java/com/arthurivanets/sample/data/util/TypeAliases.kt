@@ -16,7 +16,6 @@
 
 package com.arthurivanets.sample.data.util
 
-
 // Character
 internal typealias DataCharacter = com.arthurivanets.sample.data.entities.Character
 internal typealias ApiCharacter = com.arthurivanets.marvelapi.model.Character

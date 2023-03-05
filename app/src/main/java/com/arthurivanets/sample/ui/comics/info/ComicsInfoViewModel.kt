@@ -33,90 +33,80 @@ import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.comics.DEFAULT_COMICS_INFO_CHARACTER_LOADING_LIMIT
 
 class ComicsInfoViewModel(
-    private val comicsRepository : ComicsRepository,
-    private val schedulerProvider : SchedulerProvider
+    private val comicsRepository: ComicsRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : AbstractViewModel() {
-    
-    
+
     var comics = Comics()
     val characterItems = ObservableTrackableArrayList<Long, CharacterItem>()
-    
+
     private var isDataLoading = false
-    
-    
+
     override fun onStart() {
         super.onStart()
-        
+
         loadInitialData()
     }
-    
-    
-    override fun onRestoreState(bundle : Bundle) {
+
+    override fun onRestoreState(bundle: Bundle) {
         super.onRestoreState(bundle)
-        
+
         bundle.extract(stateExtractor).also {
             comics = it.comics
         }
     }
-    
-    
-    override fun onSaveState(bundle : Bundle) {
+
+    override fun onSaveState(bundle: Bundle) {
         super.onSaveState(bundle)
-        
+
         bundle.saveState(State(comics = comics))
     }
-    
-    
-    fun onCharacterClicked(character : Character) {
+
+    fun onCharacterClicked(character: Character) {
         route(MarvelRoutes.CharacterInfoScreen(character))
     }
-    
-    
+
     private fun loadInitialData() {
-        if(characterItems.isEmpty()) {
+        if (characterItems.isEmpty()) {
             loadCharacters()
         }
     }
-    
-    
+
     private fun loadCharacters() {
-        if(isDataLoading) {
+        if (isDataLoading) {
             return
         }
-    
+
         isDataLoading = true
-        
+
         viewState = GeneralViewStates.Loading<Unit>()
-    
+
         comicsRepository.getComicsCharacters(
             comics = comics,
             offset = 0,
             limit = DEFAULT_COMICS_INFO_CHARACTER_LOADING_LIMIT
         )
-        .resultOrError()
-        .applyIOWorkSchedulers(schedulerProvider)
-        .subscribe(::onCharactersLoadedSuccessfully, ::onCharacterLoadingFailed)
-        .manageLongLivingDisposable()
+            .resultOrError()
+            .applyIOWorkSchedulers(schedulerProvider)
+            .subscribe(::onCharactersLoadedSuccessfully, ::onCharacterLoadingFailed)
+            .manageLongLivingDisposable()
     }
-    
-    
-    private fun onCharactersLoadedSuccessfully(characters : List<Character>) {
+
+    private fun onCharactersLoadedSuccessfully(characters: List<Character>) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Success<Unit>()
-        
+
         characters.forEach { characterItems.addOrUpdate(SmallCharacterItem(it)) }
     }
-    
-    
-    private fun onCharacterLoadingFailed(throwable : Throwable) {
+
+    private fun onCharacterLoadingFailed(throwable: Throwable) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Error<Unit>()
-    
+
         // TODO the proper error handling should be done here
         throwable.printStackTrace()
     }
-    
-    
+
 }

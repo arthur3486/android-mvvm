@@ -29,94 +29,81 @@ import com.arthurivanets.sample.data.util.DataComics
 import com.arthurivanets.sample.data.util.DataEvent
 import io.reactivex.Single
 
-internal class EventsServerDataStore(context : Context) : AbstractDataStore(context), EventsDataStore {
+internal class EventsServerDataStore(context: Context) : AbstractDataStore(context), EventsDataStore {
 
-
-    override fun saveEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun saveEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         throw UnsupportedOperationException("Event creation on the Server Side is unsupported.")
     }
 
-
-    override fun saveEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun saveEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         throw UnsupportedOperationException("Event creation on the Server Side is unsupported.")
     }
 
-
-    override fun updateEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun updateEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         throw UnsupportedOperationException("Event modification on the Server Side is unsupported.")
     }
 
-
-    override fun updateEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun updateEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         throw UnsupportedOperationException("Event modification on the Server Side is unsupported.")
     }
 
-
-    override fun deleteEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun deleteEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         throw UnsupportedOperationException("Event deletion on the Server Side is unsupported.")
     }
 
-
-    override fun deleteEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun deleteEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         throw UnsupportedOperationException("Event deletion on the Server Side is unsupported.")
     }
 
-
-    override fun getEvent(id : Long) : Single<Response<DataEvent, Throwable>> {
+    override fun getEvent(id: Long): Single<Response<DataEvent, Throwable>> {
         return MarvelApi.INSTANCE.events.getEvent(id)
             .flatMap { it.toSingleItemResponse().asSingle() }
             .applyIOWorkSchedulers()
     }
 
-
-    override fun getEvents(offset : Int, limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun getEvents(offset: Int, limit: Int): Single<Response<List<DataEvent>, Throwable>> {
         return MarvelApi.INSTANCE.events.getEvents(
             offset = offset,
             limit = limit
         )
-        .flatMap { it.toResponse().asSingle() }
-        .applyIOWorkSchedulers()
+            .flatMap { it.toResponse().asSingle() }
+            .applyIOWorkSchedulers()
     }
 
-
-    override fun saveEventCharacters(eventId : Long, characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun saveEventCharacters(eventId: Long, characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         throw UnsupportedOperationException("Event Characters cannot be saved on the side of the Server.")
     }
 
-
     override fun getEventCharacters(
-        eventId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataCharacter>, Throwable>> {
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataCharacter>, Throwable>> {
         return MarvelApi.INSTANCE.events.getEventCharacters(
             eventId = eventId,
             offset = offset,
             limit = limit
         )
-        .flatMap { it.toResponse().asSingle() }
-        .applyIOWorkSchedulers()
+            .flatMap { it.toResponse().asSingle() }
+            .applyIOWorkSchedulers()
     }
-    
-    
-    override fun saveEventComics(eventId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+
+    override fun saveEventComics(eventId: Long, comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Event Comics cannot be saved on the side of the Server.")
     }
-    
-    
+
     override fun getEventComics(
-        eventId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataComics>, Throwable>> {
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataComics>, Throwable>> {
         return MarvelApi.INSTANCE.events.getEventComics(
             eventId = eventId,
             offset = offset,
             limit = limit
         )
-        .flatMap { it.toResponse().asSingle() }
-        .applyIOWorkSchedulers()
+            .flatMap { it.toResponse().asSingle() }
+            .applyIOWorkSchedulers()
     }
-    
-    
+
 }

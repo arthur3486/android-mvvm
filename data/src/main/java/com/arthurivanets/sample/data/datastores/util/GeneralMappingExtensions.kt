@@ -20,38 +20,32 @@ package com.arthurivanets.sample.data.datastores.util
 
 import com.arthurivanets.sample.data.util.*
 
-
-internal fun Collection<ApiCreator>.toDataCreators() : List<DataCreator> {
+internal fun Collection<ApiCreator>.toDataCreators(): List<DataCreator> {
     return this.map { it.toDataCreator() }
 }
 
-
-internal fun ApiCreator.toDataCreator() : DataCreator {
+internal fun ApiCreator.toDataCreator(): DataCreator {
     return DataCreator(
         name = this.name,
         role = this.role
     )
 }
 
-
-internal fun Collection<ApiImage>.toDataImages() : List<DataImage> {
+internal fun Collection<ApiImage>.toDataImages(): List<DataImage> {
     return this.map { it.toDataImage() }
 }
 
-
-internal fun ApiImage.toDataImage() : DataImage {
+internal fun ApiImage.toDataImage(): DataImage {
     return DataImage(
-        imageUrl = (if(!this.isDefaultImage) this.imageUrl else "")
+        imageUrl = (if (!this.isDefaultImage) this.imageUrl else "")
     )
 }
 
-
-internal fun Collection<ApiUrl>.toDataUrls() : List<DataUrl> {
+internal fun Collection<ApiUrl>.toDataUrls(): List<DataUrl> {
     return this.map { it.toDataUrl() }
 }
 
-
-internal fun ApiUrl.toDataUrl() : DataUrl {
+internal fun ApiUrl.toDataUrl(): DataUrl {
     return DataUrl(
         type = this.type,
         url = this.url

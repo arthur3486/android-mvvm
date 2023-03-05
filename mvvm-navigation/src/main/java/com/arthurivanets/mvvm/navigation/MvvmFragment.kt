@@ -30,8 +30,7 @@ import com.arthurivanets.mvvm.MvvmFragment
 /**
  * A base MVVM Fragment with built-in support for Android X Navigation Concept.
  */
-abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmFragment<VDB, VM>(layoutId) {
-
+abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId: Int) : MvvmFragment<VDB, VM>(layoutId) {
 
     /**
      * Navigates to the specified destination screen.
@@ -42,10 +41,10 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRe
      * @param navigationExtras
      */
     protected fun navigate(
-        @IdRes destinationId : Int,
-        extras : Bundle? = null,
-        navOptions : NavOptions? = null,
-        navigationExtras : Navigator.Extras? = null
+        @IdRes destinationId: Int,
+        extras: Bundle? = null,
+        navOptions: NavOptions? = null,
+        navigationExtras: Navigator.Extras? = null
     ) {
         findNavController().navigate(
             destinationId,
@@ -54,46 +53,41 @@ abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRe
             navigationExtras
         )
     }
-    
-    
+
     /**
      * Navigates to the specified destination screen.
      *
      * @param directions the direction that leads to the destination screen.
      */
-    protected fun navigate(directions : NavDirections) {
+    protected fun navigate(directions: NavDirections) {
         findNavController().navigate(directions)
     }
-    
-    
+
     /**
      * Navigates to the specified destination screen.
      *
      * @param directions the direction that leads to the destination screen.
      * @param navOptions
      */
-    protected fun navigate(directions : NavDirections, navOptions : NavOptions) {
+    protected fun navigate(directions: NavDirections, navOptions: NavOptions) {
         findNavController().navigate(directions, navOptions)
     }
-    
-    
+
     /**
      * Navigates to the specified destination screen.
      *
      * @param directions the direction that leads to the destination screen.
      * @param navigationExtras
      */
-    protected fun navigate(directions : NavDirections, navigationExtras : Navigator.Extras) {
+    protected fun navigate(directions: NavDirections, navigationExtras: Navigator.Extras) {
         findNavController().navigate(directions, navigationExtras)
     }
-    
-    
+
     /**
      * Navigates back (pops the back stack) to the previous [MvvmFragment] on the stack.
      */
     protected fun navigateBack() {
         findNavController().popBackStack()
     }
-
 
 }

@@ -20,8 +20,7 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Source(val value : Type) {
-
+annotation class Source(val value: Type) {
 
     enum class Type {
 
@@ -30,6 +29,5 @@ annotation class Source(val value : Type) {
         SERVER
 
     }
-
 
 }

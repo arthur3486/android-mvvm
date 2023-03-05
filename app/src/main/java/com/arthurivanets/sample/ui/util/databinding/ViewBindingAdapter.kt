@@ -21,12 +21,11 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 
 object ViewBindingAdapter {
-    
-    
+
     @BindingAdapter("visible")
-    @JvmStatic fun setVisible(view : View, isVisible : Boolean) {
+    @JvmStatic
+    fun setVisible(view: View, isVisible: Boolean) {
         view.isVisible = isVisible
     }
-    
-    
+
 }

@@ -20,16 +20,14 @@ import android.content.Context
 import com.arthurivanets.sample.data.datastores.AbstractDataStoreFactory
 import com.arthurivanets.sample.data.datastores.DataStoreFactory
 
-class EventsDataStoreFactory(context : Context) : AbstractDataStoreFactory<EventsDataStore>(context) {
+class EventsDataStoreFactory(context: Context) : AbstractDataStoreFactory<EventsDataStore>(context) {
 
-
-    override fun create(type : DataStoreFactory.Type) : EventsDataStore {
-        return when(type) {
+    override fun create(type: DataStoreFactory.Type): EventsDataStore {
+        return when (type) {
             DataStoreFactory.Type.CACHE -> EventsCacheDataStore(internalContext)
             DataStoreFactory.Type.DATABASE -> EventsDatabaseDataStore(internalContext)
             DataStoreFactory.Type.SERVER -> EventsServerDataStore(internalContext)
         }
     }
-
 
 }

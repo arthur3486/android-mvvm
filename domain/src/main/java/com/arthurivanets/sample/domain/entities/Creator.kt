@@ -21,6 +21,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Creator(
-    val name : String = "",
-    val role : String = ""
+    val name: String = "",
+    val role: String = ""
 ) : Parcelable

@@ -29,68 +29,59 @@ import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedNameTransitionName
 
 class CharacterItemViewHolder(
-    itemView : View,
-    private val resources : CharacterItemResources?
+    itemView: View,
+    private val resources: CharacterItemResources?
 ) : BaseItem.ViewHolder<Character>(itemView) {
-
 
     val overlayView = itemView.findViewById<View>(R.id.overlay)
     val imageIv = itemView.findViewById<ImageView>(R.id.imageIv)
     val emptyViewTv = itemView.findViewById<TextView>(R.id.emptyViewTv)
     val nameTv = itemView.findViewById<TextView>(R.id.nameTv)
 
-
-    override fun bindData(data : Character?) {
+    override fun bindData(data: Character?) {
         super.bindData(data)
 
         data?.let { handleData(it) }
     }
 
-
-    private fun handleData(data : Character) {
+    private fun handleData(data: Character) {
         handleImage(data)
         handleName(data)
     }
-    
-    
-    private fun handleImage(data : Character) {
+
+    private fun handleImage(data: Character) {
         loadImage(data.thumbnail)
-    
+
         imageIv.transitionName = data.sharedImageTransitionName
     }
-    
-    
-    private fun handleName(data : Character) {
+
+    private fun handleName(data: Character) {
         nameTv.text = data.name
         nameTv.transitionName = data.sharedNameTransitionName
     }
 
-
-    private fun loadImage(image : Image) {
+    private fun loadImage(image: Image) {
         emptyViewTv.isVisible = !image.hasImage
 
-        if(image.hasImage) {
+        if (image.hasImage) {
             loadImage(image.imageUrl)
         } else {
             loadImage(R.drawable.marvel_character_placeholder)
         }
     }
 
-
-    private fun loadImage(@DrawableRes drawableId : Int) {
+    private fun loadImage(@DrawableRes drawableId: Int) {
         resources?.imageLoader?.load(
             target = imageIv,
             drawableId = drawableId
         )
     }
 
-
-    private fun loadImage(imageUrl : String) {
+    private fun loadImage(imageUrl: String) {
         resources?.imageLoader?.load(
             target = imageIv,
             imageUrl = imageUrl
         )
     }
-
 
 }

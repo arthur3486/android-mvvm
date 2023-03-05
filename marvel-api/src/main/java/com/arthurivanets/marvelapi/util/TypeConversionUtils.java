@@ -21,9 +21,7 @@ package com.arthurivanets.marvelapi.util;
  */
 class TypeConversionUtils {
 
-
     /**
-     *
      * @param bytes
      * @return
      */
@@ -32,10 +30,10 @@ class TypeConversionUtils {
 
         int adjustedByte;
 
-        for(byte aByte : bytes) {
+        for (byte aByte : bytes) {
             adjustedByte = (0xFF & aByte);
 
-            if(adjustedByte < 0x10) {
+            if (adjustedByte < 0x10) {
                 hexStringBuilder.append("0").append(Integer.toHexString(adjustedByte));
             } else {
                 hexStringBuilder.append(Integer.toHexString(adjustedByte));
@@ -44,6 +42,5 @@ class TypeConversionUtils {
 
         return hexStringBuilder.toString();
     }
-
 
 }

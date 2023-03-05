@@ -23,9 +23,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBuilder {
 
-
     @ContributesAndroidInjector
-    abstract fun bindHostActivity() : HostActivity
-
+    abstract fun bindHostActivity(): HostActivity
 
 }

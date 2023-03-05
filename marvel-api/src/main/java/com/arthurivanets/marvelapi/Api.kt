@@ -25,13 +25,13 @@ import com.arthurivanets.marvelapi.endpoints.events.EventsEndpoint
  */
 interface Api {
 
-    val characters : CharactersEndpoint
-    val events : EventsEndpoint
-    val comics : ComicsEndpoint
+    val characters: CharactersEndpoint
+    val events: EventsEndpoint
+    val comics: ComicsEndpoint
 
     /**
      *
      */
-    fun init(publicKey : String, privateKey : String)
+    fun init(publicKey: String, privateKey: String)
 
 }

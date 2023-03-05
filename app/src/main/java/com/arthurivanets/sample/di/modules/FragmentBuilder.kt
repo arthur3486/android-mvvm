@@ -32,33 +32,25 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class FragmentBuilder {
 
-
     @ContributesAndroidInjector
-    abstract fun buildDashboardFragment() : DashboardFragment
-
+    abstract fun buildDashboardFragment(): DashboardFragment
 
     @ContributesAndroidInjector(modules = [ComicsModule::class])
-    abstract fun buildComicsFragment() : ComicsFragment
-    
-    
+    abstract fun buildComicsFragment(): ComicsFragment
+
     @ContributesAndroidInjector(modules = [ComicsModule::class])
-    abstract fun buildComicsInfoFragment() : ComicsInfoFragment
-
+    abstract fun buildComicsInfoFragment(): ComicsInfoFragment
 
     @ContributesAndroidInjector(modules = [EventsModule::class])
-    abstract fun buildEventsFragment() : EventsFragment
-    
-    
+    abstract fun buildEventsFragment(): EventsFragment
+
     @ContributesAndroidInjector(modules = [EventsModule::class])
-    abstract fun buildEventInfoFragment() : EventInfoFragment
-
+    abstract fun buildEventInfoFragment(): EventInfoFragment
 
     @ContributesAndroidInjector(modules = [CharactersModule::class])
-    abstract fun buildCharactersFragment() : CharactersFragment
-    
-    
-    @ContributesAndroidInjector(modules = [CharactersModule::class])
-    abstract fun buildCharacterInfoFragment() : CharacterInfoFragment
+    abstract fun buildCharactersFragment(): CharactersFragment
 
+    @ContributesAndroidInjector(modules = [CharactersModule::class])
+    abstract fun buildCharacterInfoFragment(): CharacterInfoFragment
 
 }

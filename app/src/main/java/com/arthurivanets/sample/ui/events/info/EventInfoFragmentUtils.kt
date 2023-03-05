@@ -21,26 +21,22 @@ package com.arthurivanets.sample.ui.events.info
 import android.os.Bundle
 import com.arthurivanets.sample.domain.entities.Event
 
-
-internal val stateExtractor : (Bundle.() -> State) = {
+internal val stateExtractor: (Bundle.() -> State) = {
     State(
         event = (this.getParcelable(StateKeys.EVENT) ?: Event())
     )
 }
 
-
 internal object StateKeys {
-    
+
     const val EVENT = "event"
-    
+
 }
 
-
 internal data class State(
-    val event : Event
+    val event: Event
 )
 
-
-internal fun Bundle.saveState(state : State) {
+internal fun Bundle.saveState(state: State) {
     this.putParcelable(StateKeys.EVENT, state.event)
 }

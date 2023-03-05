@@ -25,33 +25,27 @@ import com.arthurivanets.sample.data.datastores.util.toResponse
 import com.arthurivanets.sample.data.datastores.util.toSingleItemResponse
 import com.arthurivanets.sample.data.util.*
 
-
-internal fun com.arthurivanets.marvelapi.responses.CharactersResponse.toSingleItemResponse() : Response<DataCharacter, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.CharactersResponse.toSingleItemResponse(): Response<DataCharacter, Throwable> {
     return this.toSingleItemResponse { it.toDataCharacter() }
 }
 
-
-internal fun com.arthurivanets.marvelapi.responses.CharactersResponse.toResponse() : Response<List<DataCharacter>, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.CharactersResponse.toResponse(): Response<List<DataCharacter>, Throwable> {
     return this.toResponse { it.toDataCharacters() }
 }
 
-
-internal fun Collection<ApiCharacter>.toDataCharacters() : List<DataCharacter> {
+internal fun Collection<ApiCharacter>.toDataCharacters(): List<DataCharacter> {
     return this.map { it.toDataCharacter() }
 }
 
-
-internal fun Collection<DatabaseCharacter>.fromDatabaseToDataCharacters() : List<DataCharacter> {
+internal fun Collection<DatabaseCharacter>.fromDatabaseToDataCharacters(): List<DataCharacter> {
     return this.map { it.toDataCharacter() }
 }
 
-
-internal fun Collection<DataCharacter>.toDatabaseCharacters() : List<DatabaseCharacter> {
+internal fun Collection<DataCharacter>.toDatabaseCharacters(): List<DatabaseCharacter> {
     return this.map { it.toDatabaseCharacter() }
 }
 
-
-internal fun ApiCharacter.toDataCharacter() : DataCharacter {
+internal fun ApiCharacter.toDataCharacter(): DataCharacter {
     return DataCharacter(
         id = this.id,
         name = this.name,
@@ -62,8 +56,7 @@ internal fun ApiCharacter.toDataCharacter() : DataCharacter {
     )
 }
 
-
-internal fun DatabaseCharacter.toDataCharacter() : DataCharacter {
+internal fun DatabaseCharacter.toDataCharacter(): DataCharacter {
     return DataCharacter(
         id = this.id,
         name = this.name,
@@ -74,8 +67,7 @@ internal fun DatabaseCharacter.toDataCharacter() : DataCharacter {
     )
 }
 
-
-internal fun DataCharacter.toDatabaseCharacter() : DatabaseCharacter {
+internal fun DataCharacter.toDatabaseCharacter(): DatabaseCharacter {
     return DatabaseCharacter(
         id = this.id,
         name = this.name,

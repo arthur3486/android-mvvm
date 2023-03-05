@@ -6,10 +6,10 @@ import com.arthurivanets.sample.domain.repositories.events.EventsRepository
 
 interface ExposesDependencies {
 
-    fun exposeCharactersRepository() : CharactersRepository
-    
-    fun exposeComicsRepository() : ComicsRepository
-    
-    fun exposeEventsRepository() : EventsRepository
-    
+    fun exposeCharactersRepository(): CharactersRepository
+
+    fun exposeComicsRepository(): ComicsRepository
+
+    fun exposeEventsRepository(): EventsRepository
+
 }

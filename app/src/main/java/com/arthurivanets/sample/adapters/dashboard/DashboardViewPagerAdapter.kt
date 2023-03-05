@@ -19,4 +19,4 @@ package com.arthurivanets.sample.adapters.dashboard
 import androidx.fragment.app.FragmentManager
 import com.arthurivanets.sample.adapters.base.BaseViewPagerAdapter
 
-class DashboardViewPagerAdapter(fragmentManager : FragmentManager) : BaseViewPagerAdapter(fragmentManager)
+class DashboardViewPagerAdapter(fragmentManager: FragmentManager) : BaseViewPagerAdapter(fragmentManager)

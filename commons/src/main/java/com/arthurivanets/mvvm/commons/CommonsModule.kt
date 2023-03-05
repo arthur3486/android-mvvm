@@ -9,18 +9,15 @@ import dagger.Provides
 
 @Module
 internal class CommonsModule {
-    
-    
+
     @Provides
-    fun provideContext(application : Application) : Context {
+    fun provideContext(application: Application): Context {
         return application.applicationContext
     }
-    
-    
+
     @Provides
-    fun provideSchedulerProvider() : SchedulerProvider {
+    fun provideSchedulerProvider(): SchedulerProvider {
         return DefaultSchedulerProvider()
     }
-    
-    
+
 }

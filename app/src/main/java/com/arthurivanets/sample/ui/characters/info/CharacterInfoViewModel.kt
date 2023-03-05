@@ -33,90 +33,80 @@ import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.characters.DEFAULT_CHARACTER_INFO_COMICS_LOADING_LIMIT
 
 class CharacterInfoViewModel(
-    private val charactersRepository : CharactersRepository,
-    private val schedulerProvider : SchedulerProvider
+    private val charactersRepository: CharactersRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : AbstractViewModel() {
-    
-    
+
     var character = Character()
     val comicsItems = ObservableTrackableArrayList<Long, ComicsItem>()
-    
+
     private var isDataLoading = false
-    
-    
+
     override fun onStart() {
         super.onStart()
-        
+
         loadInitialData()
     }
-    
-    
-    override fun onRestoreState(bundle : Bundle) {
+
+    override fun onRestoreState(bundle: Bundle) {
         super.onRestoreState(bundle)
-        
+
         bundle.extract(stateExtractor).also {
             character = it.character
         }
     }
-    
-    
-    override fun onSaveState(bundle : Bundle) {
+
+    override fun onSaveState(bundle: Bundle) {
         super.onSaveState(bundle)
-        
+
         bundle.saveState(State(character = character))
     }
-    
-    
-    fun onComicsClicked(comics : Comics) {
+
+    fun onComicsClicked(comics: Comics) {
         route(MarvelRoutes.ComicsInfoScreen(comics))
     }
-    
-    
+
     private fun loadInitialData() {
-        if(comicsItems.isEmpty()) {
+        if (comicsItems.isEmpty()) {
             loadCharacters()
         }
     }
-    
-    
+
     private fun loadCharacters() {
-        if(isDataLoading) {
+        if (isDataLoading) {
             return
         }
-    
+
         isDataLoading = true
-        
+
         viewState = GeneralViewStates.Loading<Unit>()
-        
+
         charactersRepository.getCharacterComics(
             character = character,
             offset = 0,
             limit = DEFAULT_CHARACTER_INFO_COMICS_LOADING_LIMIT
         )
-        .resultOrError()
-        .applyIOWorkSchedulers(schedulerProvider)
-        .subscribe(::onComicsLoadedSuccessfully, ::onComicsLoadingFailed)
-        .manageLongLivingDisposable()
+            .resultOrError()
+            .applyIOWorkSchedulers(schedulerProvider)
+            .subscribe(::onComicsLoadedSuccessfully, ::onComicsLoadingFailed)
+            .manageLongLivingDisposable()
     }
-    
-    
-    private fun onComicsLoadedSuccessfully(comics : List<Comics>) {
+
+    private fun onComicsLoadedSuccessfully(comics: List<Comics>) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Success<Unit>()
-        
+
         comics.forEach { comicsItems.addOrUpdate(SmallComicsItem(it)) }
     }
-    
-    
-    private fun onComicsLoadingFailed(throwable : Throwable) {
+
+    private fun onComicsLoadingFailed(throwable: Throwable) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Error<Unit>()
-        
+
         // TODO the proper error handling should be done here
         throwable.printStackTrace()
     }
-    
-    
+
 }

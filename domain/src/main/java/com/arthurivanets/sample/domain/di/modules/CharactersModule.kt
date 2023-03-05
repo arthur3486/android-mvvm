@@ -32,40 +32,36 @@ import javax.inject.Singleton
 @Module
 internal class CharactersModule {
 
-
     @Source(Source.Type.CACHE)
     @Provides
     @Singleton
-    fun provideCacheDataStore(context : Context) : CharactersDataStore {
+    fun provideCacheDataStore(context: Context): CharactersDataStore {
         return CharactersDataStoreFactory(context).create(DataStoreFactory.Type.CACHE)
     }
-
 
     @Source(Source.Type.DATABASE)
     @Provides
     @Singleton
-    fun provideDatabaseDataStore(context : Context) : CharactersDataStore {
+    fun provideDatabaseDataStore(context: Context): CharactersDataStore {
         return CharactersDataStoreFactory(context).create(DataStoreFactory.Type.DATABASE)
     }
-
 
     @Source(Source.Type.SERVER)
     @Provides
     @Singleton
-    fun provideServerDataStore(context : Context) : CharactersDataStore {
+    fun provideServerDataStore(context: Context): CharactersDataStore {
         return CharactersDataStoreFactory(context).create(DataStoreFactory.Type.SERVER)
     }
-
 
     @Provides
     @Singleton
     fun provideRepository(
-        @Source(Source.Type.CACHE) cacheDataStore : CharactersDataStore,
-        @Source(Source.Type.DATABASE) databaseDataStore : CharactersDataStore,
-        @Source(Source.Type.SERVER) serverDataStore : CharactersDataStore,
-        networkStateProvider : NetworkStateProvider,
-        schedulerProvider : SchedulerProvider
-    ) : CharactersRepository {
+        @Source(Source.Type.CACHE) cacheDataStore: CharactersDataStore,
+        @Source(Source.Type.DATABASE) databaseDataStore: CharactersDataStore,
+        @Source(Source.Type.SERVER) serverDataStore: CharactersDataStore,
+        networkStateProvider: NetworkStateProvider,
+        schedulerProvider: SchedulerProvider
+    ): CharactersRepository {
         return CharactersRepositoryImpl(
             cacheDataStore = cacheDataStore,
             databaseDataStore = databaseDataStore,
@@ -74,6 +70,5 @@ internal class CharactersModule {
             schedulerProvider = schedulerProvider
         )
     }
-
 
 }

@@ -26,16 +26,16 @@ import io.reactivex.Single
 
 interface CharactersRepository : Repository<BusEvent<*>> {
 
-    fun getCharacter(id : Long) : Single<Response<DomainCharacter, Throwable>>
+    fun getCharacter(id: Long): Single<Response<DomainCharacter, Throwable>>
 
-    fun getCharacters(offset : Int, limit : Int) : Single<Response<List<DomainCharacter>, Throwable>>
+    fun getCharacters(offset: Int, limit: Int): Single<Response<List<DomainCharacter>, Throwable>>
 
-    fun getAllCharacters(offset : Int, limit : Int) : Flowable<Response<List<DomainCharacter>, Throwable>>
-    
+    fun getAllCharacters(offset: Int, limit: Int): Flowable<Response<List<DomainCharacter>, Throwable>>
+
     fun getCharacterComics(
-        character : DomainCharacter,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DomainComics>, Throwable>>
+        character: DomainCharacter,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DomainComics>, Throwable>>
 
 }

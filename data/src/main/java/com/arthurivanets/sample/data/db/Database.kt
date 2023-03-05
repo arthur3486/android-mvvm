@@ -37,23 +37,20 @@ import com.arthurivanets.sample.data.db.tables.EventsTable
 )
 abstract class Database : RoomDatabase() {
 
-
     companion object : SynchronizedSingletonHolder<Database, Context>({
         Room.databaseBuilder(
             it.applicationContext,
             Database::class.java,
             Constants.DATABASE_NAME
         )
-        .addMigrations(*Constants.MIGRATIONS)
-        .build()
+            .addMigrations(*Constants.MIGRATIONS)
+            .build()
     })
 
+    abstract fun charactersTable(): CharactersTable
 
-    abstract fun charactersTable() : CharactersTable
+    abstract fun comicsTable(): ComicsTable
 
-    abstract fun comicsTable() : ComicsTable
-
-    abstract fun eventsTable() : EventsTable
-
+    abstract fun eventsTable(): EventsTable
 
 }

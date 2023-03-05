@@ -21,13 +21,11 @@ package com.arthurivanets.sample.imageloading
 import android.content.Context
 import java.io.File
 
-
 internal const val IMAGE_CACHE = "image-cache"
 
-
-fun getDefaultCacheDir(context : Context) : File {
+fun getDefaultCacheDir(context: Context): File {
     return File(context.applicationContext.cacheDir, IMAGE_CACHE).let {
-        if(!it.exists()) {
+        if (!it.exists()) {
             it.mkdirs()
         }
 

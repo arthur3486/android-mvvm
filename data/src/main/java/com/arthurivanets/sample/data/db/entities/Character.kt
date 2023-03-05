@@ -24,14 +24,13 @@ import androidx.room.Entity
     primaryKeys = [Character.Properties.ID]
 )
 class Character(
-    @ColumnInfo(name = Properties.ID) val id : Long,
-    @ColumnInfo(name = Properties.NAME) val name : String,
-    @ColumnInfo(name = Properties.DESCRIPTION) val description : String,
-    @ColumnInfo(name = Properties.MODIFICATION_TIME) val modificationTimeInMillis : Long,
-    @ColumnInfo(name = Properties.THUMBNAIL) val thumbnail : String,
-    @ColumnInfo(name = Properties.URLS) val urls : String
+    @ColumnInfo(name = Properties.ID) val id: Long,
+    @ColumnInfo(name = Properties.NAME) val name: String,
+    @ColumnInfo(name = Properties.DESCRIPTION) val description: String,
+    @ColumnInfo(name = Properties.MODIFICATION_TIME) val modificationTimeInMillis: Long,
+    @ColumnInfo(name = Properties.THUMBNAIL) val thumbnail: String,
+    @ColumnInfo(name = Properties.URLS) val urls: String
 ) {
-
 
     object Properties {
 
@@ -44,6 +43,5 @@ class Character(
         const val URLS = "urls"
 
     }
-
 
 }

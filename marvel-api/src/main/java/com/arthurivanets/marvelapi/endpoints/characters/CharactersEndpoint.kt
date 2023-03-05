@@ -23,12 +23,14 @@ import io.reactivex.Single
 
 interface CharactersEndpoint : Endpoint {
 
-    fun getCharacter(id : Long) : Single<CharactersResponse>
+    fun getCharacter(id: Long): Single<CharactersResponse>
 
-    fun getCharacters(offset : Int = 0, limit : Int) : Single<CharactersResponse>
+    fun getCharacters(offset: Int = 0, limit: Int): Single<CharactersResponse>
 
-    fun getCharacterComics(characterId : Long,
-                           offset : Int = 0,
-                           limit : Int) : Single<ComicsResponse>
+    fun getCharacterComics(
+        characterId: Long,
+        offset: Int = 0,
+        limit: Int
+    ): Single<ComicsResponse>
 
 }

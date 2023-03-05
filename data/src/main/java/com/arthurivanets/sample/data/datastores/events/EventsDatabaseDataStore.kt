@@ -30,16 +30,14 @@ import io.reactivex.Single
 /**
  *
  */
-internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(context), EventsDataStore {
+internal class EventsDatabaseDataStore(context: Context) : AbstractDataStore(context), EventsDataStore {
 
-
-    override fun saveEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun saveEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { saveEventInternal(event) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun saveEventInternal(event : DataEvent) : Response<DataEvent, Throwable> = resultOrError {
+    private fun saveEventInternal(event: DataEvent): Response<DataEvent, Throwable> = resultOrError {
         Database.getInstance(context)
             .eventsTable()
             .save(event.toDatabaseEvent())
@@ -47,14 +45,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
         return@resultOrError event
     }
 
-
-    override fun saveEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun saveEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { saveEventsInternal(events) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun saveEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> = resultOrError {
+    private fun saveEventsInternal(events: List<DataEvent>): Response<List<DataEvent>, Throwable> = resultOrError {
         Database.getInstance(context)
             .eventsTable()
             .save(events.toDatabaseEvents())
@@ -62,14 +58,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
         return@resultOrError events
     }
 
-
-    override fun updateEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun updateEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { updateEventInternal(event) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun updateEventInternal(event : DataEvent) : Response<DataEvent, Throwable> = resultOrError {
+    private fun updateEventInternal(event: DataEvent): Response<DataEvent, Throwable> = resultOrError {
         Database.getInstance(context)
             .eventsTable()
             .update(event.toDatabaseEvent())
@@ -77,14 +71,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
         return@resultOrError event
     }
 
-
-    override fun updateEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun updateEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { updateEventsInternal(events) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun updateEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> = resultOrError {
+    private fun updateEventsInternal(events: List<DataEvent>): Response<List<DataEvent>, Throwable> = resultOrError {
         Database.getInstance(context)
             .eventsTable()
             .update(events.toDatabaseEvents())
@@ -92,14 +84,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
         return@resultOrError events
     }
 
-
-    override fun deleteEvent(event : DataEvent) : Single<Response<DataEvent, Throwable>> {
+    override fun deleteEvent(event: DataEvent): Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { deleteEventInternal(event) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun deleteEventInternal(event : DataEvent) : Response<DataEvent, Throwable> = resultOrError {
+    private fun deleteEventInternal(event: DataEvent): Response<DataEvent, Throwable> = resultOrError {
         Database.getInstance(context)
             .eventsTable()
             .delete(event.toDatabaseEvent())
@@ -107,14 +97,12 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
         return@resultOrError event
     }
 
-
-    override fun deleteEvents(events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun deleteEvents(events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { deleteEventsInternal(events) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun deleteEventsInternal(events : List<DataEvent>) : Response<List<DataEvent>, Throwable> = resultOrError {
+    private fun deleteEventsInternal(events: List<DataEvent>): Response<List<DataEvent>, Throwable> = resultOrError {
         Database.getInstance(context)
             .eventsTable()
             .delete(events.toDatabaseEvents())
@@ -122,61 +110,52 @@ internal class EventsDatabaseDataStore(context : Context) : AbstractDataStore(co
         return@resultOrError events
     }
 
-
-    override fun getEvent(id : Long) : Single<Response<DataEvent, Throwable>> {
+    override fun getEvent(id: Long): Single<Response<DataEvent, Throwable>> {
         return Single.fromCallable { getEventInternal(id) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun getEventInternal(id : Long) : Response<DataEvent, Throwable> = resultOrError {
+    private fun getEventInternal(id: Long): Response<DataEvent, Throwable> = resultOrError {
         Database.getInstance(context)
             .eventsTable()
             .getById(id)
             ?.toDataEvent()
     }
 
-
-    override fun getEvents(offset : Int, limit : Int) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun getEvents(offset: Int, limit: Int): Single<Response<List<DataEvent>, Throwable>> {
         return Single.fromCallable { getEventsInternal(offset, limit) }
             .applyIOWorkSchedulers()
     }
 
-
-    private fun getEventsInternal(offset : Int, limit : Int) : Response<List<DataEvent>, Throwable> = resultOrError {
+    private fun getEventsInternal(offset: Int, limit: Int): Response<List<DataEvent>, Throwable> = resultOrError {
         Database.getInstance(context)
             .eventsTable()
             .get(offset = offset, limit = limit)
             .fromDatabaseToDataEvents()
     }
 
-
-    override fun saveEventCharacters(eventId : Long, characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun saveEventCharacters(eventId: Long, characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         throw UnsupportedOperationException("Event Characters cannot be saved into the Database.")
     }
 
-
     override fun getEventCharacters(
-        eventId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataCharacter>, Throwable>> {
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataCharacter>, Throwable>> {
         throw UnsupportedOperationException("Event Characters cannot be fetched from the Database.")
     }
-    
-    
-    override fun saveEventComics(eventId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+
+    override fun saveEventComics(eventId: Long, comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Event Comics cannot be saved into the Database.")
     }
-    
-    
+
     override fun getEventComics(
-        eventId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataComics>, Throwable>> {
+        eventId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Event Comics cannot be fetched from the Database.")
     }
-    
-    
+
 }

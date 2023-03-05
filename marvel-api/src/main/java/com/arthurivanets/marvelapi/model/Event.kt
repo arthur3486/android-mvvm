@@ -23,17 +23,16 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Event(
-    @JsonProperty(Properties.ID) var id : Long = -1L,
-    @JsonProperty(Properties.TITLE) var title : String = "",
-    @JsonProperty(Properties.DESCRIPTION) var description : String = "",
-    @JsonProperty(Properties.URLS) var urls : List<Url> = ArrayList(),
-    @JsonProperty(Properties.MODIFICATION_TIME) var modified : String = "",
-    @JsonProperty(Properties.START_DATE) var startDate : String? = "",
-    @JsonProperty(Properties.END_DATE) var endDate : String? = "",
-    @JsonProperty(Properties.THUMBNAIL) var thumbnail : Image = Image(),
-    @JsonProperty(Properties.CREATORS) var creators : CreatorList = CreatorList()
+    @JsonProperty(Properties.ID) var id: Long = -1L,
+    @JsonProperty(Properties.TITLE) var title: String = "",
+    @JsonProperty(Properties.DESCRIPTION) var description: String = "",
+    @JsonProperty(Properties.URLS) var urls: List<Url> = ArrayList(),
+    @JsonProperty(Properties.MODIFICATION_TIME) var modified: String = "",
+    @JsonProperty(Properties.START_DATE) var startDate: String? = "",
+    @JsonProperty(Properties.END_DATE) var endDate: String? = "",
+    @JsonProperty(Properties.THUMBNAIL) var thumbnail: Image = Image(),
+    @JsonProperty(Properties.CREATORS) var creators: CreatorList = CreatorList()
 ) {
-
 
     object Properties {
 
@@ -48,6 +47,5 @@ data class Event(
         const val CREATORS = "creators"
 
     }
-
 
 }

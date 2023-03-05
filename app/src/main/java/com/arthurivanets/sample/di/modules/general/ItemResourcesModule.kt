@@ -26,29 +26,25 @@ import dagger.Provides
 @Module
 class ItemResourcesModule {
 
-
     @Provides
-    fun provideComicsItemResources(imageLoader : ImageLoader) : ComicsItemResources {
+    fun provideComicsItemResources(imageLoader: ImageLoader): ComicsItemResources {
         return ComicsItemResources(
             imageLoader = imageLoader
         )
     }
 
-
     @Provides
-    fun provideEventItemResources(imageLoader : ImageLoader) : EventItemResources {
+    fun provideEventItemResources(imageLoader: ImageLoader): EventItemResources {
         return EventItemResources(
             imageLoader = imageLoader
         )
     }
 
-
     @Provides
-    fun provideCharacterItemResources(imageLoader : ImageLoader) : CharacterItemResources {
+    fun provideCharacterItemResources(imageLoader: ImageLoader): CharacterItemResources {
         return CharacterItemResources(
             imageLoader = imageLoader
         )
     }
-
 
 }

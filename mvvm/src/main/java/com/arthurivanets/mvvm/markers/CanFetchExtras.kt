@@ -28,6 +28,6 @@ interface CanFetchExtras {
      *
      * @param extras a bundle of arguments
      */
-    fun fetchExtras(extras : Bundle)
+    fun fetchExtras(extras: Bundle)
 
 }

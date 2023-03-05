@@ -29,15 +29,13 @@ import com.arthurivanets.sample.ui.base.MarvelRoutes
 import com.arthurivanets.sample.ui.characters.DEFAULT_CHARACTER_LOADING_LIMIT
 
 class CharactersViewModel(
-    private val charactersRepository : CharactersRepository,
-    private val schedulerProvider : SchedulerProvider
+    private val charactersRepository: CharactersRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : AbstractViewModel() {
 
-
     val items = ObservableTrackableArrayList<Long, CharacterItem>()
-    
-    private var isDataLoading = false
 
+    private var isDataLoading = false
 
     override fun onStart() {
         super.onStart()
@@ -45,26 +43,23 @@ class CharactersViewModel(
         loadInitialData()
     }
 
-
-    fun onCharacterClicked(character : Character) {
+    fun onCharacterClicked(character: Character) {
         route(MarvelRoutes.CharacterInfoScreen(character))
     }
 
-
     private fun loadInitialData() {
-        if(items.isEmpty()) {
+        if (items.isEmpty()) {
             loadData()
         }
     }
 
-
     private fun loadData() {
-        if(isDataLoading) {
+        if (isDataLoading) {
             return
         }
-    
+
         isDataLoading = true
-        
+
         viewState = GeneralViewStates.Loading<Unit>()
 
         charactersRepository.getCharacters(0, DEFAULT_CHARACTER_LOADING_LIMIT)
@@ -74,24 +69,21 @@ class CharactersViewModel(
             .manageLongLivingDisposable()
     }
 
-
-    private fun onLoadedSuccessfully(characters : List<Character>) {
+    private fun onLoadedSuccessfully(characters: List<Character>) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Success<Unit>()
 
         characters.forEach { items.addOrUpdate(CharacterItem(it)) }
     }
 
-
-    private fun onLoadingFailed(throwable : Throwable) {
+    private fun onLoadingFailed(throwable: Throwable) {
         isDataLoading = false
-        
+
         viewState = GeneralViewStates.Error<Unit>()
 
         // TODO the proper error handling should be done here
         throwable.printStackTrace()
     }
-
 
 }

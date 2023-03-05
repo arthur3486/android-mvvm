@@ -25,19 +25,16 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 abstract class BaseDataResponse<T>(
-    @JsonProperty(Properties.DATA) var data : Data<T>? = null
+    @JsonProperty(Properties.DATA) var data: Data<T>? = null
 ) : BaseResponse() {
 
-
-    val hasData : Boolean
+    val hasData: Boolean
         @JsonIgnore get() = ((data != null) && ((data !is Collection<*>) || !(data as Collection<*>).isEmpty()))
-
 
     object Properties {
 
         const val DATA = "data"
 
     }
-
 
 }

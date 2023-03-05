@@ -26,6 +26,6 @@ interface CanHandleBackPressEvents {
      *
      * @return <strong>true</strong> if the back press event has been consumed, <strong>false</strong> otherwise.
      */
-    fun onBackPressed() : Boolean
+    fun onBackPressed(): Boolean
 
 }

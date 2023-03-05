@@ -22,10 +22,8 @@ import com.arthurivanets.sample.data.datastores.base.DataStore
 /**
  *
  */
-abstract class AbstractDataStoreFactory<T : DataStore> internal constructor(context : Context) : DataStoreFactory<T> {
-
+abstract class AbstractDataStoreFactory<T : DataStore> internal constructor(context: Context) : DataStoreFactory<T> {
 
     protected val internalContext = context.applicationContext
-
 
 }

@@ -20,9 +20,8 @@ package com.arthurivanets.sample.ui.util.extensions
 
 import com.arthurivanets.sample.ui.util.markers.CanScrollToTop
 
-
-fun Any.attemptScrollToTop(animate : Boolean = true) : Boolean {
-    return if(this is CanScrollToTop) {
+fun Any.attemptScrollToTop(animate: Boolean = true): Boolean {
+    return if (this is CanScrollToTop) {
         this.scrollToTop(animate)
         true
     } else {

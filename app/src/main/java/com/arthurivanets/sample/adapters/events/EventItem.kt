@@ -29,13 +29,14 @@ import com.arthurivanets.adapster.model.markers.Trackable
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.domain.entities.Event
 
-class EventItem(itemModel : Event) : BaseItem<Event, EventItemViewHolder, EventItemResources>(itemModel), Trackable<Long> {
+class EventItem(itemModel: Event) : BaseItem<Event, EventItemViewHolder, EventItemResources>(itemModel), Trackable<Long> {
 
-
-    override fun init(adapter : Adapter<out Item<RecyclerView.ViewHolder, ItemResources>>?,
-                      parent : ViewGroup,
-                      inflater : LayoutInflater,
-                      resources : EventItemResources?) : EventItemViewHolder {
+    override fun init(
+        adapter: Adapter<out Item<RecyclerView.ViewHolder, ItemResources>>?,
+        parent: ViewGroup,
+        inflater: LayoutInflater,
+        resources: EventItemResources?
+    ): EventItemViewHolder {
         return EventItemViewHolder(
             itemView = inflater.inflate(
                 layout,
@@ -46,20 +47,16 @@ class EventItem(itemModel : Event) : BaseItem<Event, EventItemViewHolder, EventI
         )
     }
 
-
-    fun setOnItemClickListener(viewHolder : EventItemViewHolder, onItemClickListener : OnItemClickListener<EventItem>) {
+    fun setOnItemClickListener(viewHolder: EventItemViewHolder, onItemClickListener: OnItemClickListener<EventItem>) {
         viewHolder.overlayView.setOnItemClickListener(this, 0, onItemClickListener)
     }
 
-
-    override fun getLayout() : Int {
+    override fun getLayout(): Int {
         return R.layout.item_event
     }
 
-
-    override fun getTrackKey() : Long {
+    override fun getTrackKey(): Long {
         return itemModel.id
     }
-
 
 }

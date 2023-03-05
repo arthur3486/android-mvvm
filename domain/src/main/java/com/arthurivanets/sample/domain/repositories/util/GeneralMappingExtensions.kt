@@ -20,38 +20,32 @@ package com.arthurivanets.sample.domain.repositories.util
 
 import com.arthurivanets.sample.domain.util.*
 
-
-internal fun Collection<DataCreator>.toDomainCreators() : List<DomainCreator> {
+internal fun Collection<DataCreator>.toDomainCreators(): List<DomainCreator> {
     return this.map { it.toDomainCreator() }
 }
 
-
-internal fun DataCreator.toDomainCreator() : DomainCreator {
+internal fun DataCreator.toDomainCreator(): DomainCreator {
     return DomainCreator(
         name = this.name,
         role = this.role
     )
 }
 
-
-internal fun Collection<DataImage>.toDomainImages() : List<DomainImage> {
+internal fun Collection<DataImage>.toDomainImages(): List<DomainImage> {
     return this.map { it.toDomainImage() }
 }
 
-
-internal fun DataImage.toDomainImage() : DomainImage {
+internal fun DataImage.toDomainImage(): DomainImage {
     return DomainImage(
         imageUrl = this.imageUrl
     )
 }
 
-
-internal fun Collection<DataUrl>.toDomainUrls() : List<DomainUrl> {
+internal fun Collection<DataUrl>.toDomainUrls(): List<DomainUrl> {
     return this.map { it.toDomainUrl() }
 }
 
-
-internal fun DataUrl.toDomainUrl() : DomainUrl {
+internal fun DataUrl.toDomainUrl(): DomainUrl {
     return DomainUrl(
         type = this.type,
         url = this.url

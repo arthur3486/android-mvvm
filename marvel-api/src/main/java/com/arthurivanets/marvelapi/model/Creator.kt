@@ -23,10 +23,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Creator(
-    @JsonProperty(Properties.NAME) var name : String = "",
-    @JsonProperty(Properties.ROLE) var role : String = ""
+    @JsonProperty(Properties.NAME) var name: String = "",
+    @JsonProperty(Properties.ROLE) var role: String = ""
 ) {
-
 
     object Properties {
 
@@ -34,6 +33,5 @@ data class Creator(
         const val ROLE = "role"
 
     }
-
 
 }

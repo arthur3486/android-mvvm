@@ -26,22 +26,20 @@ import com.arthurivanets.mvvm.markers.CanFetchExtras
 import com.arthurivanets.mvvm.markers.CanHandleBackPressEvents
 import com.arthurivanets.mvvm.markers.CanHandleNewIntent
 
-
 /**
  * Retrieves the currently visible [Fragment] contained
  * by the specified [FragmentManager] (if there's any).
  */
-val FragmentManager.currentFragment : Fragment?
+val FragmentManager.currentFragment: Fragment?
     get() {
-        for(fragment in this.fragments) {
-            if(fragment?.isVisible == true) {
+        for (fragment in this.fragments) {
+            if (fragment?.isVisible == true) {
                 return fragment
             }
         }
 
         return null
     }
-
 
 /**
  * Propagates the extras for further handling to the specified [Fragment]
@@ -50,12 +48,11 @@ val FragmentManager.currentFragment : Fragment?
  *
  * @param extras the [Bundle] of arguments
  */
-fun Fragment.handleExtras(extras : Bundle) {
-    if(this is CanFetchExtras) {
+fun Fragment.handleExtras(extras: Bundle) {
+    if (this is CanFetchExtras) {
         this.fetchExtras(extras)
     }
 }
-
 
 /**
  * Propagates the new [Intent] for further handling to the specified [Fragment]
@@ -64,12 +61,11 @@ fun Fragment.handleExtras(extras : Bundle) {
  *
  * @param intent the newly arrived [Intent]
  */
-fun Fragment.handleNewIntent(intent : Intent) {
-    if(this is CanHandleNewIntent) {
+fun Fragment.handleNewIntent(intent: Intent) {
+    if (this is CanHandleNewIntent) {
         this.handleNewIntent(intent)
     }
 }
-
 
 /**
  * Propagates the Back Press Event for further handling to the specified [Fragment]
@@ -78,10 +74,9 @@ fun Fragment.handleNewIntent(intent : Intent) {
  *
  * @return whether the Back Press Event has been consumed or not (see: [CanHandleBackPressEvents.onBackPressed])
  */
-fun Fragment.handleBackPressEvent() : Boolean {
+fun Fragment.handleBackPressEvent(): Boolean {
     return ((this is CanHandleBackPressEvents) && this.onBackPressed())
 }
-
 
 /**
  * Applies the [handleExtras] method to each of the [Fragment]s
@@ -89,10 +84,9 @@ fun Fragment.handleBackPressEvent() : Boolean {
  *
  * @param extras the [Bundle] of arguments
  */
-fun Collection<Fragment>.handleExtras(extras : Bundle) {
+fun Collection<Fragment>.handleExtras(extras: Bundle) {
     this.forEach { it.handleExtras(extras) }
 }
-
 
 /**
  * Applies the [handleNewIntent] method to each of the [Fragment]s
@@ -100,10 +94,9 @@ fun Collection<Fragment>.handleExtras(extras : Bundle) {
  *
  * @param intent the newly arrived [Intent]
  */
-fun Collection<Fragment>.handleNewIntent(intent : Intent) {
+fun Collection<Fragment>.handleNewIntent(intent: Intent) {
     this.forEach { it.handleNewIntent(intent) }
 }
-
 
 /**
  * Applies the [handleBackPressEvent] method to each of the [Fragment]s
@@ -111,9 +104,9 @@ fun Collection<Fragment>.handleNewIntent(intent : Intent) {
  *
  * @return whether the Back Press Event has been consumed or not (see: [CanHandleBackPressEvents.onBackPressed])
  */
-fun Collection<Fragment>.handleBackPressEvent() : Boolean {
-    for(fragment in this) {
-        if(fragment.handleBackPressEvent()) {
+fun Collection<Fragment>.handleBackPressEvent(): Boolean {
+    for (fragment in this) {
+        if (fragment.handleBackPressEvent()) {
             return true
         }
     }

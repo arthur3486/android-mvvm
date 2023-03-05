@@ -23,27 +23,25 @@ import com.arthurivanets.adapster.listeners.OnItemClickListener
 import com.arthurivanets.adapster.markers.ItemResources
 
 class EventItemsRecyclerViewAdapter(
-    context : Context,
-    items : TrackableList<Long, EventItem>,
-    private val resources : EventItemResources
+    context: Context,
+    items: TrackableList<Long, EventItem>,
+    private val resources: EventItemResources
 ) : ObservableTrackableRecyclerViewAdapter<Long, EventItem, EventItemViewHolder>(context, items) {
 
+    var onItemClickListener: OnItemClickListener<EventItem>? = null
 
-    var onItemClickListener : OnItemClickListener<EventItem>? = null
-
-
-    override fun assignListeners(holder : EventItemViewHolder,
-                                 position : Int,
-                                 item : EventItem) {
+    override fun assignListeners(
+        holder: EventItemViewHolder,
+        position: Int,
+        item: EventItem
+    ) {
         super.assignListeners(holder, position, item)
 
         onItemClickListener?.let { item.setOnItemClickListener(holder, it) }
     }
 
-
-    override fun getResources() : ItemResources? {
+    override fun getResources(): ItemResources? {
         return resources
     }
-
 
 }

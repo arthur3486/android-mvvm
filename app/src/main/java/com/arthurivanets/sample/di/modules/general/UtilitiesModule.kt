@@ -25,17 +25,14 @@ import dagger.Provides
 @Module
 class UtilitiesModule {
 
-
     @Provides
-    fun provideImageLoader() : ImageLoader {
+    fun provideImageLoader(): ImageLoader {
         return GlideImageLoader()
     }
-    
-    
+
     @Provides
-    fun provideStubViewModel() : StubViewModel {
+    fun provideStubViewModel(): StubViewModel {
         return StubViewModel()
     }
-
 
 }

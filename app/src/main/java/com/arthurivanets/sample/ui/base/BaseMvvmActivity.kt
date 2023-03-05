@@ -22,10 +22,8 @@ import com.arthurivanets.mvvm.BR
 import com.arthurivanets.mvvm.BaseViewModel
 import com.arthurivanets.mvvm.navigation.dagger.MvvmActivity
 
-abstract class BaseMvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmActivity<VDB, VM>(layoutId) {
-    
-    
+abstract class BaseMvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId: Int) : MvvmActivity<VDB, VM>(layoutId) {
+
     override val bindingVariable = BR.viewModel
-    
-    
+
 }

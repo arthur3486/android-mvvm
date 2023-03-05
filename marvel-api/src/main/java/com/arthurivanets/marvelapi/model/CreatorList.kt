@@ -23,11 +23,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class CreatorList(
-    @JsonProperty(Properties.AVAILABLE) var available : Int = 0,
-    @JsonProperty(Properties.RETURNED) var returned : Int = 0,
-    @JsonProperty(Properties.ITEMS) var items : List<Creator> = emptyList()
+    @JsonProperty(Properties.AVAILABLE) var available: Int = 0,
+    @JsonProperty(Properties.RETURNED) var returned: Int = 0,
+    @JsonProperty(Properties.ITEMS) var items: List<Creator> = emptyList()
 ) {
-
 
     object Properties {
 
@@ -36,6 +35,5 @@ data class CreatorList(
         const val ITEMS = "items"
 
     }
-
 
 }

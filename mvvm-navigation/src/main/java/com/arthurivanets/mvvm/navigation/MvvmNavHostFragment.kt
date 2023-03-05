@@ -36,21 +36,17 @@ import com.arthurivanets.mvvm.util.handleNewIntent
  */
 open class MvvmNavHostFragment : NavHostFragment(), CanHandleNewIntent, CanFetchExtras, CanHandleBackPressEvents {
 
-
-    final override fun handleNewIntent(intent : Intent) {
+    final override fun handleNewIntent(intent: Intent) {
         childFragmentManager.fragments.handleNewIntent(intent)
     }
 
-
-    final override fun fetchExtras(extras : Bundle) {
+    final override fun fetchExtras(extras: Bundle) {
         childFragmentManager.fragments.handleExtras(extras)
     }
 
-
     @CallSuper
-    override fun onBackPressed() : Boolean {
+    override fun onBackPressed(): Boolean {
         return childFragmentManager.fragments.handleBackPressEvent()
     }
-
 
 }

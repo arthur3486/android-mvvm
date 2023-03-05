@@ -23,14 +23,12 @@ import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 
-
 /**
  * Determines if the current Fragment Page is the start destination
  * (according to the associated navigation graph).
  */
-val NavController.isOnStartDestination : Boolean
+val NavController.isOnStartDestination: Boolean
     get() = (this.currentDestination?.id == this.graph.startDestination)
-
 
 /**
  * Extracts all the arguments present in the specified [Bundle]
@@ -38,14 +36,13 @@ val NavController.isOnStartDestination : Boolean
  *
  * @param extras a bundle of arguments
  */
-internal fun NavGraph.addExtras(extras : Bundle) {
-    for(key in extras.keySet()) {
+internal fun NavGraph.addExtras(extras: Bundle) {
+    for (key in extras.keySet()) {
         this.addArgument(key, newNavArgument(extras.get(key)))
     }
 }
 
-
-private fun newNavArgument(value : Any?) : NavArgument {
+private fun newNavArgument(value: Any?): NavArgument {
     return NavArgument.Builder()
         .setDefaultValue(value)
         .setIsNullable(value == null)

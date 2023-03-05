@@ -24,16 +24,20 @@ import io.reactivex.Single
 
 interface EventsEndpoint : Endpoint {
 
-    fun getEvent(id : Long) : Single<EventsResponse>
+    fun getEvent(id: Long): Single<EventsResponse>
 
-    fun getEvents(offset : Int = 0, limit : Int) : Single<EventsResponse>
+    fun getEvents(offset: Int = 0, limit: Int): Single<EventsResponse>
 
-    fun getEventCharacters(eventId : Long,
-                           offset : Int = 0,
-                           limit : Int) : Single<CharactersResponse>
-    
-    fun getEventComics(eventId : Long,
-                       offset : Int = 0,
-                       limit : Int) : Single<ComicsResponse>
+    fun getEventCharacters(
+        eventId: Long,
+        offset: Int = 0,
+        limit: Int
+    ): Single<CharactersResponse>
+
+    fun getEventComics(
+        eventId: Long,
+        offset: Int = 0,
+        limit: Int
+    ): Single<ComicsResponse>
 
 }

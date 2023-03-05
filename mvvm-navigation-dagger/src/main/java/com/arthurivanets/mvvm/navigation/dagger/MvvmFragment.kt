@@ -27,21 +27,17 @@ import javax.inject.Inject
  * A base MVVM Fragment with built-in support for the Dagger2-based dependency injection and
  * Android X Navigation Concept.
  */
-abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmFragment<VDB, VM>(layoutId) {
-    
-    
-    @Inject
-    lateinit var viewModel : VM
+abstract class MvvmFragment<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId: Int) : MvvmFragment<VDB, VM>(layoutId) {
 
+    @Inject
+    lateinit var viewModel: VM
 
     final override fun injectDependencies() {
         AndroidSupportInjection.inject(this)
     }
-    
-    
-    final override fun createViewModel() : VM {
+
+    final override fun createViewModel(): VM {
         return viewModel
     }
-    
-    
+
 }

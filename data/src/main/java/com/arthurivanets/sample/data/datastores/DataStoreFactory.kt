@@ -23,12 +23,10 @@ import com.arthurivanets.sample.data.datastores.base.DataStore
  */
 interface DataStoreFactory<T : DataStore> {
 
-
     /**
      *
      */
-    fun create(type : Type) : T
-
+    fun create(type: Type): T
 
     /**
      *
@@ -40,6 +38,5 @@ interface DataStoreFactory<T : DataStore> {
         SERVER
 
     }
-
 
 }

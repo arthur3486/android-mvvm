@@ -23,16 +23,14 @@ import com.arthurivanets.sample.data.datastores.DataStoreFactory
 /**
  *
  */
-class CharactersDataStoreFactory(context : Context) : AbstractDataStoreFactory<CharactersDataStore>(context) {
+class CharactersDataStoreFactory(context: Context) : AbstractDataStoreFactory<CharactersDataStore>(context) {
 
-
-    override fun create(type : DataStoreFactory.Type) : CharactersDataStore {
-        return when(type) {
+    override fun create(type: DataStoreFactory.Type): CharactersDataStore {
+        return when (type) {
             DataStoreFactory.Type.CACHE -> CharactersCacheDataStore(internalContext)
             DataStoreFactory.Type.DATABASE -> CharactersDatabaseDataStore(internalContext)
             DataStoreFactory.Type.SERVER -> CharactersServerDataStore(internalContext)
         }
     }
-
 
 }

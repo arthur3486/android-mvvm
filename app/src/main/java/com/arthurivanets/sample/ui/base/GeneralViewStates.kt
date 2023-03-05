@@ -18,14 +18,14 @@ package com.arthurivanets.sample.ui.base
 
 import com.arthurivanets.mvvm.markers.ViewState
 
-sealed class GeneralViewStates<T>(val payload : T? = null) : ViewState {
+sealed class GeneralViewStates<T>(val payload: T? = null) : ViewState {
 
-    class Idle<T>(payload : T? = null) : GeneralViewStates<T>(payload)
-    
-    class Loading<T>(payload : T? = null) : GeneralViewStates<T>(payload)
-    
-    class Success<T>(payload : T? = null) : GeneralViewStates<T>(payload)
-    
-    class Error<T>(payload : T? = null) : GeneralViewStates<T>(payload)
+    class Idle<T>(payload: T? = null) : GeneralViewStates<T>(payload)
+
+    class Loading<T>(payload: T? = null) : GeneralViewStates<T>(payload)
+
+    class Success<T>(payload: T? = null) : GeneralViewStates<T>(payload)
+
+    class Error<T>(payload: T? = null) : GeneralViewStates<T>(payload)
 
 }

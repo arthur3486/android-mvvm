@@ -31,74 +31,63 @@ import io.reactivex.Single
 /**
  *
  */
-internal class CharactersServerDataStore(context : Context) : AbstractDataStore(context), CharactersDataStore {
+internal class CharactersServerDataStore(context: Context) : AbstractDataStore(context), CharactersDataStore {
 
-
-    override fun saveCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
+    override fun saveCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>> {
         throw UnsupportedOperationException("Character creation on the Server Side is unsupported.")
     }
 
-
-    override fun saveCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun saveCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         throw UnsupportedOperationException("Character creation on the Server Side is unsupported.")
     }
 
-
-    override fun updateCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
+    override fun updateCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>> {
         throw UnsupportedOperationException("Character modification on the Server Side is unsupported.")
     }
 
-
-    override fun updateCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun updateCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         throw UnsupportedOperationException("Character modification on the Server Side is unsupported.")
     }
 
-
-    override fun deleteCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>> {
+    override fun deleteCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>> {
         throw UnsupportedOperationException("Character deletion on the Server Side is unsupported.")
     }
 
-
-    override fun deleteCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun deleteCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>> {
         throw UnsupportedOperationException("Character deletion on the Server Side is unsupported.")
     }
 
-
-    override fun getCharacter(id : Long) : Single<Response<DataCharacter, Throwable>> {
+    override fun getCharacter(id: Long): Single<Response<DataCharacter, Throwable>> {
         return MarvelApi.INSTANCE.characters.getCharacter(id)
             .flatMap { it.toSingleItemResponse().asSingle() }
             .applyIOWorkSchedulers()
     }
 
-
-    override fun getCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun getCharacters(offset: Int, limit: Int): Single<Response<List<DataCharacter>, Throwable>> {
         return MarvelApi.INSTANCE.characters.getCharacters(
             offset = offset,
             limit = limit
         )
-        .flatMap { it.toResponse().asSingle() }
-        .applyIOWorkSchedulers()
+            .flatMap { it.toResponse().asSingle() }
+            .applyIOWorkSchedulers()
     }
-    
-    
-    override fun saveCharacterComics(characterId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+
+    override fun saveCharacterComics(characterId: Long, comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Character Comics cannot be saved on the side of the Server.")
     }
-    
-    
+
     override fun getCharacterComics(
-        characterId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataComics>, Throwable>> {
+        characterId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataComics>, Throwable>> {
         return MarvelApi.INSTANCE.characters.getCharacterComics(
             characterId = characterId,
             offset = offset,
             limit = limit
         )
-        .flatMap { it.toResponse().asSingle() }
-        .applyIOWorkSchedulers()
+            .flatMap { it.toResponse().asSingle() }
+            .applyIOWorkSchedulers()
     }
-    
-    
+
 }

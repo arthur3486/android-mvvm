@@ -25,24 +25,20 @@ import com.arthurivanets.sample.domain.repositories.util.toResponse
 import com.arthurivanets.sample.domain.util.DataCharacter
 import com.arthurivanets.sample.domain.util.DomainCharacter
 
-
-internal fun Response<DataCharacter, Throwable>.toDomainCharacterResponse() : Response<DomainCharacter, Throwable> {
+internal fun Response<DataCharacter, Throwable>.toDomainCharacterResponse(): Response<DomainCharacter, Throwable> {
     return this.toResponse { it.toDomainCharacter() }
 }
 
-
-internal fun Response<List<DataCharacter>, Throwable>.toDomainCharactersResponse(sortItems : Boolean = false) : Response<List<DomainCharacter>, Throwable> {
+internal fun Response<List<DataCharacter>, Throwable>.toDomainCharactersResponse(sortItems: Boolean = false): Response<List<DomainCharacter>, Throwable> {
     return this.toResponse { it.toDomainCharacters(sortItems) }
 }
 
-
-internal fun List<DataCharacter>.toDomainCharacters(sort : Boolean = false) : List<DomainCharacter> {
+internal fun List<DataCharacter>.toDomainCharacters(sort: Boolean = false): List<DomainCharacter> {
     return this.map { it.toDomainCharacter() }
-        .let { characters -> (if(sort) characters.sortedBy { it.id } else characters) }
+        .let { characters -> (if (sort) characters.sortedBy { it.id } else characters) }
 }
 
-
-internal fun DataCharacter.toDomainCharacter() : DomainCharacter {
+internal fun DataCharacter.toDomainCharacter(): DomainCharacter {
     return DomainCharacter(
         id = this.id,
         name = this.name,

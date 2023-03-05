@@ -23,10 +23,10 @@ import com.arthurivanets.sample.domain.entities.Event
 
 sealed class MarvelRoutes : Route {
 
-    class CharacterInfoScreen(val character : Character) : MarvelRoutes()
-    
-    class ComicsInfoScreen(val comics : Comics) : MarvelRoutes()
-    
-    class EventInfoScreen(val event : Event) : MarvelRoutes()
+    class CharacterInfoScreen(val character: Character) : MarvelRoutes()
+
+    class ComicsInfoScreen(val comics: Comics) : MarvelRoutes()
+
+    class EventInfoScreen(val event: Event) : MarvelRoutes()
 
 }

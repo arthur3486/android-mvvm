@@ -29,94 +29,84 @@ import com.arthurivanets.sample.data.util.DataComics
 import com.arthurivanets.sample.data.util.DataEvent
 import io.reactivex.Single
 
-internal class ComicsServerDataStore(context : Context) : AbstractDataStore(context), ComicsDataStore {
+internal class ComicsServerDataStore(context: Context) : AbstractDataStore(context), ComicsDataStore {
 
-
-    override fun saveComics(comics : DataComics) : Single<Response<DataComics, Throwable>> {
+    override fun saveComics(comics: DataComics): Single<Response<DataComics, Throwable>> {
         throw UnsupportedOperationException("Comics creation on the Server Side is unsupported.")
     }
 
-
-    override fun saveComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+    override fun saveComics(comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Comics creation on the Server Side is unsupported.")
     }
 
-
-    override fun updateComics(comics : DataComics) : Single<Response<DataComics, Throwable>> {
+    override fun updateComics(comics: DataComics): Single<Response<DataComics, Throwable>> {
         throw UnsupportedOperationException("Comics modification on the Server Side is unsupported.")
     }
 
-
-    override fun updateComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+    override fun updateComics(comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Comics modification on the Server Side is unsupported.")
     }
 
-
-    override fun deleteComics(comics : DataComics) : Single<Response<DataComics, Throwable>> {
+    override fun deleteComics(comics: DataComics): Single<Response<DataComics, Throwable>> {
         throw UnsupportedOperationException("Comics deletion on the Server Side is unsupported.")
     }
 
-
-    override fun deleteComics(comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>> {
+    override fun deleteComics(comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>> {
         throw UnsupportedOperationException("Comics deletion on the Server Side is unsupported.")
     }
 
-
-    override fun getSingleComics(id : Long) : Single<Response<DataComics, Throwable>> {
+    override fun getSingleComics(id: Long): Single<Response<DataComics, Throwable>> {
         return MarvelApi.INSTANCE.comics.getSingleComics(id)
             .flatMap { it.toSingleItemResponse().asSingle() }
             .applyIOWorkSchedulers()
     }
 
-
-    override fun getComics(offset : Int, limit : Int) : Single<Response<List<DataComics>, Throwable>> {
+    override fun getComics(offset: Int, limit: Int): Single<Response<List<DataComics>, Throwable>> {
         return MarvelApi.INSTANCE.comics.getComics(
             offset = offset,
             limit = limit
         )
-        .flatMap { it.toResponse().asSingle() }
-        .applyIOWorkSchedulers()
+            .flatMap { it.toResponse().asSingle() }
+            .applyIOWorkSchedulers()
     }
 
-
-    override fun saveComicsCharacters(comicsId : Long, characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>> {
+    override fun saveComicsCharacters(
+        comicsId: Long,
+        characters: List<DataCharacter>
+    ): Single<Response<List<DataCharacter>, Throwable>> {
         throw UnsupportedOperationException("Comics Characters cannot be saved on the side of the Server.")
     }
 
-
     override fun getComicsCharacters(
-        comicsId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataCharacter>, Throwable>> {
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataCharacter>, Throwable>> {
         return MarvelApi.INSTANCE.comics.getComicsCharacters(
             comicsId = comicsId,
             offset = offset,
             limit = limit
         )
-        .flatMap { it.toResponse().asSingle() }
-        .applyIOWorkSchedulers()
+            .flatMap { it.toResponse().asSingle() }
+            .applyIOWorkSchedulers()
     }
 
-
-    override fun saveComicsEvents(comicsId : Long, events : List<DataEvent>) : Single<Response<List<DataEvent>, Throwable>> {
+    override fun saveComicsEvents(comicsId: Long, events: List<DataEvent>): Single<Response<List<DataEvent>, Throwable>> {
         throw UnsupportedOperationException("Comics Events cannot be saved on the side of the Server.")
     }
 
-
     override fun getComicsEvents(
-        comicsId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataEvent>, Throwable>> {
+        comicsId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataEvent>, Throwable>> {
         return MarvelApi.INSTANCE.comics.getComicsEvents(
             comicsId = comicsId,
             offset = offset,
             limit = limit
         )
-        .flatMap { it.toResponse().asSingle() }
-        .applyIOWorkSchedulers()
+            .flatMap { it.toResponse().asSingle() }
+            .applyIOWorkSchedulers()
     }
-
 
 }

@@ -23,24 +23,20 @@ import com.arthurivanets.sample.domain.repositories.util.*
 import com.arthurivanets.sample.domain.util.DataComics
 import com.arthurivanets.sample.domain.util.DomainComics
 
-
-internal fun Response<DataComics, Throwable>.toDomainSingleComicsResponse() : Response<DomainComics, Throwable> {
+internal fun Response<DataComics, Throwable>.toDomainSingleComicsResponse(): Response<DomainComics, Throwable> {
     return this.toResponse { it.toDomainComics() }
 }
 
-
-internal fun Response<List<DataComics>, Throwable>.toDomainComicsResponse(sortItems : Boolean = false) : Response<List<DomainComics>, Throwable> {
+internal fun Response<List<DataComics>, Throwable>.toDomainComicsResponse(sortItems: Boolean = false): Response<List<DomainComics>, Throwable> {
     return this.toResponse { it.toDomainComics(sortItems) }
 }
 
-
-internal fun Collection<DataComics>.toDomainComics(sort : Boolean = false) : List<DomainComics> {
+internal fun Collection<DataComics>.toDomainComics(sort: Boolean = false): List<DomainComics> {
     return this.map { it.toDomainComics() }
-        .let { comics -> (if(sort) comics.sortedBy { it.id } else comics) }
+        .let { comics -> (if (sort) comics.sortedBy { it.id } else comics) }
 }
 
-
-internal fun DataComics.toDomainComics() : DomainComics {
+internal fun DataComics.toDomainComics(): DomainComics {
     return DomainComics(
         id = this.id,
         digitalId = this.digitalId,

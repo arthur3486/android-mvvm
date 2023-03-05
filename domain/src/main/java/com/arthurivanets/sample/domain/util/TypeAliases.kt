@@ -16,7 +16,6 @@
 
 package com.arthurivanets.sample.domain.util
 
-
 // Character
 internal typealias DomainCharacter = com.arthurivanets.sample.domain.entities.Character
 internal typealias DataCharacter = com.arthurivanets.sample.data.entities.Character

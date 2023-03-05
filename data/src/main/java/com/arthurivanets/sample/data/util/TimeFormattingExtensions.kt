@@ -18,34 +18,30 @@
 
 package com.arthurivanets.sample.data.util
 
-
 /**
  *
  */
-fun Long.toGeneralTime() : String {
+fun Long.toGeneralTime(): String {
     return TimeFormattingUtil.INSTANCE.formatGeneral(this)
 }
 
-
 /**
  *
  */
-fun String.toMillisFromGeneralTime() : Long {
-    return (if(!this.isEmpty()) TimeFormattingUtil.INSTANCE.parseGeneral(this) else 0L)
+fun String.toMillisFromGeneralTime(): Long {
+    return (if (!this.isEmpty()) TimeFormattingUtil.INSTANCE.parseGeneral(this) else 0L)
 }
 
-
 /**
  *
  */
-fun Long.toTimePeriodTime() : String {
+fun Long.toTimePeriodTime(): String {
     return TimeFormattingUtil.INSTANCE.formatTimePeriod(this)
 }
 
-
 /**
  *
  */
-fun String.toMillisFromTimePeriodTime() : Long {
-    return (if(!this.isEmpty()) TimeFormattingUtil.INSTANCE.parseTimePeriod(this) else 0L)
+fun String.toMillisFromTimePeriodTime(): Long {
+    return (if (!this.isEmpty()) TimeFormattingUtil.INSTANCE.parseTimePeriod(this) else 0L)
 }

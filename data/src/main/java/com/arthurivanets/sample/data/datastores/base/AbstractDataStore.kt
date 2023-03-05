@@ -20,16 +20,13 @@ import android.content.Context
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-abstract class AbstractDataStore(context : Context) : DataStore {
-
+abstract class AbstractDataStore(context: Context) : DataStore {
 
     override val context = context.applicationContext
     protected val lock = ReentrantLock(true)
 
-
-    protected inline fun <T> withLock(crossinline block : () -> T) : T {
+    protected inline fun <T> withLock(crossinline block: () -> T): T {
         return lock.withLock { block() }
     }
-
 
 }

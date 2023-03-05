@@ -17,10 +17,10 @@
 package com.arthurivanets.sample.data.entities
 
 data class Character(
-    val id : Long = -1L,
-    val name : String = "",
-    val description : String = "",
-    val modificationTimeInMillis : Long = 0L,
-    val thumbnail : Image = Image(),
-    val urls : List<Url> = emptyList()
+    val id: Long = -1L,
+    val name: String = "",
+    val description: String = "",
+    val modificationTimeInMillis: Long = 0L,
+    val thumbnail: Image = Image(),
+    val urls: List<Url> = emptyList()
 )

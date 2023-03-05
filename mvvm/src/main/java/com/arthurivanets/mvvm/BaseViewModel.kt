@@ -23,23 +23,23 @@ import com.arthurivanets.mvvm.markers.*
  * A base contract used to implement the concrete version of the View Model.
  */
 interface BaseViewModel : ViewModelLifecycle, CanManageState, CanHandleBackPressEvents {
-    
+
     /**
      * An [Channel] that the ViewModel emits the [Command]s through.
      * (The actual handling of the emitted [Command]s is completely up to the subscribing side (i.e. Activity, Fragment, View))
      */
-    val commandChannel : Channel<Command>
-    
+    val commandChannel: Channel<Command>
+
     /**
      * An [Channel] that the ViewModel emits the [Route]s through.
      * (The actual handling of the emitted [Route]s is completely up to the subscribing side (i.e. Activity, Fragment, View))
      */
-    val routeChannel : Channel<Route>
-    
+    val routeChannel: Channel<Route>
+
     /**
      * An [LiveData] that the ViewModel notifies about [ViewState] changes through.
      * (The actual handling of the [ViewState] changes is completely up to the subscribing side (i.e. Activity, Fragment, View))
      */
-    val viewStateHolder : LiveData<ViewState>
-    
+    val viewStateHolder: LiveData<ViewState>
+
 }

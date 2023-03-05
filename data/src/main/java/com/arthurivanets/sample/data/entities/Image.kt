@@ -23,15 +23,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Image(
-    @JsonProperty(Properties.URL) val imageUrl : String = ""
+    @JsonProperty(Properties.URL) val imageUrl: String = ""
 ) {
-
 
     object Properties {
 
         const val URL = "url"
 
     }
-
 
 }

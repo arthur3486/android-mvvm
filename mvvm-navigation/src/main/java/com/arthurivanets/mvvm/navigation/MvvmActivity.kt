@@ -32,52 +32,48 @@ import com.arthurivanets.mvvm.util.plus
 /**
  * A base MVVM Activity with built-in support for Android X Navigation Concept.
  */
-abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmActivity<VDB, VM>(layoutId) {
-    
-    
+abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId: Int) : MvvmActivity<VDB, VM>(layoutId) {
+
     /**
      * Used to obtain the exact id of the navigation graph to be used by this activity.
      *
      * @return the id of the navigation graph
      */
     @get:NavigationRes
-    protected open val navigationGraphId : Int = 0
-    
+    protected open val navigationGraphId: Int = 0
+
     /**
      * Override this property to specify a custom Start Destination.
      *
      * @return the exact id of the destination to be used as the starting one.
      */
     @get:IdRes
-    protected open val navigationGraphStartDestination : Int = 0
-    
+    protected open val navigationGraphStartDestination: Int = 0
+
     /**
      * Accesses the The NavController associated with the current activity.
      */
-    protected val navController : NavController
+    protected val navController: NavController
         get() = findNavController(R.id.nav_host_fragment)
-    
+
     /**
      * The initial input to be provided to the start destination fragment.
      */
-    protected open val startDestinationInput : Bundle = Bundle()
-
+    protected open val startDestinationInput: Bundle = Bundle()
 
     @CallSuper
-    override fun init(savedInstanceState : Bundle?) {
+    override fun init(savedInstanceState: Bundle?) {
         initNavigationGraph()
     }
-
 
     private fun initNavigationGraph() {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?)?.navController?.apply {
             graph = navInflater.inflate(navigationGraphId).also {
-                it.startDestination = (if(navigationGraphStartDestination != 0) navigationGraphStartDestination else it.startDestination)
+                it.startDestination = (if (navigationGraphStartDestination != 0) navigationGraphStartDestination else it.startDestination)
                 it.addExtras(extrasBundle + startDestinationInput)
             }
         }
     }
-
 
     /**
      * Navigates to the specified destination screen.
@@ -88,10 +84,10 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRe
      * @param navigationExtras
      */
     protected fun navigate(
-        @IdRes destinationId : Int,
-        extras : Bundle? = null,
-        navOptions : NavOptions? = null,
-        navigationExtras : Navigator.Extras? = null
+        @IdRes destinationId: Int,
+        extras: Bundle? = null,
+        navOptions: NavOptions? = null,
+        navigationExtras: Navigator.Extras? = null
     ) {
         navController.navigate(
             destinationId,
@@ -100,43 +96,38 @@ abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRe
             navigationExtras
         )
     }
-    
-    
+
     /**
      * Navigates to the specified destination screen.
      *
      * @param directions the direction that leads to the destination screen.
      */
-    protected fun navigate(directions : NavDirections) {
+    protected fun navigate(directions: NavDirections) {
         navController.navigate(directions)
     }
-    
-    
+
     /**
      * Navigates to the specified destination screen.
      *
      * @param directions the direction that leads to the destination screen.
      * @param navigationExtras
      */
-    protected fun navigate(directions : NavDirections, navigationExtras : Navigator.Extras) {
+    protected fun navigate(directions: NavDirections, navigationExtras: Navigator.Extras) {
         navController.navigate(directions, navigationExtras)
     }
-    
-    
+
     /**
      * Navigates to the specified destination screen.
      *
      * @param directions the direction that leads to the destination screen.
      * @param navOptions
      */
-    protected fun navigate(directions : NavDirections, navOptions : NavOptions) {
+    protected fun navigate(directions: NavDirections, navOptions: NavOptions) {
         navController.navigate(directions, navOptions)
     }
 
-
-    final override fun onSupportNavigateUp() : Boolean {
+    final override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
     }
-
 
 }

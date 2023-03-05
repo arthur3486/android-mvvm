@@ -35,24 +35,20 @@ import kotlinx.android.synthetic.main.view_toolbar.*
 
 class DashboardFragment : BaseFragment(R.layout.fragment_dashboard) {
 
+    private lateinit var pagerAdapter: DashboardViewPagerAdapter
 
-    private lateinit var pagerAdapter : DashboardViewPagerAdapter
-
-
-    override fun init(savedInstanceState : Bundle?) {
+    override fun init(savedInstanceState: Bundle?) {
         super.init(savedInstanceState)
-        
+
         initToolbar()
         initViewPager()
         initBottomBar()
     }
 
-
     private fun initToolbar() {
         toolbar.updatePadding(paddingTop = context!!.statusBarSize)
         toolbar_title.setText(R.string.toolbar_title_dashboard)
     }
-
 
     private fun initViewPager() {
         with(viewPager) {
@@ -61,16 +57,14 @@ class DashboardFragment : BaseFragment(R.layout.fragment_dashboard) {
             isSwipeable = false
         }
     }
-    
-    
-    private fun initPagerAdapter() : DashboardViewPagerAdapter {
+
+    private fun initPagerAdapter(): DashboardViewPagerAdapter {
         return DashboardViewPagerAdapter(childFragmentManager).apply {
             addFragment(ComicsFragment())
             addFragment(EventsFragment())
             addFragment(CharactersFragment())
         }.also { pagerAdapter = it }
     }
-
 
     private fun initBottomBar() {
         with(bottomBar) {
@@ -87,28 +81,24 @@ class DashboardFragment : BaseFragment(R.layout.fragment_dashboard) {
             setOnNavigationItemReselectedListener(::onNavigationItemReselected)
         }
     }
-    
-    
-    private fun onNavigationItemSelected(item : MenuItem) : Boolean {
+
+    private fun onNavigationItemSelected(item: MenuItem): Boolean {
         viewPager.setCurrentItem(getPageIndexForMenuItem(item), false)
         return true
     }
 
-
-    private fun onNavigationItemReselected(item : MenuItem) {
-        if(!pagerAdapter.isEmpty) {
+    private fun onNavigationItemReselected(item: MenuItem) {
+        if (!pagerAdapter.isEmpty) {
             pagerAdapter.getFragment(getPageIndexForMenuItem(item))?.attemptScrollToTop(false)
         }
     }
 
-
-    private fun getPageIndexForMenuItem(item : MenuItem) : Int {
-        return when(item.itemId) {
+    private fun getPageIndexForMenuItem(item: MenuItem): Int {
+        return when (item.itemId) {
             R.id.navigation_item_events -> 1
             R.id.navigation_item_characters -> 2
             else -> 0
         }
     }
-
 
 }

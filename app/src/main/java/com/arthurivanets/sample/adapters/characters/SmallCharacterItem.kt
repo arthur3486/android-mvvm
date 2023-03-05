@@ -19,12 +19,10 @@ package com.arthurivanets.sample.adapters.characters
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.domain.entities.Character
 
-class SmallCharacterItem(itemModel : Character) : CharacterItem(itemModel) {
-    
-    
-    override fun getLayout() : Int {
+class SmallCharacterItem(itemModel: Character) : CharacterItem(itemModel) {
+
+    override fun getLayout(): Int {
         return R.layout.item_character_small
     }
-    
 
 }

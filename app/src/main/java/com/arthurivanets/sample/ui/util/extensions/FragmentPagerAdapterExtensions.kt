@@ -21,9 +21,8 @@ package com.arthurivanets.sample.ui.util.extensions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 
-
-inline fun FragmentPagerAdapter.forEachFragment(consumer : (Fragment) -> Unit) {
-    for(i in 0 until this.count) {
+inline fun FragmentPagerAdapter.forEachFragment(consumer: (Fragment) -> Unit) {
+    for (i in 0 until this.count) {
         consumer(this.getItem(i))
     }
 }

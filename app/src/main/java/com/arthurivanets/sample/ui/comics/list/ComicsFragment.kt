@@ -44,18 +44,15 @@ import kotlinx.android.synthetic.main.view_progress_bar_circular.*
 import javax.inject.Inject
 
 class ComicsFragment : BaseMvvmFragment<FragmentComicsBinding, ComicsViewModel>(R.layout.fragment_comics), CanScrollToTop {
-    
 
     @Inject
-    lateinit var itemResources : ComicsItemResources
-    
-    private lateinit var adapter : ComicsItemsRecyclerViewAdapter
+    lateinit var itemResources: ComicsItemResources
 
+    private lateinit var adapter: ComicsItemsRecyclerViewAdapter
 
-    override fun init(savedInstanceState : Bundle?) {
+    override fun init(savedInstanceState: Bundle?) {
         initRecyclerView()
     }
-
 
     private fun initRecyclerView() {
         with(recyclerView) {
@@ -64,13 +61,11 @@ class ComicsFragment : BaseMvvmFragment<FragmentComicsBinding, ComicsViewModel>(
         }
     }
 
-
-    private fun initLayoutManager() : RecyclerView.LayoutManager {
+    private fun initLayoutManager(): RecyclerView.LayoutManager {
         return GridLayoutManager(context, COMICS_COLUMN_COUNT)
     }
 
-
-    private fun initAdapter() : ComicsItemsRecyclerViewAdapter {
+    private fun initAdapter(): ComicsItemsRecyclerViewAdapter {
         return ComicsItemsRecyclerViewAdapter(
             context = context!!,
             items = viewModel.items,
@@ -79,57 +74,49 @@ class ComicsFragment : BaseMvvmFragment<FragmentComicsBinding, ComicsViewModel>(
             onItemClickListener = onItemClick { viewModel.onComicsClicked(it.itemModel) }
         }.also { adapter = it }
     }
-    
-    
-    override fun scrollToTop(animate : Boolean) {
-        if(animate) {
+
+    override fun scrollToTop(animate: Boolean) {
+        if (animate) {
             recyclerView?.smoothScrollToPosition(0)
         } else {
             recyclerView?.scrollToPosition(0)
         }
     }
-    
-    
-    override fun onViewStateChanged(state : ViewState) {
-        when(state) {
+
+    override fun onViewStateChanged(state: ViewState) {
+        when (state) {
             is GeneralViewStates.Idle<*> -> onIdleState()
             is GeneralViewStates.Loading<*> -> onLoadingState()
             is GeneralViewStates.Success<*> -> onSuccessState()
             is GeneralViewStates.Error<*> -> onErrorState()
         }
     }
-    
-    
+
     private fun onIdleState() {
         progress_bar.isVisible = false
     }
-    
-    
+
     private fun onLoadingState() {
         progress_bar.isVisible = true
     }
-    
-    
+
     private fun onSuccessState() {
         progress_bar.isVisible = false
     }
-    
-    
+
     private fun onErrorState() {
         progress_bar.isVisible = false
     }
-    
-    
-    override fun onRoute(route : Route) {
-        when(route) {
+
+    override fun onRoute(route: Route) {
+        when (route) {
             is MarvelRoutes.ComicsInfoScreen -> onOpenComicsInfoScreen(route.comics)
         }
     }
-    
-    
-    private fun onOpenComicsInfoScreen(comics : Comics) {
+
+    private fun onOpenComicsInfoScreen(comics: Comics) {
         val viewHolder = (getItemViewHolder(comics) ?: return)
-        
+
         navigate(
             directions = DashboardFragmentDirections.comicsInfoFragmentAction(comics),
             navigationExtras = FragmentNavigatorExtras(
@@ -138,17 +125,15 @@ class ComicsFragment : BaseMvvmFragment<FragmentComicsBinding, ComicsViewModel>(
             )
         )
     }
-    
-    
-    private fun getItemViewHolder(comics : Comics) : ComicsItemViewHolder? {
+
+    private fun getItemViewHolder(comics: Comics): ComicsItemViewHolder? {
         val index = adapter.indexOf(ComicsItem(comics))
-    
-        return if(index != -1) {
+
+        return if (index != -1) {
             (recyclerView.findViewHolderForAdapterPosition(index) as ComicsItemViewHolder)
         } else {
             null
         }
     }
-
 
 }

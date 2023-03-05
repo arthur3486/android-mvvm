@@ -18,6 +18,5 @@
 
 package com.arthurivanets.sample.util.glide
 
-
 internal const val CONNECTION_TIMEOUT_IN_SECONDS = 30L
 internal const val READ_TIMEOUT_IN_SECONDS = 30L

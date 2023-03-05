@@ -20,8 +20,7 @@ package com.arthurivanets.marvelapi.util
 
 import java.security.MessageDigest
 
-
-internal fun Long.createRequestHash(publicKey : String, privateKey : String) : String {
+internal fun Long.createRequestHash(publicKey: String, privateKey: String): String {
     val inputString = (this.toString() + privateKey + publicKey)
 
     return MessageDigest.getInstance("MD5")
@@ -29,7 +28,6 @@ internal fun Long.createRequestHash(publicKey : String, privateKey : String) : S
         .toHexString()
 }
 
-
-internal fun ByteArray.toHexString() : String {
+internal fun ByteArray.toHexString(): String {
     return TypeConversionUtils.toHexString(this)
 }

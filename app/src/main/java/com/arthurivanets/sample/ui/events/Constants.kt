@@ -18,7 +18,6 @@
 
 package com.arthurivanets.sample.ui.events
 
-
 internal const val DEFAULT_EVENT_LOADING_LIMIT = 10
 internal const val DEFAULT_EVENT_INFO_COMICS_LOADING_LIMIT = 30
 internal const val DEFAULT_EVENT_INFO_CHARACTER_LOADING_LIMIT = 30

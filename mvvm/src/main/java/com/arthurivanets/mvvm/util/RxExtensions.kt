@@ -20,13 +20,12 @@ package com.arthurivanets.mvvm.util
 
 import io.reactivex.functions.Consumer
 
-
 /**
  * Converts the specified [Consumer] of the items of type [T] into a
  * [Consumer] of the items of type [R], provided that the type [R] inherits the type [T].
  *
  * @return the new [Consumer]
  */
-internal fun <T, R : T> Consumer<T>.adapt() : Consumer<R> {
+internal fun <T, R : T> Consumer<T>.adapt(): Consumer<R> {
     return Consumer(::accept)
 }

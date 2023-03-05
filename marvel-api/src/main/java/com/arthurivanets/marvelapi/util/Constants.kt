@@ -18,7 +18,6 @@
 
 package com.arthurivanets.marvelapi.util
 
-
 /**
  *
  */

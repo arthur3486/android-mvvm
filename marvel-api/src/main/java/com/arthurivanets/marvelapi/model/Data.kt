@@ -23,13 +23,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Data<T>(
-    @JsonProperty(Properties.OFFSET) var offset : Int = 0,
-    @JsonProperty(Properties.LIMIT) var limit : Int = 0,
-    @JsonProperty(Properties.TOTAL) var total : Int = 0,
-    @JsonProperty(Properties.COUNT) var count : Int = 0,
-    @JsonProperty(Properties.RESULTS) var results : List<T> = ArrayList()
+    @JsonProperty(Properties.OFFSET) var offset: Int = 0,
+    @JsonProperty(Properties.LIMIT) var limit: Int = 0,
+    @JsonProperty(Properties.TOTAL) var total: Int = 0,
+    @JsonProperty(Properties.COUNT) var count: Int = 0,
+    @JsonProperty(Properties.RESULTS) var results: List<T> = ArrayList()
 ) {
-
 
     object Properties {
 
@@ -40,6 +39,5 @@ data class Data<T>(
         const val RESULTS = "results"
 
     }
-
 
 }

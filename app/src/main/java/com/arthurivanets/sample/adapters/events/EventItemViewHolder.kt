@@ -30,10 +30,9 @@ import com.arthurivanets.sample.ui.util.extensions.sharedImageTransitionName
 import com.arthurivanets.sample.ui.util.extensions.sharedTitleTransitionName
 
 class EventItemViewHolder(
-    itemView : View,
-    private val resources : EventItemResources?
+    itemView: View,
+    private val resources: EventItemResources?
 ) : BaseItem.ViewHolder<Event>(itemView) {
-
 
     val overlayView = itemView.findViewById<View>(R.id.overlay)
     val imageIv = itemView.findViewById<ImageView>(R.id.imageIv)
@@ -41,66 +40,57 @@ class EventItemViewHolder(
     val titleTv = itemView.findViewById<TextView>(R.id.titleTv)
     val descriptionTv = itemView.findViewById<TextView>(R.id.descriptionTv)
 
-
-    override fun bindData(data : Event?) {
+    override fun bindData(data: Event?) {
         super.bindData(data)
 
         data?.let { handleData(it) }
     }
 
-
-    private fun handleData(data : Event) {
+    private fun handleData(data: Event) {
         handleImage(data)
         handleTitle(data)
         handleDescription(data)
     }
-    
-    
-    private fun handleImage(data : Event) {
+
+    private fun handleImage(data: Event) {
         loadImage(data.thumbnail)
-    
+
         imageIv.transitionName = data.sharedImageTransitionName
     }
-    
-    
-    private fun handleTitle(data : Event) {
+
+    private fun handleTitle(data: Event) {
         titleTv.text = data.title
         titleTv.transitionName = data.sharedTitleTransitionName
     }
-    
-    
-    private fun handleDescription(data : Event) {
+
+    private fun handleDescription(data: Event) {
         descriptionTv.text = data.description
         descriptionTv.isVisible = data.description.isNotBlank()
         descriptionTv.transitionName = data.sharedDescriptionTransitionName
     }
 
-
-    private fun loadImage(image : Image) {
+    private fun loadImage(image: Image) {
         emptyViewTv.isVisible = !image.hasImage
 
-        if(image.hasImage) {
+        if (image.hasImage) {
             loadImage(image.imageUrl)
         } else {
             loadImage(R.drawable.marvel_character_placeholder)
         }
     }
 
-
-    private fun loadImage(@DrawableRes drawableId : Int) {
+    private fun loadImage(@DrawableRes drawableId: Int) {
         resources?.imageLoader?.load(
             target = imageIv,
             drawableId = drawableId
         )
     }
 
-
-    private fun loadImage(imageUrl : String) {
+    private fun loadImage(imageUrl: String) {
         resources?.imageLoader?.load(
             target = imageIv,
             imageUrl = imageUrl
         )
     }
-
 
 }

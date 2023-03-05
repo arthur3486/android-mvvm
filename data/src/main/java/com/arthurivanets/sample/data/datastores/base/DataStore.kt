@@ -20,6 +20,6 @@ import android.content.Context
 
 interface DataStore {
 
-    val context : Context
+    val context: Context
 
 }

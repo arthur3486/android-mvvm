@@ -25,11 +25,9 @@ import dagger.Provides
 @Module
 internal class DomainUtilsModule {
 
-
     @Provides
-    fun provideNetworkStateProvider(context : Context) : NetworkStateProvider {
+    fun provideNetworkStateProvider(context: Context): NetworkStateProvider {
         return context.createNetworkStateProvider()
     }
-
 
 }

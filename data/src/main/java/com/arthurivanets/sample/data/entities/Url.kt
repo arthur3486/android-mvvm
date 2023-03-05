@@ -23,10 +23,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class Url(
-    @JsonProperty(Properties.TYPE) val type : String = "",
-    @JsonProperty(Properties.URL) val url : String = ""
+    @JsonProperty(Properties.TYPE) val type: String = "",
+    @JsonProperty(Properties.URL) val url: String = ""
 ) {
-
 
     object Properties {
 
@@ -34,6 +33,5 @@ data class Url(
         const val URL = "url"
 
     }
-
 
 }

@@ -25,41 +25,35 @@ import com.arthurivanets.sample.ui.base.BaseMvvmFragment
 /**
  *
  */
-abstract class BaseViewPagerAdapter(fragmentManager : FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT), CanHandleBackPressEvents {
-
+abstract class BaseViewPagerAdapter(fragmentManager: FragmentManager) :
+    FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT), CanHandleBackPressEvents {
 
     private val fragmentList = ArrayList<BaseMvvmFragment<*, *>>()
 
-
-    fun addFragment(fragment : BaseMvvmFragment<*, *>) {
+    fun addFragment(fragment: BaseMvvmFragment<*, *>) {
         fragmentList.add(fragment)
     }
 
-
-    fun getFragment(position : Int) : BaseMvvmFragment<*, *>? {
-        return (if((position >= 0) && (position < fragmentList.size)) fragmentList[position] else null)
+    fun getFragment(position: Int): BaseMvvmFragment<*, *>? {
+        return (if ((position >= 0) && (position < fragmentList.size)) fragmentList[position] else null)
     }
 
-
-    override fun getItem(position : Int) : Fragment {
+    override fun getItem(position: Int): Fragment {
         return fragmentList[position]
     }
 
-
-    override fun getCount() : Int {
+    override fun getCount(): Int {
         return fragmentList.size
     }
-    
-    
-    override fun onBackPressed() : Boolean {
-        for(fragment in fragmentList) {
-            if(fragment.onBackPressed()) {
+
+    override fun onBackPressed(): Boolean {
+        for (fragment in fragmentList) {
+            if (fragment.onBackPressed()) {
                 return true
             }
         }
 
         return false
     }
-
 
 }

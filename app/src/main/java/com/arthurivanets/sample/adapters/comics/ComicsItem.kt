@@ -29,13 +29,14 @@ import com.arthurivanets.adapster.model.markers.Trackable
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.domain.entities.Comics
 
-open class ComicsItem(itemModel : Comics) : BaseItem<Comics, ComicsItemViewHolder, ComicsItemResources>(itemModel), Trackable<Long> {
+open class ComicsItem(itemModel: Comics) : BaseItem<Comics, ComicsItemViewHolder, ComicsItemResources>(itemModel), Trackable<Long> {
 
-
-    override fun init(adapter : Adapter<out Item<RecyclerView.ViewHolder, ItemResources>>?,
-                      parent : ViewGroup,
-                      inflater : LayoutInflater,
-                      resources : ComicsItemResources?) : ComicsItemViewHolder {
+    override fun init(
+        adapter: Adapter<out Item<RecyclerView.ViewHolder, ItemResources>>?,
+        parent: ViewGroup,
+        inflater: LayoutInflater,
+        resources: ComicsItemResources?
+    ): ComicsItemViewHolder {
         return ComicsItemViewHolder(
             itemView = inflater.inflate(
                 layout,
@@ -46,20 +47,16 @@ open class ComicsItem(itemModel : Comics) : BaseItem<Comics, ComicsItemViewHolde
         )
     }
 
-
-    fun setOnItemClickListener(viewHolder : ComicsItemViewHolder, onItemClickListener : OnItemClickListener<ComicsItem>) {
+    fun setOnItemClickListener(viewHolder: ComicsItemViewHolder, onItemClickListener: OnItemClickListener<ComicsItem>) {
         viewHolder.overlayView.setOnItemClickListener(this, 0, onItemClickListener)
     }
 
-
-    override fun getLayout() : Int {
+    override fun getLayout(): Int {
         return R.layout.item_comics
     }
 
-
-    override fun getTrackKey() : Long {
+    override fun getTrackKey(): Long {
         return itemModel.id
     }
-
 
 }

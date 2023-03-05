@@ -19,12 +19,10 @@ package com.arthurivanets.sample.adapters.comics
 import com.arthurivanets.sample.R
 import com.arthurivanets.sample.domain.entities.Comics
 
-class SmallComicsItem(itemModel : Comics) : ComicsItem(itemModel) {
-    
-    
-    override fun getLayout() : Int {
+class SmallComicsItem(itemModel: Comics) : ComicsItem(itemModel) {
+
+    override fun getLayout(): Int {
         return R.layout.item_comics_small
     }
-    
-    
+
 }

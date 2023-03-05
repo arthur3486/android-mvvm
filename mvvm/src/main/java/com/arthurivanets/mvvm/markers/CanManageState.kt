@@ -28,13 +28,13 @@ interface CanManageState {
      *
      * @param bundle the state-containing bundle
      */
-    fun onRestoreState(bundle : Bundle)
+    fun onRestoreState(bundle: Bundle)
 
     /**
      * Gets called when tha actual process of the state saving can be performed.
      *
      * @param bundle the bundle to save the state into
      */
-    fun onSaveState(bundle : Bundle)
+    fun onSaveState(bundle: Bundle)
 
 }

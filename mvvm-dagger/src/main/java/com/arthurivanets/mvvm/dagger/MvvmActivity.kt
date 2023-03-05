@@ -10,21 +10,17 @@ import javax.inject.Inject
 /**
  * A base MVVM Activity with built-in support for the Dagger2-based dependency injection.
  */
-abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId : Int) : MvvmActivity<VDB, VM>(layoutId) {
-    
+abstract class MvvmActivity<VDB : ViewDataBinding, VM : BaseViewModel>(@LayoutRes layoutId: Int) : MvvmActivity<VDB, VM>(layoutId) {
 
     @Inject
-    lateinit var viewModel : VM
-
+    lateinit var viewModel: VM
 
     final override fun injectDependencies() {
         AndroidInjection.inject(this)
     }
-    
-    
-    final override fun createViewModel() : VM {
+
+    final override fun createViewModel(): VM {
         return viewModel
     }
-    
-    
+
 }

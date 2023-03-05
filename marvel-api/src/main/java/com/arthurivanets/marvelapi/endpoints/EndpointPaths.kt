@@ -21,7 +21,6 @@ package com.arthurivanets.marvelapi.endpoints
  */
 object EndpointPaths {
 
-
     object Characters {
 
         const val BASE = "characters"
@@ -29,7 +28,6 @@ object EndpointPaths {
         const val LIST_COMICS = "$BASE/{${EndpointPaths.Params.ID}}/comics"
 
     }
-
 
     object Events {
 
@@ -40,7 +38,6 @@ object EndpointPaths {
 
     }
 
-
     object Comics {
 
         const val BASE = "comics"
@@ -49,7 +46,6 @@ object EndpointPaths {
         const val LIST_EVENTS = "$BASE/{${EndpointPaths.Params.ID}}/events"
 
     }
-
 
     object Params {
 
@@ -61,6 +57,5 @@ object EndpointPaths {
         const val LIMIT = "limit"
 
     }
-
 
 }

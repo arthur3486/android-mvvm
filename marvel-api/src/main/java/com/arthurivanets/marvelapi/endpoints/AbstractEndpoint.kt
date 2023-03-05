@@ -19,5 +19,5 @@ package com.arthurivanets.marvelapi.endpoints
 /**
  *
  */
-abstract class AbstractEndpoint<T : Any>(val service : T) :
+abstract class AbstractEndpoint<T : Any>(val service: T) :
     Endpoint

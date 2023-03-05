@@ -22,33 +22,27 @@ import com.arthurivanets.commons.data.util.Response
 import com.arthurivanets.sample.data.datastores.util.*
 import com.arthurivanets.sample.data.util.*
 
-
-internal fun com.arthurivanets.marvelapi.responses.EventsResponse.toSingleItemResponse() : Response<DataEvent, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.EventsResponse.toSingleItemResponse(): Response<DataEvent, Throwable> {
     return this.toSingleItemResponse { it.toDataEvent() }
 }
 
-
-internal fun com.arthurivanets.marvelapi.responses.EventsResponse.toResponse() : Response<List<DataEvent>, Throwable> {
+internal fun com.arthurivanets.marvelapi.responses.EventsResponse.toResponse(): Response<List<DataEvent>, Throwable> {
     return this.toResponse { it.toDataEvents() }
 }
 
-
-internal fun Collection<ApiEvent>.toDataEvents() : List<DataEvent> {
+internal fun Collection<ApiEvent>.toDataEvents(): List<DataEvent> {
     return this.map { it.toDataEvent() }
 }
 
-
-internal fun Collection<DatabaseEvent>.fromDatabaseToDataEvents() : List<DataEvent> {
+internal fun Collection<DatabaseEvent>.fromDatabaseToDataEvents(): List<DataEvent> {
     return this.map { it.toDataEvent() }
 }
 
-
-internal fun Collection<DataEvent>.toDatabaseEvents() : List<DatabaseEvent> {
+internal fun Collection<DataEvent>.toDatabaseEvents(): List<DatabaseEvent> {
     return this.map { it.toDatabaseEvent() }
 }
 
-
-internal fun ApiEvent.toDataEvent() : DataEvent {
+internal fun ApiEvent.toDataEvent(): DataEvent {
     return DataEvent(
         id = this.id,
         title = this.title,
@@ -62,8 +56,7 @@ internal fun ApiEvent.toDataEvent() : DataEvent {
     )
 }
 
-
-internal fun DatabaseEvent.toDataEvent() : DataEvent {
+internal fun DatabaseEvent.toDataEvent(): DataEvent {
     return DataEvent(
         id = this.id,
         title = this.title,
@@ -77,8 +70,7 @@ internal fun DatabaseEvent.toDataEvent() : DataEvent {
     )
 }
 
-
-internal fun DataEvent.toDatabaseEvent() : DatabaseEvent {
+internal fun DataEvent.toDatabaseEvent(): DatabaseEvent {
     return DatabaseEvent(
         id = this.id,
         title = this.title,

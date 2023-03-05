@@ -29,13 +29,12 @@ import dagger.Provides
 @Module
 class CharactersModule {
 
-
     @Provides
     fun provideCharactersViewModel(
-        fragment : CharactersFragment,
-        charactersRepository : CharactersRepository,
-        schedulerProvider : SchedulerProvider
-    ) : CharactersViewModel {
+        fragment: CharactersFragment,
+        charactersRepository: CharactersRepository,
+        schedulerProvider: SchedulerProvider
+    ): CharactersViewModel {
         return fragment.provideViewModel {
             CharactersViewModel(
                 charactersRepository = charactersRepository,
@@ -44,13 +43,12 @@ class CharactersModule {
         }
     }
 
-
     @Provides
     fun provideCharacterInfoViewModel(
-        fragment : CharacterInfoFragment,
-        charactersRepository : CharactersRepository,
-        schedulerProvider : SchedulerProvider
-    ) : CharacterInfoViewModel {
+        fragment: CharacterInfoFragment,
+        charactersRepository: CharactersRepository,
+        schedulerProvider: SchedulerProvider
+    ): CharacterInfoViewModel {
         return fragment.provideViewModel {
             CharacterInfoViewModel(
                 charactersRepository = charactersRepository,
@@ -58,6 +56,5 @@ class CharactersModule {
             )
         }
     }
-
 
 }

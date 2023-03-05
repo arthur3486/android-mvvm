@@ -33,21 +33,25 @@ internal interface CharactersService {
      *
      */
     @GET(EndpointPaths.Characters.LIST_SINGLE)
-    fun getCharacterAsync(@Path(EndpointPaths.Params.ID) id : Long) : Single<CharactersResponse>
+    fun getCharacterAsync(@Path(EndpointPaths.Params.ID) id: Long): Single<CharactersResponse>
 
     /**
      *
      */
     @GET(EndpointPaths.Characters.BASE)
-    fun getCharactersAsync(@Query(EndpointPaths.Params.OFFSET) offset : Int? = null,
-                           @Query(EndpointPaths.Params.LIMIT) limit : Int? = null) : Single<CharactersResponse>
+    fun getCharactersAsync(
+        @Query(EndpointPaths.Params.OFFSET) offset: Int? = null,
+        @Query(EndpointPaths.Params.LIMIT) limit: Int? = null
+    ): Single<CharactersResponse>
 
     /**
      *
      */
     @GET(EndpointPaths.Characters.LIST_COMICS)
-    fun getCharacterComicsAsync(@Path(EndpointPaths.Params.ID) characterId : Long,
-                                @Query(EndpointPaths.Params.OFFSET) offset : Int? = null,
-                                @Query(EndpointPaths.Params.LIMIT) limit : Int? = null) : Single<ComicsResponse>
+    fun getCharacterComicsAsync(
+        @Path(EndpointPaths.Params.ID) characterId: Long,
+        @Query(EndpointPaths.Params.OFFSET) offset: Int? = null,
+        @Query(EndpointPaths.Params.LIMIT) limit: Int? = null
+    ): Single<ComicsResponse>
 
 }

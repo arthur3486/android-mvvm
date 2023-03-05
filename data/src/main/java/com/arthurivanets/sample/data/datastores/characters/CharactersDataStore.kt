@@ -24,28 +24,28 @@ import io.reactivex.Single
 
 interface CharactersDataStore : DataStore {
 
-    fun saveCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>>
+    fun saveCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>>
 
-    fun saveCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>>
+    fun saveCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>>
 
-    fun updateCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>>
+    fun updateCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>>
 
-    fun updateCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>>
+    fun updateCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>>
 
-    fun deleteCharacter(character : DataCharacter) : Single<Response<DataCharacter, Throwable>>
+    fun deleteCharacter(character: DataCharacter): Single<Response<DataCharacter, Throwable>>
 
-    fun deleteCharacters(characters : List<DataCharacter>) : Single<Response<List<DataCharacter>, Throwable>>
+    fun deleteCharacters(characters: List<DataCharacter>): Single<Response<List<DataCharacter>, Throwable>>
 
-    fun getCharacter(id : Long) : Single<Response<DataCharacter, Throwable>>
+    fun getCharacter(id: Long): Single<Response<DataCharacter, Throwable>>
 
-    fun getCharacters(offset : Int, limit : Int) : Single<Response<List<DataCharacter>, Throwable>>
-    
-    fun saveCharacterComics(characterId : Long, comics : List<DataComics>) : Single<Response<List<DataComics>, Throwable>>
-    
+    fun getCharacters(offset: Int, limit: Int): Single<Response<List<DataCharacter>, Throwable>>
+
+    fun saveCharacterComics(characterId: Long, comics: List<DataComics>): Single<Response<List<DataComics>, Throwable>>
+
     fun getCharacterComics(
-        characterId : Long,
-        offset : Int,
-        limit : Int
-    ) : Single<Response<List<DataComics>, Throwable>>
+        characterId: Long,
+        offset: Int,
+        limit: Int
+    ): Single<Response<List<DataComics>, Throwable>>
 
 }

@@ -21,12 +21,16 @@ import androidx.annotation.DrawableRes
 
 interface ImageLoader {
 
-    fun load(target : ImageView,
-             @DrawableRes drawableId : Int,
-             config : Config = Config())
+    fun load(
+        target: ImageView,
+        @DrawableRes drawableId: Int,
+        config: Config = Config()
+    )
 
-    fun load(target : ImageView,
-             imageUrl : String,
-             config : Config = Config())
+    fun load(
+        target: ImageView,
+        imageUrl: String,
+        config: Config = Config()
+    )
 
 }

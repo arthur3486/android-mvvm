@@ -18,6 +18,6 @@ package com.arthurivanets.sample.ui.util.markers
 
 interface CanScrollToTop {
 
-    fun scrollToTop(animate : Boolean = true)
+    fun scrollToTop(animate: Boolean = true)
 
 }

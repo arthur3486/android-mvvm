@@ -21,7 +21,6 @@ package com.arthurivanets.sample.ui.util.extensions
 import android.view.View
 import android.view.ViewGroup
 
-
 fun View.detachFromParent() {
     (this.parent as ViewGroup?)?.removeView(this)
 }
