@@ -128,12 +128,12 @@ dependencies {
 
 ### Android MVVM Dependencies
 
-The basic implementation must include the core module 
+The basic implementation must include the core module
 > ***Latest version:*** [ ![Download](https://api.bintray.com/packages/arthurimsacc/maven/mvvm-core/images/download.svg) ](https://bintray.com/arthurimsacc/maven/mvvm-core/_latestVersion)
 
 `implementation "com.arthurivanets.mvvm:mvvm-core:X.Y.Z"`
 
-Which should be added to your module-level `build.gradle` file. 
+Which should be added to your module-level `build.gradle` file.
 
 ````groovy
 ext {
@@ -182,7 +182,7 @@ So, let's start with the creation of the ViewModel for our Activity and/or Fragm
 
 <details><summary><b>SimpleViewModel.kt [contract] (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 interface SimpleViewModel : BaseViewModel {
 
@@ -197,7 +197,7 @@ interface SimpleViewModel : BaseViewModel {
 
 <details><summary><b>SimpleViewModelImpl.kt [concrete implementation] (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 class SimpleViewModelImpl : AbstractViewModel(), SimpleViewModel {
 
@@ -216,16 +216,16 @@ Then, create the ViewModel-specific View States & Commands.
 
 <details><summary><b>GeneralViewStates.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 sealed class GeneralViewStates<T>(payload : T? = null) : ViewState<T>(payload) {
 
     class Initial : GeneralViewStates<Unit>()
-    
+
     class Loading<T>(payload : T? = null) : GeneralViewStates<T>(payload)
-    
+
     class Success<T>(payload : T? = null) : GeneralViewStates<T>(payload)
-    
+
     class Error<T>(payload : T? = null) : GeneralViewStates<T>(payload)
 
     // The rest of your View State go here...
@@ -239,12 +239,12 @@ sealed class GeneralViewStates<T>(payload : T? = null) : ViewState<T>(payload) {
 
 <details><summary><b>GeneralViewModelCommands.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 sealed class GeneralViewModelCommands<T>(payload : T? = null) : Command<T>(payload) {
 
     class ShowToast(text : String) : GeneralViewModelCommands<String>(text)
-    
+
     class RestartApplication : GeneralViewModelCommands<Unit>()
 
     // The rest of your ViewModel Commands go here...
@@ -262,14 +262,14 @@ Then, create the application screen routes.
 
 <details><summary><b>MarvelRoutes.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 sealed class MarvelRoutes<T>(payload : T? = null) : Route<T>(payload) {
 
     class CharacterInfoScreen(character : Character) : MarvelRoutes<Character>(character)
-    
+
     class ComicsInfoScreen(comics : Comics) : MarvelRoutes<Comics>(comics)
-    
+
     class EventInfoScreen(event : Event) : MarvelRoutes<Event>(event)
 
     // The rest of your Application Routes go here...
@@ -287,24 +287,24 @@ After that, let's create the `layout.xml` files for both our Activity and Fragme
 
 <details><summary><b>activity_simple_mvvm.xml + fragment_simple_mvvm.xml (click to expand)</b></summary>
 <p>
-    
+
 ````xml
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    
+
     <!-- Data-binding-related -->
-    
+
     <data>
-        
+
         <variable
             name="viewModel"
             type="com.yourapplication.sample.SimpleViewModel"/>
-    
+
     </data>
-    
+
     <!-- The Content Layout -->
     <!-- Your content layout goes here... -->
 
@@ -317,7 +317,7 @@ Finally, let's implement the MVVM-based Activity and Fragment.
 
 <details><summary><b>SimpleMvvmActivity.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 import com.arthurivanets.mvvm.MvvmActivity
 
@@ -335,15 +335,15 @@ class SimpleMvvmActivity : MvvmActivity<ActivitySimpleMvvmBinding, SimpleViewMod
     override fun onRegisterObservables() {
         // Register your ViewModel's observable fields here...
     }
-    
+
     override fun onHandleCommand(command : Command<*>) {
         // handle the ViewModel-specific command here... (e.g. Restart the Application, Show Toast, etc.)
     }
-    
+
     override fun onViewStateChanged(state : ViewState<*>) {
         // handle the View State Change here... (adjust your UI correspondingly)
     }
-    
+
     override fun onRoute(route : Route<*>) {
         // handle the Application Route here... (navigate to the corresponding screen)
     }
@@ -369,7 +369,7 @@ class SimpleMvvmActivity : MvvmActivity<ActivitySimpleMvvmBinding, SimpleViewMod
 
 <details><summary><b>SimpleMvvmFragment.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 import com.arthurivanets.mvvm.MvvmFragment
 
@@ -387,15 +387,15 @@ class SimpleMvvmFragment : MvvmFragment<FragmentSimpleMvvmBinding, SimpleViewMod
     override fun onRegisterObservables() {
         // Register your ViewModel's observable fields here...
     }
-    
+
     override fun onHandleCommand(command : Command<*>) {
         // handle the ViewModel-specific command here... (e.g. Restart the Application, Show Toast, etc.)
     }
-    
+
     override fun onViewStateChanged(state : ViewState<*>) {
         // handle the View State Change here... (adjust your UI correspondingly)
     }
-    
+
     override fun onRoute(route : Route<*>) {
         // handle the Application Route here... (navigate to the corresponding screen)
     }
@@ -431,7 +431,7 @@ The Dagger-based implementation process is almost identical to the one of the [B
 
 <details><summary><b>SimpleMvvmActivity.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 import com.arthurivanets.mvvm.dagger.MvvmActivity
 
@@ -445,15 +445,15 @@ class SimpleMvvmActivity : MvvmActivity<ActivitySimpleMvvmBinding, SimpleViewMod
     override fun onRegisterObservables() {
         // Register your ViewModel's observable fields here...
     }
-    
+
     override fun onHandleCommand(command : Command<*>) {
         // handle the ViewModel-specific command here... (e.g. Restart the Application, Show Toast, etc.)
     }
-    
+
     override fun onViewStateChanged(state : ViewState<*>) {
         // handle the View State Change here... (adjust your UI correspondingly)
     }
-    
+
     override fun onRoute(route : Route<*>) {
         // handle the Application Route here... (navigate to the corresponding screen)
     }
@@ -479,7 +479,7 @@ class SimpleMvvmActivity : MvvmActivity<ActivitySimpleMvvmBinding, SimpleViewMod
 
 <details><summary><b>SimpleMvvmFragment.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 import com.arthurivanets.mvvm.dagger.MvvmFragment
 
@@ -493,15 +493,15 @@ class SimpleMvvmFragment : MvvmFragment<FragmentSimpleMvvmBinding, SimpleViewMod
     override fun onRegisterObservables() {
         // Register your ViewModel's observable fields here...
     }
-    
+
     override fun onHandleCommand(command : Command<*>) {
         // handle the ViewModel-specific command here... (e.g. Restart the Application, Show Toast, etc.)
     }
-    
+
     override fun onViewStateChanged(state : ViewState<*>) {
         // handle the View State Change here... (adjust your UI correspondingly)
     }
-    
+
     override fun onRoute(route : Route<*>) {
         // handle the Application Route here... (navigate to the corresponding screen)
     }
@@ -533,7 +533,7 @@ The Navigation Component based implementation process has many things in common 
 
 <details><summary><b>activity_host.xml (click to expand)</b></summary>
 <p>
-    
+
 ````xml
 <?xml version="1.0" encoding="utf-8"?>
 <layout
@@ -577,7 +577,7 @@ The Navigation Component based implementation process has many things in common 
 
 <details><summary><b>HostActivity.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 import com.arthurivanets.mvvm.navigation.MvvmActivity
 
@@ -614,7 +614,7 @@ class HostActivity : MvvmActivity<ActivityHostBinding, StubViewModel>() {
 
 <details><summary><b>SimpleMvvmFragment.kt (click to expand)</b></summary>
 <p>
-    
+
 ````kotlin
 import com.arthurivanets.mvvm.navigation.MvvmFragment
 
@@ -632,15 +632,15 @@ class SimpleMvvmFragment : MvvmFragment<FragmentSimpleMvvmBinding, SimpleViewMod
     override fun onRegisterObservables() {
         // Register your ViewModel's observable fields here...
     }
-    
+
     override fun onHandleCommand(command : Command<*>) {
         // handle the ViewModel-specific command here... (e.g. Restart the Application, Show Toast, etc.)
     }
-    
+
     override fun onViewStateChanged(state : ViewState<*>) {
         // handle the View State Change here... (adjust your UI correspondingly)
     }
-    
+
     override fun onRoute(route : Route<*>) {
         // handle the Application Route here... (navigate to the corresponding screen)
     }
@@ -688,7 +688,7 @@ See the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## Hall of Fame
 
-> Using Android MVVM Library in your app and want it to get listed here? Email me at arthur.ivanets.l@gmail.com!
+> Using Android MVVM Library in your app and want it to get listed here? Email me at arthur.ivanets.work@gmail.com!
 
 ## License
 
